@@ -1,15 +1,11 @@
 package com.unit.model;
 
 /**
- * Maxwell-Boltzmann molecular speed distribution for a specified molar mass
- * and absolute temperature.
- *
- * <p>The density is expressed per unit speed (s/m). With molar mass in kg/mol,
- * the formula is {@code f(v) = 4πv² (M/(2πRT))^(3/2) exp(-Mv²/(2RT))}.</p>
+ * Distribuição de velocidades de Maxwell-Boltzmann:
+ * f(v) = 4π * v² * (M / (2π * R * T))^(3/2) * exp(-M * v² / (2 * R * T))
  */
 public final class MaxwellBoltzmannDistribution {
-    /** Gas constant used in the notebook's molar formulation, in J mol⁻¹ K⁻¹. */
-    public static final double GAS_CONSTANT = 8.314462618;
+    public static final double GAS_CONSTANT = 8.314462618; // Constante dos gases em J / (mol * K)
 
     private static final double LOG_MAX_VALUE = Math.log(Double.MAX_VALUE);
     private static final double LOG_MIN_VALUE = Math.log(Double.MIN_VALUE);
@@ -25,10 +21,10 @@ public final class MaxwellBoltzmannDistribution {
 
     public MaxwellBoltzmannDistribution(double molarMassKgPerMol, double temperatureKelvin) {
         if (!Double.isFinite(molarMassKgPerMol) || molarMassKgPerMol <= 0.0) {
-            throw new IllegalArgumentException("Molar mass must be positive and finite");
+            throw new IllegalArgumentException("Massa molar deve ser positiva e finita");
         }
         if (!Double.isFinite(temperatureKelvin) || temperatureKelvin <= 0.0) {
-            throw new IllegalArgumentException("Temperature must be positive and finite");
+            throw new IllegalArgumentException("Temperatura deve ser positiva e finita");
         }
 
         this.molarMassKgPerMol = molarMassKgPerMol;
@@ -41,18 +37,13 @@ public final class MaxwellBoltzmannDistribution {
     }
 
     /**
-     * Evaluates the speed probability density at {@code speedMetersPerSecond}.
-     * Logarithmic evaluation avoids intermediate overflow/underflow for the
-     * notebook's speed and temperature ranges.
-     *
-     * @param speedMetersPerSecond molecular speed in m/s; must be non-negative and finite
-     * @return probability density per (m/s)
-     * @throws IllegalArgumentException if speed is negative or non-finite
-     * @throws ArithmeticException if the finite result cannot be represented as a double
+     * Calcula a densidade f(v) para a velocidade informada (m/s).
+     * NOTA TÉCNICA: Usamos a soma em escala logarítmica antes do Math.exp(...)
+     * para evitar que números intermediários estourem o limite do double (overflow/underflow).
      */
     public double probabilityDensity(double speedMetersPerSecond) {
         if (!Double.isFinite(speedMetersPerSecond) || speedMetersPerSecond < 0.0) {
-            throw new IllegalArgumentException("Speed must be non-negative and finite");
+            throw new IllegalArgumentException("Velocidade deve ser não-negativa e finita");
         }
         if (speedMetersPerSecond == 0.0) {
             return 0.0;
@@ -71,7 +62,7 @@ public final class MaxwellBoltzmannDistribution {
             return 0.0;
         }
         if (logDensity > LOG_MAX_VALUE) {
-            throw new ArithmeticException("Probability density exceeds the representable double range");
+            throw new ArithmeticException("Densidade excede o limite numérico de double");
         }
         return Math.exp(logDensity);
     }
@@ -86,7 +77,7 @@ public final class MaxwellBoltzmannDistribution {
 
     private static Gas requireGas(Gas gas) {
         if (gas == null) {
-            throw new IllegalArgumentException("Gas must not be null");
+            throw new IllegalArgumentException("Gás não pode ser nulo");
         }
         return gas;
     }
