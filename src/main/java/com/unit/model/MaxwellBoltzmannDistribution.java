@@ -67,6 +67,14 @@ public final class MaxwellBoltzmannDistribution {
         return Math.exp(logDensity);
     }
 
+    /**
+     * Velocidade mais provável v_mp = √(2RT/M), em m/s (pico da curva).
+     * Serve de escala para escolher até onde integrar a distribuição.
+     */
+    public double mostProbableSpeed() {
+        return Math.sqrt(2.0 * GAS_CONSTANT * temperatureKelvin / molarMassKgPerMol);
+    }
+
     public double molarMassKgPerMol() {
         return molarMassKgPerMol;
     }
