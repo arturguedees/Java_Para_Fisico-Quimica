@@ -11,13 +11,19 @@ export default function Login() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErro('');
     try {
       const response = await axios.post('http://localhost:8080/api/usuarios/login', { email, senha });
-      // Salva dados no localStorage para simular sessão
       localStorage.setItem('usuario', JSON.stringify(response.data));
       navigate('/dashboard');
-    } catch (err) {
-      setErro('Email ou senha inválidos.');
+    } catch (err: any) {
+      if (err.code === 'ERR_NETWORK') {
+        setErro('Servidor Java ou Banco de Dados fora do ar! Certifique-se de rodar "./mvnw spring-boot:run" e "docker-compose up -d".');
+      } else if (err.response && err.response.data) {
+        setErro(typeof err.response.data === 'string' ? err.response.data : 'Email ou senha inválidos.');
+      } else {
+        setErro('Email ou senha inválidos.');
+      }
     }
   };
 

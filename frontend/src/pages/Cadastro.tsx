@@ -12,14 +12,21 @@ export default function Cadastro() {
 
   const handleCadastro = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErro('');
     try {
       await axios.post('http://localhost:8080/api/usuarios/cadastrar', { 
         nomeCompleto, email, senha 
       });
       alert('Conta criada com sucesso! Faça login.');
       navigate('/login');
-    } catch (err) {
-      setErro('Erro ao criar conta. Email pode já estar em uso.');
+    } catch (err: any) {
+      if (err.code === 'ERR_NETWORK') {
+        setErro('Servidor Java ou Banco de Dados fora do ar! Lembre de rodar "docker-compose up -d" e "./mvnw spring-boot:run".');
+      } else if (err.response && err.response.data) {
+        setErro(typeof err.response.data === 'string' ? err.response.data : 'Erro ao cadastrar. Verifique os dados.');
+      } else {
+        setErro('Erro ao criar conta. Tente novamente.');
+      }
     }
   };
 
