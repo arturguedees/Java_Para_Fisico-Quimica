@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 /**
  * Entidade Usuario mapeada para tabela PostgreSQL com Spring Data JPA (Hibernate).
- * Sem Lombok para evitar problemas com Annotation Processors no IDE ou Java 25.
+ * Contém os campos de autenticação e toda a estrutura de gamificação (XP, Pontos, Título, Avatar, Inventário).
  */
 @Entity
 @Table(name = "usuarios")
@@ -23,14 +23,24 @@ public class Usuario {
     @Column(nullable = false)
     private String senha;
 
-    // Gamificação
+    // Gamificação e Progressão
     private int pontos = 0;
     private int experiencia = 0;
 
-    @Column(length = 50)
+    @Column(length = 100)
     private String titulo = "Iniciante";
 
-    private String fotoPerfilUrl;
+    @Column(length = 100)
+    private String avatarId = "avatar_default";
+
+    @Column(columnDefinition = "TEXT")
+    private String avataresDesbloqueados = "avatar_default";
+
+    @Column(columnDefinition = "TEXT")
+    private String titulosDesbloqueados = "Iniciante";
+
+    @Column(columnDefinition = "TEXT")
+    private String exerciciosResolvidos = "";
 
     public Usuario() {
     }
@@ -42,6 +52,10 @@ public class Usuario {
         this.pontos = 0;
         this.experiencia = 0;
         this.titulo = "Iniciante";
+        this.avatarId = "avatar_default";
+        this.avataresDesbloqueados = "avatar_default";
+        this.titulosDesbloqueados = "Iniciante";
+        this.exerciciosResolvidos = "";
     }
 
     // Getters e Setters
@@ -101,11 +115,35 @@ public class Usuario {
         this.titulo = titulo;
     }
 
-    public String getFotoPerfilUrl() {
-        return fotoPerfilUrl;
+    public String getAvatarId() {
+        return avatarId;
     }
 
-    public void setFotoPerfilUrl(String fotoPerfilUrl) {
-        this.fotoPerfilUrl = fotoPerfilUrl;
+    public void setAvatarId(String avatarId) {
+        this.avatarId = avatarId;
+    }
+
+    public String getAvataresDesbloqueados() {
+        return avataresDesbloqueados;
+    }
+
+    public void setAvataresDesbloqueados(String avataresDesbloqueados) {
+        this.avataresDesbloqueados = avataresDesbloqueados;
+    }
+
+    public String getTitulosDesbloqueados() {
+        return titulosDesbloqueados;
+    }
+
+    public void setTitulosDesbloqueados(String titulosDesbloqueados) {
+        this.titulosDesbloqueados = titulosDesbloqueados;
+    }
+
+    public String getExerciciosResolvidos() {
+        return exerciciosResolvidos;
+    }
+
+    public void setExerciciosResolvidos(String exerciciosResolvidos) {
+        this.exerciciosResolvidos = exerciciosResolvidos;
     }
 }

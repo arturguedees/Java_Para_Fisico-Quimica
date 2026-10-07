@@ -4,16 +4,16 @@ import com.unit.modelo.entidade.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
- * Repositório de Usuários.
- * O Spring Data JPA implementa automaticamente os métodos básicos (save, findById, findAll, delete).
- * É semelhante ao Prisma Client (ex: prisma.user.findUnique).
+ * Repositório de Usuários com consultas para autenticação e ranking de gamificação.
  */
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
-    // Método customizado que o Spring cria automaticamente baseado no nome!
     Optional<Usuario> findByEmail(String email);
+
+    List<Usuario> findAllByOrderByExperienciaDesc();
 }
