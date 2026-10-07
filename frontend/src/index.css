@@ -2,111 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  @keyframes spinSlow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+@layer base {
+  body {
+    margin: 0;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #0e1013;
+    color: #e5e2dc;
+    letter-spacing: -0.01em;
   }
 
-  @keyframes pulseGlow {
-    0%, 100% {
-      filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.6));
-      transform: scale(1);
-    }
-    50% {
-      filter: drop-shadow(0 0 18px rgba(59, 130, 246, 0.95));
-      transform: scale(1.03);
-    }
+  /* Headings com tipografia serifada de alto impacto editorial */
+  h1, h2, h3, .font-serif-title {
+    font-family: 'Instrument Serif', 'Newsreader', Georgia, serif;
+    letter-spacing: -0.02em;
   }
 
-  @keyframes flameAura {
-    0%, 100% {
-      filter: drop-shadow(0 0 8px #f97316) drop-shadow(0 0 15px #ef4444);
-      transform: scale(1);
-    }
-    50% {
-      filter: drop-shadow(0 0 16px #f59e0b) drop-shadow(0 0 25px #dc2626);
-      transform: scale(1.05);
-    }
-  }
-
-  @keyframes quantumOrbit {
-    0% {
-      transform: rotate(0deg) scale(1);
-      filter: drop-shadow(0 0 10px #06b6d4);
-    }
-    50% {
-      transform: rotate(180deg) scale(1.06);
-      filter: drop-shadow(0 0 20px #3b82f6);
-    }
-    100% {
-      transform: rotate(360deg) scale(1);
-      filter: drop-shadow(0 0 10px #06b6d4);
-    }
-  }
-
-  @keyframes cyberGlitch {
-    0%, 100% {
-      filter: drop-shadow(0 0 8px #10b981);
-    }
-    33% {
-      filter: drop-shadow(0 0 16px #06b6d4);
-    }
-    66% {
-      filter: drop-shadow(0 0 14px #a855f7);
-    }
-  }
-
-  @keyframes supernovaCore {
-    0%, 100% {
-      filter: drop-shadow(0 0 10px #eab308) drop-shadow(0 0 20px #f59e0b);
-      transform: scale(1);
-    }
-    50% {
-      filter: drop-shadow(0 0 22px #fbbf24) drop-shadow(0 0 35px #ea580c);
-      transform: scale(1.08);
-    }
-  }
-
-  @keyframes voidPulse {
-    0%, 100% {
-      filter: drop-shadow(0 0 10px #8b5cf6) drop-shadow(0 0 18px #6366f1);
-    }
-    50% {
-      filter: drop-shadow(0 0 24px #d946ef) drop-shadow(0 0 32px #4f46e5);
-    }
-  }
-
-  .animate-spin-slow {
-    animation: spinSlow 12s linear infinite;
-  }
-  .animate-pulse-glow {
-    animation: pulseGlow 3s ease-in-out infinite;
-  }
-  .animate-flame {
-    animation: flameAura 2.5s ease-in-out infinite;
-  }
-  .animate-quantum {
-    animation: quantumOrbit 6s linear infinite;
-  }
-  .animate-cyber {
-    animation: cyberGlitch 3s ease-in-out infinite;
-  }
-  .animate-supernova {
-    animation: supernovaCore 2s ease-in-out infinite;
-  }
-  .animate-void {
-    animation: voidPulse 3.5s ease-in-out infinite;
+  /* Dados, códigos e números com tipografia monoespacial cirúrgica */
+  code, pre, .font-data {
+    font-family: 'JetBrains Mono', monospace;
   }
 }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #0f172a;
-  color: #f8fafc;
+/* Linhas e separadores de precisão editorial */
+.hairline-b {
+  border-bottom: 1px solid #1d2027;
+}
+.hairline-r {
+  border-right: 1px solid #1d2027;
+}
+.hairline-t {
+  border-top: 1px solid #1d2027;
+}
+.hairline-l {
+  border-left: 1px solid #1d2027;
+}
+
+/* Efeito de micro-interação discreto */
+.editorial-card {
+  background-color: #14161b;
+  border: 1px solid #1d2027;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.editorial-card:hover {
+  border-color: #2b303b;
+  background-color: #16191f;
+}
+
+/* Scrollbar minimalista em tom carvão */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0e1013;
+}
+::-webkit-scrollbar-thumb {
+  background: #2b303b;
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3e4452;
 }

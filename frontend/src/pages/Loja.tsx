@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { 
-  ShoppingBag, 
-  Coins, 
-  Sparkles, 
-  Check, 
-  Lock, 
-  Crown, 
-  Award,
-  AlertCircle
-} from 'lucide-react';
 import Navbar from '../components/Navbar';
 import AvatarBadge, { AVATARES_CATALOGO, type AvatarDef } from '../components/AvatarBadge';
 
@@ -54,11 +44,11 @@ export default function Loja() {
 
   const handleComprarAvatar = async (avatar: AvatarDef) => {
     if (usuario.pontos < avatar.preco) {
-      setMensagem({ tipo: 'erro', texto: 'Moedas insuficientes! Resolva mais exercícios para ganhar pontos.' });
+      setMensagem({ tipo: 'erro', texto: 'Créditos insuficientes no dossier. Resolva novos problemas.' });
       return;
     }
     if (nivelUsuario < avatar.nivelMinimo) {
-      setMensagem({ tipo: 'erro', texto: `Este avatar requer Nível ${avatar.nivelMinimo} de pesquisador!` });
+      setMensagem({ tipo: 'erro', texto: `Requisito mínimo: Nível ${avatar.nivelMinimo} de pesquisador.` });
       return;
     }
 
@@ -71,10 +61,10 @@ export default function Loja() {
       );
       setUsuario(res.data);
       localStorage.setItem('usuario', JSON.stringify(res.data));
-      setMensagem({ tipo: 'sucesso', texto: `Parabéns! Você adquiriu o avatar "${avatar.nome}" e ele já foi equipado!` });
+      setMensagem({ tipo: 'sucesso', texto: `Insígnia "${avatar.nome}" outorgada e equipada ao seu dossier.` });
     } catch (err: any) {
       const erroMsg = err.response?.data || 'Erro ao processar compra.';
-      setMensagem({ tipo: 'erro', texto: typeof erroMsg === 'string' ? erroMsg : 'Erro ao comprar avatar.' });
+      setMensagem({ tipo: 'erro', texto: typeof erroMsg === 'string' ? erroMsg : 'Falha na transação.' });
     } finally {
       setProcessando(false);
     }
@@ -90,58 +80,55 @@ export default function Loja() {
       );
       setUsuario(res.data);
       localStorage.setItem('usuario', JSON.stringify(res.data));
-      setMensagem({ tipo: 'sucesso', texto: 'Avatar equipado com sucesso no seu perfil!' });
+      setMensagem({ tipo: 'sucesso', texto: 'Insígnia selecionada como ativa no dossier.' });
     } catch (err: any) {
-      setMensagem({ tipo: 'erro', texto: 'Não foi possível equipar o avatar.' });
+      setMensagem({ tipo: 'erro', texto: 'Não foi possível equipar a insígnia.' });
     } finally {
       setProcessando(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 pb-16">
+    <div className="min-h-screen bg-[#0e1013] text-[#e5e2dc] pb-24 font-sans">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-10 space-y-8">
         
         {/* Cabeçalho */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20">
-              <ShoppingBag className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-black text-white">Loja de Avatares & Customizações</h1>
-              <p className="text-xs text-slate-400">
-                Adquira auras animadas e molduras exclusivas para se destacar na comunidade acadêmica
-              </p>
-            </div>
+        <div className="border-b border-[#1d2027] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="space-y-1">
+            <span className="font-mono text-xs text-[#c85a32] uppercase tracking-wider">
+              GABINETE ACADÊMICO • ACERVO DE SELOS & INSÍGNIAS
+            </span>
+            <h1 className="font-serif text-3xl sm:text-4xl text-[#faf9f5]">
+              Insígnias & Credenciais de Pesquisa
+            </h1>
           </div>
 
-          <div className="flex items-center space-x-2 bg-slate-900 border border-amber-500/30 px-4 py-2 rounded-2xl shadow-sm">
-            <Coins className="w-5 h-5 text-amber-400 animate-pulse" />
-            <span className="text-sm font-bold text-amber-300">
-              Saldo: {usuario.pontos} <span className="text-xs font-normal text-amber-400/80">moedas</span>
+          <div className="flex items-center space-x-3 font-mono text-xs">
+            <span className="px-3 py-1.5 bg-[#14161b] border border-[#1d2027] text-[#918b7e]">
+              SEU SALDO: <strong className="text-[#c85a32]">{usuario.pontos} PTS</strong>
+            </span>
+            <span className="px-3 py-1.5 bg-[#14161b] border border-[#1d2027] text-[#faf9f5]">
+              NÍVEL ATUAL: <strong>NV. {nivelUsuario}</strong>
             </span>
           </div>
         </div>
 
-        {/* Notificação Toast */}
         {mensagem && (
           <div
-            className={`p-4 rounded-2xl border text-xs sm:text-sm font-semibold flex items-center space-x-2 ${
+            className={`p-4 border font-mono text-xs ${
               mensagem.tipo === 'sucesso'
-                ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
-                : 'bg-rose-950/40 border-rose-500/40 text-rose-300'
+                ? 'border-[#52754f] bg-[#52754f]/10 text-[#9ebd9c]'
+                : 'border-[#853416] bg-[#853416]/10 text-[#f09673]'
             }`}
           >
-            {mensagem.tipo === 'sucesso' ? <Sparkles className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
-            <span>{mensagem.texto}</span>
+            {mensagem.texto}
           </div>
         )}
 
-        {/* Grade de Avatares */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Grade do Catálogo */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {AVATARES_CATALOGO.map(avatar => {
             const desbloqueado = avataresDesbloqueadosSet.has(avatar.id);
             const equipado = usuario.avatarId === avatar.id;
@@ -151,87 +138,70 @@ export default function Loja() {
             return (
               <div
                 key={avatar.id}
-                className={`bg-slate-900 border rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 shadow-xl ${
+                className={`border bg-[#14161b] p-6 flex flex-col justify-between transition-colors ${
                   equipado
-                    ? 'border-cyan-500/60 ring-2 ring-cyan-500/20 shadow-cyan-500/10'
+                    ? 'border-[#c85a32]'
                     : desbloqueado
-                    ? 'border-slate-700 hover:border-slate-600'
-                    : 'border-slate-800 opacity-90'
+                    ? 'border-[#2b303b]'
+                    : 'border-[#1d2027] opacity-90'
                 }`}
               >
-                <div>
-                  {/* Visualizador do Avatar Animado */}
-                  <div className="h-44 bg-slate-950/80 rounded-2xl border border-slate-800/80 flex flex-col items-center justify-center relative overflow-hidden mb-4">
-                    <AvatarBadge avatarId={avatar.id} size="xl" showAnimation={true} />
+                <div className="space-y-4">
+                  {/* Visualizador da Insígnia */}
+                  <div className="h-32 bg-[#0e1013] border border-[#1d2027] flex items-center justify-center relative">
+                    <AvatarBadge avatarId={avatar.id} size="xl" />
                     
                     {equipado && (
-                      <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                        Equipado
+                      <span className="absolute top-2 right-2 text-[10px] font-mono font-bold text-[#c85a32] border border-[#c85a32] px-2 py-0.5">
+                        ATIVA
                       </span>
-                    )}
-
-                    {!desbloqueado && !nivelSuficiente && (
-                      <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center p-3 text-center">
-                        <Lock className="w-7 h-7 text-slate-500 mb-1" />
-                        <span className="text-xs font-bold text-slate-400">
-                          Bloqueado até Nível {avatar.nivelMinimo}
-                        </span>
-                      </div>
                     )}
                   </div>
 
-                  {/* Informações do Item */}
                   <div className="space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-base font-bold text-white">{avatar.nome}</h3>
-                      <span className="text-xs font-bold text-amber-400 flex items-center space-x-1">
-                        <Coins className="w-3.5 h-3.5" />
-                        <span>{avatar.preco === 0 ? 'Grátis' : `${avatar.preco} pts`}</span>
+                    <div className="flex items-baseline justify-between font-mono text-xs">
+                      <span className="text-[#c85a32] font-semibold">{avatar.subtitulo}</span>
+                      <span className="text-[#faf9f5]">
+                        {avatar.preco === 0 ? 'CONCEDIDO' : `${avatar.preco} PTS`}
                       </span>
                     </div>
 
-                    <p className="text-xs text-slate-400 leading-relaxed min-h-[36px]">
+                    <h3 className="font-serif text-xl text-[#faf9f5]">{avatar.nome}</h3>
+                    <p className="text-xs text-[#918b7e] leading-relaxed">
                       {avatar.descricao}
                     </p>
                   </div>
                 </div>
 
-                {/* Botões de Ação */}
-                <div className="mt-6 pt-4 border-t border-slate-800/80">
+                {/* Ações */}
+                <div className="mt-6 pt-4 border-t border-[#1d2027] font-mono text-xs">
                   {equipado ? (
-                    <button
-                      disabled
-                      className="w-full py-2.5 rounded-xl text-xs font-bold bg-slate-800 text-cyan-400 border border-cyan-500/30 cursor-default flex items-center justify-center space-x-1.5"
-                    >
-                      <Check className="w-4 h-4" />
-                      <span>Em Uso</span>
-                    </button>
+                    <div className="py-2 border border-[#c85a32] text-center text-[#c85a32] font-bold">
+                      INSÍGNIA EQUIPADA
+                    </div>
                   ) : desbloqueado ? (
                     <button
                       onClick={() => handleEquiparAvatar(avatar.id)}
                       disabled={processando}
-                      className="w-full py-2.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 transition flex items-center justify-center space-x-1.5"
+                      className="w-full py-2 border border-[#2b303b] bg-[#0e1013] hover:border-[#c85a32] text-[#faf9f5] transition-colors"
                     >
-                      <span>Equipar Avatar</span>
+                      EQUIPAR NO DOSSIER
                     </button>
                   ) : (
                     <button
                       onClick={() => handleComprarAvatar(avatar)}
                       disabled={processando || !podeComprar}
-                      className={`w-full py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1.5 ${
+                      className={`w-full py-2 border transition-colors uppercase tracking-wider font-bold ${
                         podeComprar
-                          ? 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black shadow-lg shadow-amber-500/20'
-                          : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700'
+                          ? 'border-[#c85a32] bg-[#c85a32] hover:bg-[#a74521] text-[#faf9f5]'
+                          : 'border-[#1d2027] bg-[#0e1013] text-[#5e594d] cursor-not-allowed'
                       }`}
                     >
-                      <Sparkles className="w-4 h-4" />
-                      <span>
-                        {!nivelSuficiente
-                          ? `Requer Nível ${avatar.nivelMinimo}`
-                          : usuario.pontos < avatar.preco
-                          ? 'Moedas Insuficientes'
-                          : 'Comprar & Equipar'}
-                      </span>
+                      {!nivelSuficiente
+                        ? `EXIGE NÍVEL ${avatar.nivelMinimo}`
+                        : usuario.pontos < avatar.preco
+                        ? 'CRÉDITOS INSUFICIENTES'
+                        : 'ADQUIRIR INSÍGNIA'}
                     </button>
                   )}
                 </div>

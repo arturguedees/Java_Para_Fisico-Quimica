@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { FlaskConical, Lock, Mail, ArrowRight, Sparkles, AlertCircle } from 'lucide-react';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -21,11 +20,11 @@ export default function Login() {
       navigate('/dashboard');
     } catch (err: any) {
       if (err.code === 'ERR_NETWORK') {
-        setErro('Servidor Java ou Banco de Dados offline! Certifique-se de rodar "./mvnw spring-boot:run" e "docker compose up -d".');
+        setErro('Servidor de dados inacessível. Certifique-se de que o backend Java e PostgreSQL estejam ativos.');
       } else if (err.response && err.response.data) {
-        setErro(typeof err.response.data === 'string' ? err.response.data : 'Email ou senha inválidos.');
+        setErro(typeof err.response.data === 'string' ? err.response.data : 'Credenciais acadêmicas inválidas.');
       } else {
-        setErro('Email ou senha inválidos.');
+        setErro('Credenciais inválidas.');
       }
     } finally {
       setCarregando(false);
@@ -33,82 +32,82 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 relative overflow-hidden text-slate-100">
-      {/* Luzes de Fundo Ambientais */}
-      <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div className="min-h-screen bg-[#0e1013] text-[#e5e2dc] flex flex-col justify-between p-6 sm:p-12 font-sans selection:bg-[#c85a32] selection:text-white">
+      
+      {/* Header Editorial */}
+      <header className="flex items-center justify-between border-b border-[#1d2027] pb-4 font-mono text-xs text-[#918b7e]">
+        <span className="text-[#c85a32] font-semibold">● LAB QUÂNTICO</span>
+        <span>ACESSO AO PORTAL ACADÊMICO</span>
+      </header>
 
-      <div className="relative z-10 bg-slate-900/90 border border-slate-800 p-8 sm:p-10 rounded-3xl shadow-2xl w-full max-w-md backdrop-blur-xl">
-        
-        {/* Logo */}
-        <div className="flex flex-col items-center mb-8 text-center">
-          <div className="w-14 h-14 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-cyan-500/30">
-            <FlaskConical className="w-8 h-8 text-white" />
-          </div>
-          <h1 className="text-2xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
-            QuantumChem Lab
+      {/* Caixa Central de Acesso */}
+      <main className="max-w-md w-full mx-auto my-12 border border-[#1d2027] bg-[#14161b] p-8 sm:p-10 space-y-6">
+        <div className="space-y-2 text-center">
+          <span className="font-mono text-[11px] text-[#c85a32] tracking-wider uppercase">
+            AUTENTICAÇÃO DE PESQUISADOR
+          </span>
+          <h1 className="font-serif text-3xl sm:text-4xl text-[#faf9f5]">
+            Lab Quântico
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Plataforma Gamificada de Físico-Química
+          <p className="text-xs text-[#918b7e] max-w-xs mx-auto leading-relaxed">
+            Plataforma computacional de físico-química e termodinâmica experimental.
           </p>
         </div>
 
         {erro && (
-          <div className="mb-5 p-3.5 bg-rose-950/50 border border-rose-500/40 text-rose-300 rounded-2xl text-xs flex items-center space-x-2">
-            <AlertCircle className="w-4 h-4 flex-shrink-0" />
-            <span>{erro}</span>
+          <div className="p-3 border border-[#853416] bg-[#853416]/10 text-[#f09673] font-mono text-xs">
+            {erro}
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">Email Acadêmico</label>
-            <div className="relative">
-              <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
-              <input 
-                type="email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition"
-                placeholder="exemplo@unit.br"
-                required 
-              />
-            </div>
+        <form onSubmit={handleLogin} className="space-y-4 font-mono text-xs">
+          <div className="space-y-1.5">
+            <label className="text-[#918b7e] block">EMAIL ACADÊMICO</label>
+            <input 
+              type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-3.5 py-2.5 bg-[#0e1013] border border-[#1d2027] text-sm text-[#faf9f5] focus:outline-none focus:border-[#c85a32] transition"
+              placeholder="exemplo@unit.br"
+              required 
+            />
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">Senha de Acesso</label>
-            <div className="relative">
-              <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3" />
-              <input 
-                type="password" 
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition"
-                placeholder="••••••••"
-                required 
-              />
-            </div>
+          <div className="space-y-1.5">
+            <label className="text-[#918b7e] block">CHAVE DE ACESSO</label>
+            <input 
+              type="password" 
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              className="w-full px-3.5 py-2.5 bg-[#0e1013] border border-[#1d2027] text-sm text-[#faf9f5] focus:outline-none focus:border-[#c85a32] transition"
+              placeholder="••••••••"
+              required 
+            />
           </div>
 
           <button 
             type="submit" 
             disabled={carregando}
-            className="w-full mt-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black py-3 rounded-xl shadow-lg shadow-cyan-500/20 transition flex items-center justify-center space-x-2 disabled:opacity-50"
+            className="w-full mt-3 py-3 bg-[#c85a32] hover:bg-[#a74521] text-[#faf9f5] font-bold uppercase tracking-wider transition disabled:opacity-50"
           >
-            <span>{carregando ? 'Acessando...' : 'Entrar no Laboratório'}</span>
-            <ArrowRight className="w-4 h-4" />
+            {carregando ? 'AUTENTICANDO...' : 'ACESSAR LABORATÓRIO'}
           </button>
         </form>
-        
-        <p className="mt-6 text-center text-xs text-slate-400">
-          Primeira vez aqui?{' '}
-          <Link to="/cadastro" className="text-cyan-400 font-bold hover:underline">
-            Crie sua conta e ganhe 100 moedas
-          </Link>
-        </p>
 
-      </div>
+        <div className="pt-4 border-t border-[#1d2027] text-center font-mono text-xs text-[#918b7e]">
+          Novo pesquisador?{' '}
+          <Link to="/cadastro" className="text-[#c85a32] hover:underline font-semibold">
+            Criar credencial
+          </Link>
+        </div>
+      </main>
+
+      {/* Rodapé Editorial */}
+      <footer className="border-t border-[#1d2027] pt-4 flex flex-col sm:flex-row items-center justify-between font-mono text-[11px] text-[#5e594d]">
+        <span>UNIVERSIDADE TIRADENTES • DEPARTAMENTO DE COMPUTAÇÃO</span>
+        <span>EDIÇÃO 2026 • TODOS OS DIREITOS RESERVADOS</span>
+      </footer>
+
     </div>
   );
 }

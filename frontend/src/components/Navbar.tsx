@@ -1,17 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  FlaskConical, 
-  Wind, 
-  Flame, 
-  BrainCircuit, 
-  ShoppingBag, 
-  Trophy, 
-  LogOut, 
-  Coins, 
-  Award,
-  User as UserIcon
-} from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import AvatarBadge from './AvatarBadge';
 
 interface NavbarProps {
@@ -33,166 +22,121 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
   };
 
   const navItems = [
-    { path: '/dashboard', label: 'Início', icon: FlaskConical },
-    { path: '/cinetica', label: 'Cinética', icon: FlaskConical },
-    { path: '/maxwell', label: 'Maxwell', icon: Wind },
-    { path: '/dsc', label: 'Calorimetria', icon: Flame },
-    { path: '/exercicios', label: 'Desafios & Quiz', icon: BrainCircuit },
-    { path: '/loja', label: 'Loja de Avatares', icon: ShoppingBag },
-    { path: '/ranking', label: 'Ranking', icon: Trophy },
+    { path: '/dashboard', label: 'Visão Geral' },
+    { path: '/cinetica', label: '01. Cinética' },
+    { path: '/maxwell', label: '02. Maxwell' },
+    { path: '/dsc', label: '03. Calorimetria' },
+    { path: '/exercicios', label: '04. Desafios' },
+    { path: '/loja', label: '05. Insígnias' },
+    { path: '/ranking', label: '06. Tábua de Honra' },
   ];
 
-  // Cálculo de nível: Cada nível requer 100 * nivel XP
   const xp = usuario?.experiencia || 0;
   let nivel = 1;
-  let xpBase = 0;
-  let xpNecessario = 100;
-
-  if (xp < 100) {
-    nivel = 1;
-    xpBase = 0;
-    xpNecessario = 100;
-  } else if (xp < 300) {
-    nivel = 2;
-    xpBase = 100;
-    xpNecessario = 200;
-  } else if (xp < 600) {
-    nivel = 3;
-    xpBase = 300;
-    xpNecessario = 300;
-  } else if (xp < 1000) {
-    nivel = 4;
-    xpBase = 600;
-    xpNecessario = 400;
-  } else if (xp < 1500) {
-    nivel = 5;
-    xpBase = 1000;
-    xpNecessario = 500;
-  } else if (xp < 2500) {
-    nivel = 6;
-    xpBase = 1500;
-    xpNecessario = 1000;
-  } else {
-    nivel = 7;
-    xpBase = 2500;
-    xpNecessario = 2000;
-  }
-
-  const progressoNivel = Math.min(
-    100,
-    Math.max(0, ((xp - xpBase) / xpNecessario) * 100)
-  );
+  if (xp < 100) nivel = 1;
+  else if (xp < 300) nivel = 2;
+  else if (xp < 600) nivel = 3;
+  else if (xp < 1000) nivel = 4;
+  else if (xp < 1500) nivel = 5;
+  else if (xp < 2500) nivel = 6;
+  else nivel = 7;
 
   return (
-    <nav className="bg-slate-900/90 border-b border-slate-800 sticky top-0 z-50 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="bg-[#0e1013] border-b border-[#1d2027] sticky top-0 z-50">
+      {/* Barra de Topo Editorial */}
+      <div className="border-b border-[#1d2027] px-4 sm:px-8 py-1.5 flex items-center justify-between text-[11px] font-mono tracking-wider text-[#918b7e] uppercase">
+        <div className="flex items-center space-x-3">
+          <span className="text-[#c85a32] font-semibold">● LAB QUÂNTICO</span>
+        </div>
+        <div className="flex items-center space-x-4">
+          <span className="hidden md:inline">EDIÇÃO ACADÊMICA 2026</span>
+          {usuario && (
+            <span className="text-[#e5e2dc]">
+              PESQUISADOR: <strong className="text-[#c85a32]">{usuario.nomeCompleto}</strong>
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Navegação Principal */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8">
         <div className="flex items-center justify-between h-16">
           
-          {/* Logo & Marca */}
-          <div className="flex items-center space-x-3">
-            <Link to="/dashboard" className="flex items-center space-x-2 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 group-hover:scale-105 transition">
-                <FlaskConical className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <span className="text-lg font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                  QuantumChem
-                </span>
-                <span className="block text-[10px] font-semibold text-slate-400 -mt-1 tracking-wider uppercase">
-                  Lab & Gamificação
-                </span>
-              </div>
-            </Link>
-          </div>
+          {/* Logo Tipográfico Editorial */}
+          <Link to="/dashboard" className="flex items-baseline space-x-2 group">
+            <span className="font-serif text-2xl font-normal tracking-tight text-[#f5f2eb] group-hover:text-[#c85a32] transition-colors">
+              Lab Quântico
+            </span>
+            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#918b7e]">
+              v2.0
+            </span>
+          </Link>
 
-          {/* Links Centrais de Navegação */}
-          <div className="hidden lg:flex items-center space-x-1">
+          {/* Links de Módulos */}
+          <nav className="hidden lg:flex items-center space-x-6 text-xs font-mono tracking-wider">
             {navItems.map(item => {
-              const Icon = item.icon;
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-3 py-2 rounded-lg text-xs font-semibold flex items-center space-x-1.5 transition ${
+                  className={`py-5 transition-colors border-b-2 ${
                     isActive
-                      ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 shadow-sm'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                      ? 'border-[#c85a32] text-[#f5f2eb] font-semibold'
+                      : 'border-transparent text-[#918b7e] hover:text-[#e5e2dc]'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.label}</span>
+                  {item.label}
                 </Link>
               );
             })}
-          </div>
+          </nav>
 
-          {/* HUD de Jogador / Usuário */}
-          <div className="flex items-center space-x-4">
+          {/* Dados do Pesquisador (Status) */}
+          <div className="flex items-center space-x-5">
             {usuario ? (
               <>
-                {/* Carteira de Moedas / Pontos */}
-                <div className="flex items-center space-x-1.5 bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full">
-                  <Coins className="w-4 h-4 text-amber-400 animate-pulse" />
-                  <span className="text-xs font-bold text-amber-300">
-                    {usuario.pontos} <span className="text-[10px] font-normal text-amber-400/80">pts</span>
-                  </span>
-                </div>
-
-                {/* Nível & Barra de XP */}
-                <div className="hidden sm:flex flex-col items-end min-w-[100px]">
-                  <div className="flex items-center space-x-1 text-[11px] font-bold text-slate-300">
-                    <span className="text-cyan-400">Nv. {nivel}</span>
-                    <span className="text-slate-500">•</span>
-                    <span>{xp} XP</span>
+                {/* Saldo de Moedas & Nível */}
+                <div className="hidden sm:flex items-center space-x-3 text-xs font-mono">
+                  <div className="px-2.5 py-1 bg-[#14161b] border border-[#1d2027] text-[#c85a32] font-semibold">
+                    {usuario.pontos} <span className="text-[10px] text-[#918b7e]">PTS</span>
                   </div>
-                  <div className="w-24 bg-slate-800 rounded-full h-1.5 mt-1 overflow-hidden border border-slate-700">
-                    <div
-                      className="bg-gradient-to-r from-cyan-400 to-blue-500 h-full rounded-full transition-all duration-500"
-                      style={{ width: `${progressoNivel}%` }}
-                    />
+                  <div className="px-2.5 py-1 bg-[#14161b] border border-[#1d2027] text-[#e5e2dc]">
+                    NV. {nivel} <span className="text-[10px] text-[#918b7e]">({xp} XP)</span>
                   </div>
                 </div>
 
-                {/* Perfil & Avatar Animado */}
+                {/* Insígnia e Perfil */}
                 <Link
                   to="/perfil"
-                  className="flex items-center space-x-2.5 pl-2 border-l border-slate-800 hover:opacity-90 transition group"
-                  title="Ver Perfil e Inventário"
+                  className="flex items-center space-x-2.5 hover:opacity-80 transition"
+                  title="Acessar Dossier do Pesquisador"
                 >
                   <AvatarBadge avatarId={usuario.avatarId} size="sm" />
-                  <div className="hidden md:block text-left">
-                    <span className="block text-xs font-bold text-slate-100 group-hover:text-cyan-400 transition truncate max-w-[120px]">
-                      {usuario.nomeCompleto}
-                    </span>
-                    <span className="block text-[10px] text-cyan-400/80 font-medium truncate max-w-[120px]">
-                      {usuario.titulo}
-                    </span>
-                  </div>
+                  <span className="hidden xl:inline text-xs font-serif italic text-[#c5bfb4] max-w-[120px] truncate">
+                    {usuario.titulo}
+                  </span>
                 </Link>
 
-                {/* Botão Sair */}
+                {/* Sair */}
                 <button
                   onClick={handleLogout}
-                  className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800/80 rounded-lg transition"
-                  title="Encerrar Sessão"
+                  className="text-[#918b7e] hover:text-[#c85a32] transition p-1"
+                  title="Desconectar"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
               </>
             ) : (
-              <div className="flex items-center space-x-2">
-                <Link
-                  to="/login"
-                  className="px-3 py-1.5 text-xs font-semibold text-slate-300 hover:text-white"
-                >
-                  Entrar
+              <div className="flex items-center space-x-3 text-xs font-mono">
+                <Link to="/login" className="text-[#918b7e] hover:text-[#e5e2dc]">
+                  ENTRAR
                 </Link>
                 <Link
                   to="/cadastro"
-                  className="px-3 py-1.5 text-xs font-bold bg-cyan-500 hover:bg-cyan-400 text-slate-950 rounded-lg shadow-sm"
+                  className="px-3 py-1.5 bg-[#c85a32] hover:bg-[#a74521] text-[#faf9f5] font-semibold tracking-wider uppercase transition"
                 >
-                  Criar Conta
+                  REGISTRAR
                 </Link>
               </div>
             )}
@@ -202,24 +146,22 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
       </div>
 
       {/* Menu mobile secundário */}
-      <div className="lg:hidden flex items-center justify-around py-2 px-2 bg-slate-950/80 border-t border-slate-800 overflow-x-auto">
+      <div className="lg:hidden flex items-center space-x-4 px-4 py-2 bg-[#14161b] border-t border-[#1d2027] overflow-x-auto text-xs font-mono">
         {navItems.map(item => {
-          const Icon = item.icon;
           const isActive = location.pathname === item.path;
           return (
             <Link
               key={item.path}
               to={item.path}
-              className={`px-2 py-1 rounded text-[11px] font-medium flex flex-col items-center space-y-0.5 whitespace-nowrap ${
-                isActive ? 'text-cyan-400' : 'text-slate-400'
+              className={`whitespace-nowrap ${
+                isActive ? 'text-[#c85a32] font-semibold' : 'text-[#918b7e]'
               }`}
             >
-              <Icon className="w-3.5 h-3.5" />
-              <span>{item.label}</span>
+              {item.label}
             </Link>
           );
         })}
       </div>
-    </nav>
+    </header>
   );
 }

@@ -1,19 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { 
-  BrainCircuit, 
-  CheckCircle2, 
-  XCircle, 
-  Sparkles, 
-  Filter, 
-  ArrowRight,
-  FlaskConical,
-  Wind,
-  Flame,
-  Award,
-  BookOpen
-} from 'lucide-react';
 import Navbar from '../components/Navbar';
 
 interface Exercicio {
@@ -35,7 +22,7 @@ export default function Exercicios() {
   const [filtroModulo, setFiltroModulo] = useState<string>('TODOS');
   const [loading, setLoading] = useState(true);
 
-  // Estado das respostas do formulário
+  // Estado das respostas
   const [respostas, setRespostas] = useState<{ [key: string]: any }>({});
   const [feedbacks, setFeedbacks] = useState<{ [key: string]: any }>({});
   const [processando, setProcessando] = useState<{ [key: string]: boolean }>({});
@@ -57,7 +44,7 @@ export default function Exercicios() {
       setExercicios(res.data);
       setLoading(false);
     } catch (err) {
-      console.error('Erro ao carregar exercícios:', err);
+      console.error('Erro ao carregar questões:', err);
       setLoading(false);
     }
   };
@@ -78,7 +65,6 @@ export default function Exercicios() {
       setFeedbacks(prev => ({ ...prev, [exercicio.id]: resultado }));
 
       if (resultado.correto && usuario) {
-        // Envia pontuação ao backend
         const resUser = await axios.post(
           `http://localhost:8080/api/usuarios/${usuario.id}/ganhar-xp?pontosXp=${resultado.xpGanho}&exercicioId=${exercicio.id}`
         );
@@ -101,107 +87,89 @@ export default function Exercicios() {
     return ex.modulo === filtroModulo;
   });
 
-  const getModuloBadge = (mod: string) => {
-    switch (mod) {
-      case 'CINETICA':
-        return { label: 'Cinética', cor: 'bg-blue-500/10 text-blue-400 border-blue-500/30', icon: FlaskConical };
-      case 'MAXWELL':
-        return { label: 'Maxwell-Boltzmann', cor: 'bg-teal-500/10 text-teal-400 border-teal-500/30', icon: Wind };
-      case 'DSC':
-        return { label: 'Calorimetria DSC', cor: 'bg-rose-500/10 text-rose-400 border-rose-500/30', icon: Flame };
-      default:
-        return { label: 'Teoria Avançada', cor: 'bg-purple-500/10 text-purple-400 border-purple-500/30', icon: Award };
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 pb-16">
+    <div className="min-h-screen bg-[#0e1013] text-[#e5e2dc] pb-24 font-sans">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-6">
+      <main className="max-w-5xl mx-auto px-4 sm:px-8 pt-10 space-y-8">
         
         {/* Cabeçalho */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/20">
-              <BrainCircuit className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-black text-white">Central de Desafios & Quiz Gamificado</h1>
-              <p className="text-xs text-slate-400">
-                Resolva questões teóricas e práticas, acumule XP e desbloqueie novas patentes científicas
-              </p>
-            </div>
+        <div className="border-b border-[#1d2027] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="space-y-1">
+            <span className="font-mono text-xs text-[#c85a32] uppercase tracking-wider">
+              CADERNO DE PROBLEMAS • AVALIAÇÃO CONTÍNUA
+            </span>
+            <h1 className="font-serif text-3xl sm:text-4xl text-[#faf9f5]">
+              Desafios & Avaliações Teórico-Práticas
+            </h1>
           </div>
 
-          {/* Filtros de Módulo */}
-          <div className="flex flex-wrap items-center gap-1.5 bg-slate-900 p-1.5 rounded-2xl border border-slate-800">
+          {/* Filtros */}
+          <div className="flex flex-wrap items-center gap-1.5 font-mono text-xs">
             {['TODOS', 'CINETICA', 'MAXWELL', 'DSC', 'AVANCADO'].map(mod => (
               <button
                 key={mod}
                 onClick={() => setFiltroModulo(mod)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+                className={`px-3 py-1.5 border transition-colors ${
                   filtroModulo === mod
-                    ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                    ? 'border-[#c85a32] bg-[#c85a32]/10 text-[#faf9f5] font-semibold'
+                    : 'border-[#1d2027] bg-[#14161b] text-[#918b7e] hover:text-[#e5e2dc]'
                 }`}
               >
-                {mod === 'TODOS' ? 'Todos os Módulos' : mod}
+                {mod === 'TODOS' ? 'Todos os Problemas' : mod}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Lista de Exercícios */}
+        {/* Lista de Questões */}
         {loading ? (
-          <div className="text-center py-16 text-slate-500">Carregando catálogo de questões...</div>
+          <div className="font-mono text-xs text-[#918b7e] py-12 text-center">
+            CARREGANDO CADERNO DE QUESTÕES...
+          </div>
         ) : (
-          <div className="space-y-6">
-            {exerciciosFiltrados.map(ex => {
-              const badge = getModuloBadge(ex.modulo);
-              const BadgeIcon = badge.icon;
+          <div className="space-y-8">
+            {exerciciosFiltrados.map((ex, index) => {
               const isResolvido = exerciciosResolvidosSet.has(ex.id) || (feedbacks[ex.id]?.correto);
               const fb = feedbacks[ex.id];
 
               return (
-                <div
+                <article
                   key={ex.id}
-                  className={`bg-slate-900 border rounded-2xl p-6 transition-all duration-300 shadow-xl ${
+                  className={`border p-6 sm:p-8 space-y-5 transition-colors ${
                     isResolvido
-                      ? 'border-emerald-500/40 bg-emerald-950/10'
-                      : 'border-slate-800 hover:border-purple-500/40'
+                      ? 'border-[#52754f] bg-[#14161b]'
+                      : 'border-[#1d2027] bg-[#14161b]'
                   }`}
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-                    <div className="flex items-center space-x-2.5">
-                      <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold border flex items-center space-x-1 ${badge.cor}`}>
-                        <BadgeIcon className="w-3.5 h-3.5" />
-                        <span>{badge.label}</span>
-                      </span>
-
-                      <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700">
-                        {ex.nivel}
-                      </span>
-
-                      {isResolvido && (
-                        <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center space-x-1">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
-                          <span>Concluído</span>
-                        </span>
-                      )}
+                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-[#1d2027] pb-3 text-xs font-mono">
+                    <div className="flex items-center space-x-3">
+                      <span className="text-[#c85a32] font-semibold">QUESTÃO {String(index + 1).padStart(2, '0')}</span>
+                      <span className="text-[#5e594d]">/</span>
+                      <span className="text-[#918b7e] uppercase">{ex.modulo}</span>
+                      <span className="text-[#5e594d]">/</span>
+                      <span className="text-[#918b7e]">{ex.nivel}</span>
                     </div>
 
-                    <div className="flex items-center space-x-2 text-xs font-bold text-amber-400">
-                      <Sparkles className="w-4 h-4" />
-                      <span>+{ex.recompensaXp} XP • +{ex.recompensaPontos} Moedas</span>
+                    <div className="flex items-center space-x-3">
+                      {isResolvido ? (
+                        <span className="text-[#9ebd9c] font-semibold">● RESOLVIDO</span>
+                      ) : (
+                        <span className="text-[#c85a32]">+{ex.recompensaXp} XP • +{ex.recompensaPontos} PTS</span>
+                      )}
                     </div>
                   </div>
 
-                  <h3 className="text-base font-bold text-white mb-2">{ex.titulo}</h3>
-                  <p className="text-sm text-slate-300 leading-relaxed mb-5">{ex.enunciado}</p>
+                  <h3 className="font-serif text-xl sm:text-2xl text-[#faf9f5]">
+                    {ex.titulo}
+                  </h3>
 
-                  {/* Formulário de Resposta */}
-                  <div className="space-y-4 pt-2">
+                  <p className="text-sm text-[#e5e2dc] leading-relaxed max-w-4xl font-sans">
+                    {ex.enunciado}
+                  </p>
+
+                  {/* Formulário */}
+                  <div className="pt-2">
                     {ex.tipo === 'NUMERICO' ? (
                       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                         <input
@@ -210,16 +178,15 @@ export default function Exercicios() {
                           value={respostas[ex.id] ?? ''}
                           onChange={e => setRespostas({ ...respostas, [ex.id]: e.target.value })}
                           disabled={isResolvido}
-                          placeholder="Digite seu resultado numérico..."
-                          className="px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:opacity-50 flex-1"
+                          placeholder="Informe o valor numérico..."
+                          className="px-4 py-2.5 bg-[#0e1013] border border-[#1d2027] text-sm font-mono text-[#faf9f5] focus:outline-none focus:border-[#c85a32] disabled:opacity-50 sm:w-80"
                         />
                         <button
                           onClick={() => handleResponder(ex)}
                           disabled={isResolvido || processando[ex.id] || respostas[ex.id] === undefined}
-                          className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-purple-600/30 disabled:opacity-50 transition flex items-center justify-center space-x-2"
+                          className="px-6 py-2.5 bg-[#c85a32] hover:bg-[#a74521] text-[#faf9f5] text-xs font-mono font-bold uppercase tracking-wider transition disabled:opacity-50"
                         >
-                          <span>{isResolvido ? 'Resolvido' : processando[ex.id] ? 'Validando...' : 'Confirmar Resposta'}</span>
-                          <ArrowRight className="w-4 h-4" />
+                          {isResolvido ? 'Concluído' : processando[ex.id] ? 'Validando...' : 'Submeter Resposta'}
                         </button>
                       </div>
                     ) : (
@@ -227,10 +194,10 @@ export default function Exercicios() {
                         {ex.opcoes.map((op, idx) => (
                           <label
                             key={idx}
-                            className={`flex items-center space-x-3 p-3.5 rounded-xl border text-xs sm:text-sm font-medium cursor-pointer transition ${
+                            className={`flex items-start space-x-3 p-3.5 border text-xs sm:text-sm font-sans cursor-pointer transition ${
                               respostas[ex.id] === idx
-                                ? 'bg-purple-950/40 border-purple-500 text-white'
-                                : 'bg-slate-950/60 border-slate-800 text-slate-300 hover:bg-slate-800'
+                                ? 'border-[#c85a32] bg-[#c85a32]/10 text-[#faf9f5]'
+                                : 'border-[#1d2027] bg-[#0e1013] text-[#918b7e] hover:text-[#e5e2dc]'
                             }`}
                           >
                             <input
@@ -240,7 +207,7 @@ export default function Exercicios() {
                               checked={respostas[ex.id] === idx}
                               onChange={() => setRespostas({ ...respostas, [ex.id]: idx })}
                               disabled={isResolvido}
-                              className="w-4 h-4 accent-purple-500"
+                              className="mt-1 accent-[#c85a32]"
                             />
                             <span>{op}</span>
                           </label>
@@ -250,10 +217,9 @@ export default function Exercicios() {
                           <button
                             onClick={() => handleResponder(ex)}
                             disabled={isResolvido || processando[ex.id] || respostas[ex.id] === undefined}
-                            className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-purple-600/30 disabled:opacity-50 transition flex items-center justify-center space-x-2"
+                            className="px-6 py-2.5 bg-[#c85a32] hover:bg-[#a74521] text-[#faf9f5] text-xs font-mono font-bold uppercase tracking-wider transition disabled:opacity-50"
                           >
-                            <span>{isResolvido ? 'Resolvido' : processando[ex.id] ? 'Validando...' : 'Confirmar Opção'}</span>
-                            <ArrowRight className="w-4 h-4" />
+                            {isResolvido ? 'Concluído' : processando[ex.id] ? 'Validando...' : 'Confirmar Opção'}
                           </button>
                         </div>
                       </div>
@@ -262,26 +228,22 @@ export default function Exercicios() {
                     {/* Feedback e Explicação */}
                     {fb && (
                       <div
-                        className={`p-4 rounded-xl border text-xs sm:text-sm space-y-1.5 ${
+                        className={`mt-4 p-4 border text-xs font-mono space-y-1.5 ${
                           fb.correto
-                            ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300'
-                            : 'bg-rose-950/40 border-rose-500/40 text-rose-300'
+                            ? 'border-[#52754f] bg-[#52754f]/10 text-[#9ebd9c]'
+                            : 'border-[#853416] bg-[#853416]/10 text-[#f09673]'
                         }`}
                       >
-                        <div className="flex items-center space-x-2 font-bold">
-                          {fb.correto ? <CheckCircle2 className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
-                          <span>{fb.mensagem}</span>
-                        </div>
+                        <div className="font-bold">{fb.mensagem}</div>
                         {fb.explicacao && (
-                          <p className="text-slate-300 text-xs leading-relaxed pt-1">
-                            <strong>Explicação Científica:</strong> {fb.explicacao}
+                          <p className="font-sans text-xs text-[#e5e2dc] pt-1 leading-relaxed">
+                            <strong className="font-mono text-[#faf9f5]">Justificativa Teórica:</strong> {fb.explicacao}
                           </p>
                         )}
                       </div>
                     )}
-
                   </div>
-                </div>
+                </article>
               );
             })}
           </div>

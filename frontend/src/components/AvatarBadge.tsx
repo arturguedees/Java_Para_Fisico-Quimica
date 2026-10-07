@@ -1,5 +1,4 @@
 import React from 'react';
-import { User, Atom, Flame, Zap, Sun, Sparkles, Shield, Crown } from 'lucide-react';
 
 export interface AvatarDef {
   id: string;
@@ -7,89 +6,73 @@ export interface AvatarDef {
   descricao: string;
   preco: number;
   nivelMinimo: number;
-  icone: string;
-  animacaoClasse: string;
-  bordaGradiente: string;
-  bgGradiente: string;
+  simbolo: string;
+  subtitulo: string;
 }
 
 export const AVATARES_CATALOGO: AvatarDef[] = [
   {
     id: 'avatar_default',
-    nome: 'Cientista Clássico',
-    descricao: 'Avatar inicial com anel de foco e estabilidade atômica.',
+    nome: 'Insígnia Básica de Laboratório',
+    descricao: 'Credencial inaugural concedida a novos pesquisadores e estudantes.',
     preco: 0,
     nivelMinimo: 1,
-    icone: 'user',
-    animacaoClasse: 'animate-pulse-glow',
-    bordaGradiente: 'from-blue-500 to-indigo-600',
-    bgGradiente: 'from-blue-900/60 to-indigo-950/80',
+    simbolo: 'α',
+    subtitulo: 'NÍVEL 01 • INICIANTE'
   },
   {
     id: 'avatar_quantum',
-    nome: 'Fóton Quântico',
-    descricao: 'Aura eletrodinâmica em órbita de spin contínuo.',
+    nome: 'Selo Quântico de Planck',
+    descricao: 'Homenagem aos fundamentos da mecânica quântica e quantização de energia.',
     preco: 150,
     nivelMinimo: 2,
-    icone: 'atom',
-    animacaoClasse: 'animate-quantum',
-    bordaGradiente: 'from-cyan-400 via-blue-500 to-teal-300',
-    bgGradiente: 'from-cyan-950/80 to-blue-900/80',
+    simbolo: 'ℏ',
+    subtitulo: 'CONSTANTE DE PLANCK'
   },
   {
     id: 'avatar_fire',
-    nome: 'Reator Termodinâmico',
-    descricao: 'Chamas de alta entalpia e combustão exotérmica intensa.',
+    nome: 'Ordem Termodinâmica de Carnot',
+    descricao: 'Insígnia de domínio em ciclos térmicos, entalpia de reação e conservação de energia.',
     preco: 300,
     nivelMinimo: 3,
-    icone: 'flame',
-    animacaoClasse: 'animate-flame',
-    bordaGradiente: 'from-amber-400 via-orange-500 to-red-600',
-    bgGradiente: 'from-orange-950/80 to-red-900/80',
+    simbolo: 'ΔH',
+    subtitulo: 'VARIAÇÃO ENTÁLPICA'
   },
   {
     id: 'avatar_cyber',
-    nome: 'Cyber Físico-Químico',
-    descricao: 'Matriz holográfica de processamento molecular avançado.',
+    nome: 'Medalha Estatística de Boltzmann',
+    descricao: 'Honraria dedicada à interpretação probabilística dos sistemas e entropia.',
     preco: 500,
     nivelMinimo: 4,
-    icone: 'zap',
-    animacaoClasse: 'animate-cyber',
-    bordaGradiente: 'from-emerald-400 via-teal-500 to-cyan-400',
-    bgGradiente: 'from-emerald-950/80 to-slate-900/80',
+    simbolo: 'kB',
+    subtitulo: 'ENTROPIA & ESTATÍSTICA'
   },
   {
     id: 'avatar_supernova',
-    nome: 'Supernova Estelar',
-    descricao: 'Fusão termonuclear no coração de uma estrela em colapso.',
+    nome: 'Crest Espectroscópico de Bohr',
+    descricao: 'Reconhecimento pela resolução precisa de modelos atômicos e transições eletrônicas.',
     preco: 800,
     nivelMinimo: 5,
-    icone: 'sun',
-    animacaoClasse: 'animate-supernova',
-    bordaGradiente: 'from-yellow-300 via-amber-500 to-orange-600',
-    bgGradiente: 'from-yellow-950/80 to-amber-900/80',
+    simbolo: 'Ψ',
+    subtitulo: 'FUNÇÃO DE ONDA'
   },
   {
     id: 'avatar_void',
-    nome: 'Cristal de Matéria Escura',
-    descricao: 'Flutuação de vácuo e energia de ponto zero do universo.',
+    nome: 'Selo Real de Marie Curie',
+    descricao: 'Consagração máxima em transformações nucleares e radioatividade.',
     preco: 1200,
     nivelMinimo: 6,
-    icone: 'sparkles',
-    animacaoClasse: 'animate-void',
-    bordaGradiente: 'from-purple-500 via-fuchsia-500 to-indigo-600',
-    bgGradiente: 'from-purple-950/80 to-fuchsia-950/80',
+    simbolo: 'Ra',
+    subtitulo: 'PESQUISA AVANÇADA'
   },
   {
     id: 'avatar_nobel',
-    nome: 'Laureado Nobel',
-    descricao: 'A mais prestigiada honraria da ciência contemporânea.',
+    nome: 'Láurea Suprema da Ciência',
+    descricao: 'A mais alta distinção acadêmica outorgada por excelência investigativa.',
     preco: 2000,
     nivelMinimo: 7,
-    icone: 'crown',
-    animacaoClasse: 'animate-spin-slow',
-    bordaGradiente: 'from-amber-300 via-yellow-400 to-yellow-600',
-    bgGradiente: 'from-yellow-900/90 to-amber-950/90',
+    simbolo: 'Ω',
+    subtitulo: 'HONRA MÁXIMA'
   }
 ];
 
@@ -101,54 +84,24 @@ interface AvatarBadgeProps {
 
 export default function AvatarBadge({
   avatarId = 'avatar_default',
-  size = 'md',
-  showAnimation = true
+  size = 'md'
 }: AvatarBadgeProps) {
   const avatar = AVATARES_CATALOGO.find(a => a.id === avatarId) || AVATARES_CATALOGO[0];
 
   const sizeClasses = {
-    sm: 'w-8 h-8 p-[1.5px]',
-    md: 'w-12 h-12 p-[2px]',
-    lg: 'w-16 h-16 p-[3px]',
-    xl: 'w-24 h-24 p-[3.5px]',
-    '2xl': 'w-32 h-32 p-[4px]',
-  };
-
-  const iconSizes = {
-    sm: 'w-4 h-4',
-    md: 'w-6 h-6',
-    lg: 'w-8 h-8',
-    xl: 'w-12 h-12',
-    '2xl': 'w-16 h-16',
-  };
-
-  const renderIcon = () => {
-    const s = iconSizes[size];
-    switch (avatar.icone) {
-      case 'atom': return <Atom className={`${s} text-cyan-300`} />;
-      case 'flame': return <Flame className={`${s} text-orange-400`} />;
-      case 'zap': return <Zap className={`${s} text-emerald-300`} />;
-      case 'sun': return <Sun className={`${s} text-yellow-300`} />;
-      case 'sparkles': return <Sparkles className={`${s} text-fuchsia-300`} />;
-      case 'crown': return <Crown className={`${s} text-amber-300`} />;
-      default: return <User className={`${s} text-blue-300`} />;
-    }
+    sm: 'w-7 h-7 text-xs border-[1px]',
+    md: 'w-10 h-10 text-sm border-[1px]',
+    lg: 'w-14 h-14 text-lg border-[1.5px]',
+    xl: 'w-20 h-20 text-2xl border-[1.5px]',
+    '2xl': 'w-28 h-28 text-4xl border-[2px]',
   };
 
   return (
-    <div className="relative inline-block select-none">
-      {/* Moldura animada */}
+    <div className="relative inline-flex items-center justify-center select-none font-serif">
       <div
-        className={`rounded-full bg-gradient-to-tr ${avatar.bordaGradiente} ${sizeClasses[size]} ${
-          showAnimation ? avatar.animacaoClasse : ''
-        } transition-transform duration-300`}
+        className={`${sizeClasses[size]} rounded-none bg-[#13161b] border-[#2b303b] hover:border-[#c85a32] flex items-center justify-center text-[#e5e2dc] shadow-sm transition-colors duration-200`}
       >
-        {/* Fundo do Avatar */}
-        <div
-          className={`w-full h-full rounded-full bg-gradient-to-br ${avatar.bgGradiente} flex items-center justify-center backdrop-blur-md shadow-inner border border-white/20`}
-        >
-          {renderIcon()}
-        </div>
+        <span className="font-serif italic font-semibold text-[#c85a32]">{avatar.simbolo}</span>
       </div>
     </div>
   );

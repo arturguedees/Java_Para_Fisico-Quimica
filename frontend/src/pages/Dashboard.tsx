@@ -1,20 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { 
-  FlaskConical, 
-  Wind, 
-  Flame, 
-  BrainCircuit, 
-  ShoppingBag, 
-  Trophy, 
-  Sparkles, 
-  ChevronRight, 
-  Zap, 
-  Target, 
-  CheckCircle2, 
-  BookOpen
-} from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import AvatarBadge from '../components/AvatarBadge';
 
@@ -36,7 +23,6 @@ export default function Dashboard() {
           setLoading(false);
         })
         .catch(() => {
-          // Fallback para cache local caso o backend esteja iniciando
           setUsuario(user);
           setLoading(false);
         });
@@ -45,16 +31,12 @@ export default function Dashboard() {
 
   if (loading || !usuario) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-cyan-400">
-        <div className="flex flex-col items-center space-y-3">
-          <div className="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-sm font-semibold tracking-wide">Carregando dados do laboratório...</span>
-        </div>
+      <div className="min-h-screen bg-[#0e1013] flex items-center justify-center font-mono text-xs text-[#918b7e]">
+        <span>INICIALIZANDO PLATAFORMA LAB QUÂNTICO...</span>
       </div>
     );
   }
 
-  // Estatísticas do Usuário
   const exerciciosArray = usuario.exerciciosResolvidos ? usuario.exerciciosResolvidos.split(',').filter(Boolean) : [];
   const totalExerciciosResolvidos = exerciciosArray.length;
 
@@ -75,245 +57,193 @@ export default function Dashboard() {
 
   const modulos = [
     {
-      titulo: 'Cinética Química',
-      descricao: 'Simule reações de Ordem Zero e Primeira Ordem. Analise o decaimento de reagentes [A] e a formação de produtos [B] com tempo de meia-vida.',
-      icone: FlaskConical,
-      cor: 'from-blue-600 to-cyan-500',
+      indice: '01',
+      titulo: 'Cinética Química e Decaimento de Reações',
+      subtitulo: 'MODELO DETERMINÍSTICO DE 0ª E 1ª ORDEM',
+      descricao: 'Resolução das equações diferenciais de taxa para decaimento de reagentes [A] e surgimento de produtos [B], com cômputo exato de meia-vida (t½) e tempo de vida médio (τ).',
       rota: '/cinetica',
-      tag: 'Simulação 2D',
-      xpBonus: '+60 XP'
+      metrica: 'Simulação Analítica'
     },
     {
-      titulo: 'Distribuição de Maxwell-Boltzmann',
-      descricao: 'Explore a distribuição estatística de velocidades e energias cinéticas em gases nobres e moleculares de 100 K a 1500 K.',
-      icone: Wind,
-      cor: 'from-cyan-500 to-teal-400',
+      indice: '02',
+      titulo: 'Distribuição Estatística de Maxwell-Boltzmann',
+      subtitulo: 'DINÂMICA MOLECULAR E ENERGIAS CINÉTICAS',
+      descricao: 'Análise de velocidades moleculares f(v) e energias térmicas f(E) para gases nobres e diatômicos entre 100 K e 1500 K, calculando v_mp, v_média e v_rms.',
       rota: '/maxwell',
-      tag: 'Estatística Térmica',
-      xpBonus: '+75 XP'
+      metrica: 'Distribuição Contínua'
     },
     {
-      titulo: 'Calorimetria DSC (Lisozima)',
-      descricao: 'Calcule a entalpia de desnaturação de biopolímeros utilizando Métodos Numéricos Avançados: Regra do Trapézio vs Simpson com Spline Cúbico.',
-      icone: Flame,
-      cor: 'from-amber-500 to-rose-500',
+      indice: '03',
+      titulo: 'Calorimetria Exploratória Diferencial (DSC)',
+      subtitulo: 'INTEGRAÇÃO NUMÉRICA • SPLINE CÚBICO & SIMPSON',
+      descricao: 'Determinação da entalpia calorimétrica (ΔH_cal) e temperatura de transição conformacional (Tm) da proteína Lisozima a partir de dados experimentais brutos.',
       rota: '/dsc',
-      tag: 'Integração Numérica',
-      xpBonus: '+85 XP'
+      metrica: 'Análise Numérica'
     },
     {
-      titulo: 'Central de Desafios & Quiz',
-      descricao: 'Resolva exercícios e problemas práticos utilizando os gráficos para faturar Moedas e XP, evoluindo de título e subindo no Ranking.',
-      icone: BrainCircuit,
-      cor: 'from-purple-600 to-pink-500',
+      indice: '04',
+      titulo: 'Caderno de Desafios e Quizzes Científicos',
+      subtitulo: 'AVALIAÇÃO DE CONHECIMENTO & RECOMPENSAS',
+      descricao: 'Resolução de problemas conceituais e numéricos baseados nas simulações gráficas para progressão de patente e obtenção de insígnias acadêmicas.',
       rota: '/exercicios',
-      tag: 'Ganhe Pontos',
-      xpBonus: 'Até +110 XP/questão'
+      metrica: 'Pontuação Real'
     }
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 pb-16">
+    <div className="min-h-screen bg-[#0e1013] text-[#e5e2dc] pb-24">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-10 space-y-12">
         
-        {/* Cartão de Identidade do Cientista (Hero Card) */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 border border-slate-800 p-6 sm:p-8 shadow-2xl">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
-          <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-          <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
+        {/* Cabeçalho Editorial com Grid Rígido */}
+        <section className="border border-[#1d2027] bg-[#14161b] p-6 sm:p-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            {/* Avatar e Dados Pessoais */}
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
-              <AvatarBadge avatarId={usuario.avatarId} size="xl" />
-              <div className="space-y-2">
-                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                    Nível {nivel}
+            {/* Bloco Principal de Texto */}
+            <div className="lg:col-span-8 space-y-4">
+              <div className="flex items-center space-x-3 text-xs font-mono text-[#c85a32]">
+                <span>LAB QUÂNTICO</span>
+                <span>/</span>
+                <span className="text-[#918b7e]">DOSSIER DO PESQUISADOR</span>
+              </div>
+
+              <h1 className="font-serif text-3xl sm:text-5xl font-normal leading-[1.1] text-[#faf9f5]">
+                Simulação Computacional de Fenômenos Físico-Químicos
+              </h1>
+
+              <p className="text-sm sm:text-base text-[#918b7e] leading-relaxed max-w-2xl font-sans">
+                Ambiente interativo desenvolvido para modelagem rigorosa de cinética molecular, distribuições térmicas de gases e termodinâmica de biopolímeros.
+              </p>
+            </div>
+
+            {/* Credencial do Usuário */}
+            <div className="lg:col-span-4 border border-[#1d2027] bg-[#0e1013] p-5 space-y-4 font-mono text-xs">
+              <div className="flex items-center space-x-3 pb-3 border-b border-[#1d2027]">
+                <AvatarBadge avatarId={usuario.avatarId} size="lg" />
+                <div>
+                  <span className="block font-serif text-base text-[#faf9f5] font-normal">
+                    {usuario.nomeCompleto}
                   </span>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                  <span className="block text-[11px] text-[#c85a32] italic font-serif">
                     {usuario.titulo}
                   </span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
-                  {usuario.nomeCompleto}
-                </h1>
-                <p className="text-xs sm:text-sm text-slate-400 max-w-md">
-                  Laboratório Computacional de Físico-Química. Explore os fenômenos atômicos, resolva desafios e personalize sua insígnia.
-                </p>
-              </div>
-            </div>
-
-            {/* Barra de Progresso e Ações Rápidas */}
-            <div className="w-full md:w-80 bg-slate-950/70 border border-slate-800 rounded-2xl p-4 space-y-3 backdrop-blur-md">
-              <div className="flex justify-between items-center text-xs font-bold">
-                <span className="text-slate-400">Progresso do Nível {nivel}</span>
-                <span className="text-cyan-400">{xp} / {xpProximo} XP</span>
-              </div>
-              
-              <div className="w-full bg-slate-800 rounded-full h-3 overflow-hidden border border-slate-700/60">
-                <div 
-                  className="bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 h-full rounded-full transition-all duration-700 shadow-sm shadow-cyan-500/50"
-                  style={{ width: `${progressoPercent}%` }}
-                />
               </div>
 
-              <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
-                <div className="flex items-center space-x-1.5 text-amber-400 font-bold">
-                  <Sparkles className="w-4 h-4" />
-                  <span>{usuario.pontos} Moedas</span>
+              <div className="space-y-2">
+                <div className="flex justify-between text-[11px]">
+                  <span className="text-[#918b7e]">NÍVEL DE PESQUISA</span>
+                  <span className="text-[#faf9f5] font-bold">NV. {nivel}</span>
                 </div>
-                <Link
-                  to="/loja"
-                  className="text-cyan-400 hover:text-cyan-300 font-bold flex items-center space-x-1 transition"
-                >
-                  <span>Ir à Loja</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </Link>
+                <div className="w-full bg-[#1d2027] h-1">
+                  <div
+                    className="bg-[#c85a32] h-1 transition-all duration-500"
+                    style={{ width: `${progressoPercent}%` }}
+                  />
+                </div>
+                <div className="flex justify-between text-[10px] text-[#918b7e]">
+                  <span>{xp} XP ACUMULADOS</span>
+                  <span>META: {xpProximo} XP</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#1d2027] text-[11px]">
+                <div>
+                  <span className="text-[#918b7e] block">CRÉDITOS:</span>
+                  <span className="text-[#faf9f5] font-semibold">{usuario.pontos} PTS</span>
+                </div>
+                <div>
+                  <span className="text-[#918b7e] block">DESAFIOS:</span>
+                  <span className="text-[#faf9f5] font-semibold">{totalExerciciosResolvidos} RESOLVIDOS</span>
+                </div>
               </div>
             </div>
 
           </div>
+        </section>
 
-          {/* Cards de Métricas Rápidas */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-8 pt-6 border-t border-slate-800/80">
-            <div className="bg-slate-950/50 rounded-xl p-3.5 border border-slate-800">
-              <div className="flex items-center space-x-2 text-slate-400 text-xs font-semibold mb-1">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                <span>Desafios Concluídos</span>
-              </div>
-              <span className="text-xl font-black text-white">{totalExerciciosResolvidos}</span>
-            </div>
-
-            <div className="bg-slate-950/50 rounded-xl p-3.5 border border-slate-800">
-              <div className="flex items-center space-x-2 text-slate-400 text-xs font-semibold mb-1">
-                <Zap className="w-4 h-4 text-yellow-400" />
-                <span>Experiência Total</span>
-              </div>
-              <span className="text-xl font-black text-white">{xp} <span className="text-xs font-medium text-slate-500">XP</span></span>
-            </div>
-
-            <div className="bg-slate-950/50 rounded-xl p-3.5 border border-slate-800">
-              <div className="flex items-center space-x-2 text-slate-400 text-xs font-semibold mb-1">
-                <ShoppingBag className="w-4 h-4 text-purple-400" />
-                <span>Avatares Desbloqueados</span>
-              </div>
-              <span className="text-xl font-black text-white">
-                {usuario.avataresDesbloqueados ? usuario.avataresDesbloqueados.split(',').length : 1}
-              </span>
-            </div>
-
-            <div className="bg-slate-950/50 rounded-xl p-3.5 border border-slate-800">
-              <div className="flex items-center space-x-2 text-slate-400 text-xs font-semibold mb-1">
-                <Trophy className="w-4 h-4 text-amber-400" />
-                <span>Títulos Obtidos</span>
-              </div>
-              <span className="text-xl font-black text-white">
-                {usuario.titulosDesbloqueados ? usuario.titulosDesbloqueados.split(',').length : 1}
-              </span>
-            </div>
+        {/* Grade de Módulos Científicos */}
+        <section className="space-y-6">
+          <div className="flex items-baseline justify-between border-b border-[#1d2027] pb-3">
+            <h2 className="font-serif text-2xl font-normal text-[#faf9f5]">
+              Módulos de Investigação & Cálculo
+            </h2>
+            <span className="font-mono text-xs text-[#918b7e]">
+              4 MÓDULOS ATIVOS
+            </span>
           </div>
 
-        </div>
-
-        {/* Grade de Módulos & Laboratórios Virtuais */}
-        <div>
-          <div className="flex items-center justify-between mb-5">
-            <div>
-              <h2 className="text-xl font-bold text-white flex items-center space-x-2">
-                <FlaskConical className="w-5 h-5 text-cyan-400" />
-                <span>Laboratórios & Módulos Científicos</span>
-              </h2>
-              <p className="text-xs text-slate-400">Selecione um laboratório para simular equações e testar hipóteses</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {modulos.map((mod, idx) => {
-              const Icon = mod.icone;
-              return (
-                <Link
-                  key={idx}
-                  to={mod.rota}
-                  className="group relative bg-slate-900 border border-slate-800 hover:border-cyan-500/50 rounded-2xl p-6 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/10 flex flex-col justify-between"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-tr ${mod.cor} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
-                        <Icon className="w-6 h-6 text-white" />
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
-                          {mod.tag}
-                        </span>
-                        <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-                          {mod.xpBonus}
-                        </span>
-                      </div>
-                    </div>
-
-                    <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition">
-                      {mod.titulo}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                      {mod.descricao}
-                    </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {modulos.map((mod) => (
+              <Link
+                key={mod.indice}
+                to={mod.rota}
+                className="group border border-[#1d2027] bg-[#14161b] hover:border-[#c85a32] p-6 flex flex-col justify-between transition-colors duration-200"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-xs font-mono text-[#918b7e]">
+                    <span className="text-[#c85a32] font-semibold">{mod.indice}</span>
+                    <span className="tracking-wider uppercase">{mod.subtitulo}</span>
                   </div>
 
-                  <div className="mt-6 flex items-center justify-between text-xs font-bold text-cyan-400 group-hover:translate-x-1 transition-transform">
-                    <span>Acessar Laboratório</span>
-                    <ChevronRight className="w-4 h-4" />
+                  <h3 className="font-serif text-xl sm:text-2xl text-[#faf9f5] group-hover:text-[#c85a32] transition-colors">
+                    {mod.titulo}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-[#918b7e] leading-relaxed">
+                    {mod.descricao}
+                  </p>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-[#1d2027] flex items-center justify-between font-mono text-xs">
+                  <span className="text-[#5e594d]">{mod.metrica}</span>
+                  <div className="flex items-center space-x-1 text-[#c85a32] group-hover:translate-x-0.5 transition-transform">
+                    <span>ACESSAR MÓDULO</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
                   </div>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Banner de Chamada para a Loja & Ranking */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div className="bg-gradient-to-r from-purple-950/40 via-indigo-950/40 to-slate-900 border border-purple-500/20 rounded-2xl p-6 flex items-center justify-between">
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center space-x-1">
-                <ShoppingBag className="w-3.5 h-3.5" />
-                <span>Loja de Avatares Animados</span>
-              </span>
-              <h3 className="text-lg font-bold text-white">Personalize sua Identidade</h3>
-              <p className="text-xs text-slate-400 max-w-sm">
-                Desbloqueie auras de plasma, anéis quânticos e molduras de supernovas com seus pontos acumulados.
-              </p>
-              <Link
-                to="/loja"
-                className="inline-flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-purple-600/30 transition mt-2"
-              >
-                <span>Explorar Loja</span>
-                <ChevronRight className="w-3.5 h-3.5" />
+                </div>
               </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Rodapé de Navegação Rápida / Acervo */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 border-t border-[#1d2027] pt-8">
+          <div className="border border-[#1d2027] p-6 bg-[#14161b] flex flex-col justify-between">
+            <div className="space-y-2">
+              <span className="font-mono text-xs text-[#c85a32] tracking-wider uppercase">GABINETE DE INSÍGNIAS</span>
+              <h4 className="font-serif text-xl text-[#faf9f5]">Personalização Acadêmica</h4>
+              <p className="text-xs text-[#918b7e] leading-relaxed">
+                Utilize seus pontos de pesquisa obtidos na resolução de problemas para adquirir selos e insígnias para seu dossier.
+              </p>
             </div>
+            <Link
+              to="/loja"
+              className="mt-4 inline-flex items-center space-x-2 text-xs font-mono text-[#c85a32] hover:underline"
+            >
+              <span>ABRIR CATÁLOGO DE INSÍGNIAS</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
 
-          <div className="bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-900 border border-amber-500/20 rounded-2xl p-6 flex items-center justify-between">
+          <div className="border border-[#1d2027] p-6 bg-[#14161b] flex flex-col justify-between">
             <div className="space-y-2">
-              <span className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center space-x-1">
-                <Trophy className="w-3.5 h-3.5" />
-                <span>Hall da Fama Acadêmico</span>
-              </span>
-              <h3 className="text-lg font-bold text-white">Ranking de Pesquisadores</h3>
-              <p className="text-xs text-slate-400 max-w-sm">
-                Veja sua posição entre os alunos da Universidade Tiradentes e dispute o topo do ranking de XP.
+              <span className="font-mono text-xs text-[#c85a32] tracking-wider uppercase">REGISTRO DA COMUNIDADE</span>
+              <h4 className="font-serif text-xl text-[#faf9f5]">Tábua de Honra dos Pesquisadores</h4>
+              <p className="text-xs text-[#918b7e] leading-relaxed">
+                Consulte o índice de pontuação geral dos alunos e pesquisadores da Universidade Tiradentes.
               </p>
-              <Link
-                to="/ranking"
-                className="inline-flex items-center space-x-2 px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-amber-600/30 transition mt-2"
-              >
-                <span>Ver Classificação</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </Link>
             </div>
+            <Link
+              to="/ranking"
+              className="mt-4 inline-flex items-center space-x-2 text-xs font-mono text-[#c85a32] hover:underline"
+            >
+              <span>CONSULTAR CLASSIFICAÇÃO</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
-        </div>
+        </section>
 
       </main>
     </div>

@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { 
-  Trophy, 
-  Medal, 
-  Sparkles, 
-  Award, 
-  Zap, 
-  Coins,
-  Crown
-} from 'lucide-react';
 import Navbar from '../components/Navbar';
 import AvatarBadge from '../components/AvatarBadge';
 
@@ -45,116 +36,96 @@ export default function Ranking() {
       setRanking(res.data);
       setLoading(false);
     } catch (err) {
-      console.error('Erro ao buscar ranking:', err);
+      console.error('Erro no ranking:', err);
       setLoading(false);
     }
   };
 
-  const getRankBadge = (posicao: number) => {
-    switch (posicao) {
-      case 1:
-        return (
-          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-yellow-400 to-amber-500 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-amber-500/30">
-            <Crown className="w-5 h-5" />
-          </div>
-        );
-      case 2:
-        return (
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-slate-300 to-slate-400 flex items-center justify-center text-slate-950 font-bold shadow-md">
-            2º
-          </div>
-        );
-      case 3:
-        return (
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-700 to-amber-600 flex items-center justify-center text-white font-bold shadow-md">
-            3º
-          </div>
-        );
-      default:
-        return (
-          <span className="text-sm font-bold text-slate-500 w-8 text-center">
-            {posicao}º
-          </span>
-        );
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 pb-16">
+    <div className="min-h-screen bg-[#0e1013] text-[#e5e2dc] pb-24 font-sans">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-6">
+      <main className="max-w-5xl mx-auto px-4 sm:px-8 pt-10 space-y-8">
         
         {/* Cabeçalho */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
-          <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-yellow-400 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20">
-              <Trophy className="w-6 h-6" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-black text-white">Hall da Fama Acadêmico</h1>
-              <p className="text-xs text-slate-400">
-                Classificação geral dos pesquisadores da Universidade Tiradentes por pontos de experiência
-              </p>
-            </div>
+        <div className="border-b border-[#1d2027] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="space-y-1">
+            <span className="font-mono text-xs text-[#c85a32] uppercase tracking-wider">
+              REGISTRO ACADÊMICO • UNIVERSIDADE TIRADENTES
+            </span>
+            <h1 className="font-serif text-3xl sm:text-4xl text-[#faf9f5]">
+              Tábua de Honra dos Pesquisadores
+            </h1>
+          </div>
+
+          <div className="font-mono text-xs text-[#918b7e]">
+            CLASSIFICAÇÃO GERAL POR EXPERIÊNCIA (XP)
           </div>
         </div>
 
         {/* Tabela do Ranking */}
         {loading ? (
-          <div className="text-center py-16 text-slate-500">Calculando posições do ranking...</div>
+          <div className="font-mono text-xs text-[#918b7e] py-12 text-center">
+            CALCULANDO LIVRO DE REGISTRO...
+          </div>
         ) : (
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
-            <div className="divide-y divide-slate-800/80">
+          <div className="border border-[#1d2027] bg-[#14161b]">
+            <div className="grid grid-cols-12 px-6 py-3 border-b border-[#1d2027] font-mono text-xs text-[#918b7e] uppercase tracking-wider">
+              <div className="col-span-2 sm:col-span-1">POS</div>
+              <div className="col-span-7 sm:col-span-8">PESQUISADOR & PATENTE</div>
+              <div className="col-span-3 text-right">PONTUAÇÃO</div>
+            </div>
+
+            <div className="divide-y divide-[#1d2027]">
               {ranking.map(user => {
                 const isCurrentUser = usuario?.id === user.id;
 
                 return (
                   <div
                     key={user.id}
-                    className={`p-4 sm:p-5 flex items-center justify-between transition ${
+                    className={`grid grid-cols-12 px-6 py-4 items-center transition-colors ${
                       isCurrentUser
-                        ? 'bg-cyan-950/30 border-l-4 border-cyan-500'
-                        : 'hover:bg-slate-800/40'
+                        ? 'bg-[#c85a32]/5 border-l-2 border-[#c85a32]'
+                        : 'hover:bg-[#16191f]'
                     }`}
                   >
-                    <div className="flex items-center space-x-4">
-                      {/* Posição */}
-                      <div className="flex items-center justify-center w-10">
-                        {getRankBadge(user.posicao)}
-                      </div>
+                    {/* Posição */}
+                    <div className="col-span-2 sm:col-span-1 font-mono text-sm font-semibold">
+                      {user.posicao === 1 ? (
+                        <span className="text-[#c85a32]">01º</span>
+                      ) : (
+                        <span className="text-[#918b7e]">{String(user.posicao).padStart(2, '0')}º</span>
+                      )}
+                    </div>
 
-                      {/* Avatar e Informações */}
-                      <AvatarBadge avatarId={user.avatarId} size="md" />
-
+                    {/* Nome, Avatar e Título */}
+                    <div className="col-span-7 sm:col-span-8 flex items-center space-x-3.5">
+                      <AvatarBadge avatarId={user.avatarId} size="sm" />
                       <div>
                         <div className="flex items-center space-x-2">
-                          <h3 className="text-sm font-bold text-white flex items-center space-x-1.5">
-                            <span>{user.nomeCompleto}</span>
-                            {isCurrentUser && (
-                              <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/30">
-                                Você
-                              </span>
-                            )}
-                          </h3>
+                          <span className="font-serif text-base text-[#faf9f5]">
+                            {user.nomeCompleto}
+                          </span>
+                          {isCurrentUser && (
+                            <span className="text-[10px] font-mono border border-[#c85a32] text-[#c85a32] px-1.5 py-0.2">
+                              VOCÊ
+                            </span>
+                          )}
                         </div>
-                        <span className="text-xs text-cyan-400 font-medium">
+                        <span className="text-xs font-serif italic text-[#918b7e] block">
                           {user.titulo}
                         </span>
                       </div>
                     </div>
 
                     {/* Pontuação */}
-                    <div className="flex items-center space-x-5 text-right">
-                      <div>
-                        <div className="flex items-center justify-end space-x-1 text-sm font-black text-white">
-                          <Zap className="w-4 h-4 text-yellow-400" />
-                          <span>{user.experiencia} XP</span>
-                        </div>
-                        <span className="text-[11px] text-slate-400">
-                          {user.pontos} moedas
-                        </span>
+                    <div className="col-span-3 text-right font-mono text-xs">
+                      <div className="text-sm font-bold text-[#faf9f5]">
+                        {user.experiencia} <span className="text-[10px] text-[#918b7e]">XP</span>
                       </div>
+                      <span className="text-[11px] text-[#5e594d]">
+                        {user.pontos} PTS
+                      </span>
                     </div>
 
                   </div>
