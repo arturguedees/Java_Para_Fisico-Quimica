@@ -61,11 +61,11 @@ export default function Dsc() {
           {
             label: 'Capacidade Calorífica em Excesso ΔCp (kJ/(mol·K))',
             data: res.data.curvaCp,
-            borderColor: '#f43f5e',
-            backgroundColor: 'rgba(244, 63, 94, 0.15)',
+            borderColor: '#e11d48',
+            backgroundColor: 'rgba(225, 29, 72, 0.1)',
             fill: true,
             pointRadius: 0,
-            borderWidth: 3,
+            borderWidth: 2.5,
             tension: 0.15
           }
         ]
@@ -116,30 +116,32 @@ export default function Dsc() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas text-slate-100 pb-24 font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-800 pb-24 font-sans">
       <Navbar usuario={usuario} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 space-y-6">
         
         {/* Cabeçalho */}
-        <div className="bg-surface border border-border rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-md">
-          <div className="flex items-center space-x-3">
-            <div className="w-11 h-11 rounded-lg bg-surface-highlight flex items-center justify-center text-rose-400">
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+          <div className="flex items-center space-x-3.5">
+            <div className="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
               <Flame className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-xs font-mono font-bold text-rose-400 uppercase">MÓDULO 03 • ANÁLISE TÉRMICA</span>
-              <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+              <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 bg-rose-50 text-rose-700 rounded-md text-xs font-semibold mb-1">
+                <span>MÓDULO 03 • ANÁLISE TÉRMICA & CALORIMETRIA</span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
                 Calorimetria Exploratória Diferencial (DSC)
               </h1>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 font-mono text-xs">
-            <span className="px-3 py-1.5 bg-surface-elevated border border-border rounded-lg text-slate-200">
+          <div className="flex items-center space-x-2 text-xs font-semibold">
+            <span className="px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-lg text-slate-700">
               Proteína: Lisozima (HEWL)
             </span>
-            <span className="px-3 py-1.5 bg-rose-600 text-white font-bold rounded-lg">
+            <span className="px-3 py-1.5 bg-rose-600 text-white rounded-lg">
               Integração Numérica
             </span>
           </div>
@@ -150,70 +152,70 @@ export default function Dsc() {
           
           {/* Painel de Resultados */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="bg-surface border border-border rounded-xl p-6 space-y-5 shadow-md">
-              <h2 className="font-serif text-lg font-bold text-white border-b border-border pb-3">
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-5 shadow-sm">
+              <h2 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">
                 Resultados Termodinâmicos
               </h2>
 
               {dadosAnalise ? (
                 <div className="space-y-4 text-xs">
                   {/* Tm */}
-                  <div className="p-4 bg-surface-elevated rounded-lg border border-border space-y-1">
-                    <span className="text-slate-300 font-bold uppercase text-[11px] block">
+                  <div className="p-4 bg-rose-50/60 rounded-xl border border-rose-200 space-y-1">
+                    <span className="text-rose-800 font-bold uppercase text-[11px] block">
                       Temperatura de Desnaturação (Tm)
                     </span>
-                    <span className="text-2xl font-serif text-rose-400 font-bold block">
+                    <span className="text-3xl text-rose-700 font-extrabold block">
                       {dadosAnalise.temperaturaTransicaoTm.toFixed(1)} °C
                     </span>
-                    <span className="text-slate-400 font-mono text-[11px]">
+                    <span className="text-rose-600 font-mono text-[11px]">
                       Equivalente a {(dadosAnalise.temperaturaTransicaoTm + 273.15).toFixed(1)} Kelvin
                     </span>
                   </div>
 
                   {/* Comparativo de Integração */}
-                  <div className="space-y-2 pt-2 bg-surface-elevated p-3.5 rounded-lg border border-border">
-                    <span className="text-slate-200 font-bold uppercase block pb-1">
+                  <div className="space-y-2 pt-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <span className="text-slate-700 font-bold uppercase block pb-1">
                       Entalpia Calorimétrica (ΔH_cal)
                     </span>
 
-                    <div className="flex justify-between py-1 border-b border-border/80">
-                      <span className="text-slate-300">Regra do Trapézio:</span>
-                      <span className="text-white font-mono font-bold">
+                    <div className="flex justify-between py-1 border-b border-slate-200">
+                      <span className="text-slate-600">Regra do Trapézio:</span>
+                      <span className="text-slate-900 font-mono font-bold">
                         {dadosAnalise.entalpiaTrapezio.toFixed(2)} kJ/mol
                       </span>
                     </div>
 
-                    <div className="flex justify-between py-1 border-b border-border/80">
-                      <span className="text-slate-300">Simpson 1/3 (Spline):</span>
-                      <span className="text-emerald-400 font-mono font-bold">
+                    <div className="flex justify-between py-1 border-b border-slate-200">
+                      <span className="text-slate-600">Simpson 1/3 (Spline):</span>
+                      <span className="text-emerald-700 font-mono font-bold">
                         {dadosAnalise.entalpiaSimpsonSpline.toFixed(2)} kJ/mol
                       </span>
                     </div>
 
-                    <div className="flex justify-between py-1 text-slate-400 text-[11px]">
+                    <div className="flex justify-between py-1 text-slate-500 text-[11px]">
                       <span>Capacidade Máxima ΔCp:</span>
-                      <span>{dadosAnalise.capacidadeCalorificaMaxima.toFixed(2)} kJ/(mol·K)</span>
+                      <span className="font-semibold text-slate-700">{dadosAnalise.capacidadeCalorificaMaxima.toFixed(2)} kJ/(mol·K)</span>
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-300 leading-relaxed pt-1">
-                    Conceito: A área total abaixo do pico do termograma mede a quantidade de calor absorvida para romper as ligações que sustentam a estrutura nativa da proteína.
+                  <p className="text-xs text-slate-600 leading-relaxed pt-1">
+                    💡 <strong>Teoria:</strong> A área integrada sob o termograma quantifica a entalpia total necessária para desnaturar a estrutura globular nativa da proteína em solução aquosa.
                   </p>
                 </div>
               ) : (
-                <div className="font-mono text-xs text-slate-400">Carregando dados térmicos...</div>
+                <div className="text-xs text-slate-500">Carregando dados térmicos...</div>
               )}
             </div>
           </div>
 
           {/* Gráfico */}
-          <div className="lg:col-span-8 bg-surface border border-border rounded-xl p-6 flex flex-col justify-between shadow-md">
+          <div className="lg:col-span-8 bg-white border border-slate-200 rounded-2xl p-6 flex flex-col justify-between shadow-sm">
             <div>
-              <div className="flex items-center justify-between border-b border-border pb-3 mb-4">
-                <h3 className="font-serif text-xl font-bold text-white">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                <h3 className="text-lg font-bold text-slate-900">
                   Termograma de Desnaturação Térmica
                 </h3>
-                <span className="text-xs font-mono font-bold text-rose-400">
+                <span className="text-xs font-semibold px-2.5 py-1 bg-rose-50 text-rose-700 rounded-lg">
                   ΔH = ∫ ΔCp dT • [40°C a 90°C]
                 </span>
               </div>
@@ -228,26 +230,25 @@ export default function Dsc() {
                       animation: false,
                       scales: {
                         x: {
-                          grid: { color: '#1e293b' },
-                          ticks: { color: '#cbd5e1', font: { family: 'JetBrains Mono', size: 11 } },
-                          title: { display: true, text: 'Temperatura (°C)', color: '#94a3b8', font: { weight: 'bold' } }
+                          grid: { color: '#f1f5f9' },
+                          ticks: { color: '#64748b', font: { family: 'Plus Jakarta Sans', size: 11 } },
+                          title: { display: true, text: 'Temperatura (°C)', color: '#475569', font: { weight: 'bold' } }
                         },
                         y: {
-                          grid: { color: '#1e293b' },
-                          ticks: { color: '#cbd5e1', font: { family: 'JetBrains Mono', size: 11 } },
-                          title: { display: true, text: 'ΔCp Excesso (kJ·mol⁻¹·K⁻¹)', color: '#94a3b8', font: { weight: 'bold' } },
+                          grid: { color: '#f1f5f9' },
+                          ticks: { color: '#64748b', font: { family: 'Plus Jakarta Sans', size: 11 } },
+                          title: { display: true, text: 'ΔCp Excesso (kJ·mol⁻¹·K⁻¹)', color: '#475569', font: { weight: 'bold' } },
                           min: 0
                         }
                       },
                       plugins: {
                         legend: { display: false },
                         tooltip: {
-                          backgroundColor: '#111827',
-                          titleColor: '#f43f5e',
-                          bodyColor: '#f1f5f9',
-                          borderColor: '#334155',
-                          borderWidth: 1,
-                          padding: 10
+                          backgroundColor: '#0f172a',
+                          titleColor: '#ffffff',
+                          bodyColor: '#cbd5e1',
+                          padding: 10,
+                          cornerRadius: 8
                         }
                       }
                     }}
@@ -260,29 +261,29 @@ export default function Dsc() {
               </div>
             </div>
 
-            <div className="mt-4 p-3 bg-surface-elevated rounded-lg border border-border text-xs text-slate-300">
-              Método Numérico: A interpolação por Splines Cúbicos ajusta uma curva suave pelos dados discretos antes de aplicar a quadratura de Simpson 1/3.
+            <div className="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-600">
+              📊 <strong>Método Numérico:</strong> Spline Cúbico garante continuidade de derivada de segunda ordem, permitindo que a regra de Simpson 1/3 atinja ordem de convergência $O(h^4)$.
             </div>
           </div>
 
         </div>
 
         {/* Exercício de Fixação */}
-        <section className="bg-surface border border-border rounded-xl p-6 sm:p-8 space-y-4 shadow-md">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3">
+        <section className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 space-y-4 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
             <div className="flex items-center space-x-2">
-              <HelpCircle className="w-5 h-5 text-brand" />
-              <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
-                Exercício de Fixação: Temperatura de Transição
+              <HelpCircle className="w-5 h-5 text-blue-600" />
+              <h3 className="text-xl font-bold text-slate-900">
+                Exercício Rápido: Temperatura de Transição
               </h3>
             </div>
-            <span className="text-xs font-mono font-bold text-amber-400 bg-amber-950/40 px-3 py-1 rounded-full border border-amber-500/30">
+            <span className="text-xs font-semibold text-amber-800 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
               RECOMPENSA: +85 XP & PONTOS
             </span>
           </div>
 
-          <p className="text-sm text-slate-300 leading-relaxed">
-            Com base na curva da Lisozima, em qual <strong>Temperatura de Transição (Tm em °C)</strong> ocorre a máxima absorção de calor?
+          <p className="text-sm text-slate-600 leading-relaxed">
+            Com base na curva experimental da Lisozima exibida acima, em qual <strong>Temperatura de Transição (Tm em °C)</strong> ocorre a máxima absorção de calor?
           </p>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
@@ -293,30 +294,30 @@ export default function Dsc() {
               onChange={e => setRespostaUsuario(e.target.value)}
               disabled={resolvido}
               placeholder="Digite a temperatura (ex: 65.0)"
-              className="px-4 py-3 bg-surface-elevated border border-border-light rounded-lg text-sm text-white font-mono focus:outline-none focus:border-brand disabled:opacity-50 sm:w-72"
+              className="px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white disabled:opacity-60 sm:w-72"
             />
             <button
               onClick={verificarDesafio}
               disabled={resolvido || !respostaUsuario}
-              className="px-6 py-3 bg-brand hover:bg-brand-hover text-white text-sm font-bold rounded-lg transition shadow-md disabled:opacity-50 flex items-center justify-center space-x-2"
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition shadow-sm disabled:opacity-50 flex items-center justify-center space-x-2"
             >
-              <span>{resolvido ? 'Exercício Concluído' : 'Verificar Resposta'}</span>
+              <span>{resolvido ? 'Exercício Concluído' : 'Confirmar Resposta'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
           {feedback.tipo && (
             <div
-              className={`p-4 rounded-lg border text-sm font-medium flex items-center space-x-2.5 ${
+              className={`p-4 rounded-xl border text-sm font-medium flex items-center space-x-2.5 ${
                 feedback.tipo === 'sucesso'
-                  ? 'border-emerald-500/50 bg-emerald-950/40 text-emerald-300'
-                  : 'border-rose-500/50 bg-rose-950/40 text-rose-300'
+                  ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
+                  : 'border-rose-200 bg-rose-50 text-rose-900'
               }`}
             >
               {feedback.tipo === 'sucesso' ? (
-                <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
               ) : (
-                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                <AlertCircle className="w-5 h-5 text-rose-600 flex-shrink-0" />
               )}
               <span>{feedback.msg}</span>
             </div>

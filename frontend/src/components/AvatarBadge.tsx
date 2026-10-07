@@ -79,7 +79,6 @@ export const AVATARES_CATALOGO: AvatarDef[] = [
 interface AvatarBadgeProps {
   avatarId?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  showAnimation?: boolean;
 }
 
 export default function AvatarBadge({
@@ -97,11 +96,11 @@ export default function AvatarBadge({
   };
 
   return (
-    <div className="relative inline-flex items-center justify-center select-none font-serif">
+    <div className="relative inline-flex items-center justify-center select-none font-mono">
       <div
-        className={`${sizeClasses[size]} rounded-lg bg-surface-elevated border-border-light hover:border-brand flex items-center justify-center text-white shadow-md transition-colors duration-200`}
+        className={`${sizeClasses[size]} rounded-xl bg-blue-50 border-blue-200 text-blue-700 font-bold flex items-center justify-center shadow-sm hover:border-blue-400 transition-colors duration-200`}
       >
-        <span className="font-serif italic font-bold text-brand">{avatar.simbolo}</span>
+        <span className="font-bold">{avatar.simbolo}</span>
       </div>
     </div>
   );

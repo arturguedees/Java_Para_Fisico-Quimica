@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Coins, Check, Lock, Sparkles, AlertCircle } from 'lucide-react';
+import { Coins, Check, Lock, Sparkles, AlertCircle, Award } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import AvatarBadge, { AVATARES_CATALOGO, type AvatarDef } from '../components/AvatarBadge';
 
@@ -90,26 +90,33 @@ export default function Loja() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas text-slate-100 pb-24 font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-800 pb-24 font-sans">
       <Navbar usuario={usuario} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 space-y-6">
         
         {/* Cabeçalho */}
-        <div className="bg-surface border border-border rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-md">
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
           <div>
-            <span className="text-xs font-mono font-bold text-amber-400 uppercase">RECOMPENSAS & CONQUISTAS</span>
-            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+            <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 bg-amber-50 text-amber-700 rounded-md text-xs font-semibold mb-1">
+              <Award className="w-3.5 h-3.5" />
+              <span>RECOMPENSAS & CONQUISTAS</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Loja de Insígnias Científicas
             </h1>
+            <p className="text-slate-600 text-sm mt-1">
+              Troque os pontos obtidos em exercícios por selos de distinção acadêmica.
+            </p>
           </div>
 
-          <div className="flex items-center space-x-3 font-mono text-xs">
-            <span className="px-3.5 py-1.5 bg-surface-elevated border border-border rounded-lg text-slate-200">
-              Seu Saldo: <strong className="text-amber-400 font-bold">{usuario.pontos} PTS</strong>
+          <div className="flex items-center space-x-3 text-xs font-semibold">
+            <span className="px-3.5 py-2 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 flex items-center space-x-1.5 shadow-sm">
+              <Coins className="w-4 h-4 text-amber-500 fill-amber-500" />
+              <span>Saldo: <strong>{usuario.pontos} PTS</strong></span>
             </span>
-            <span className="px-3.5 py-1.5 bg-brand text-white font-bold rounded-lg">
-              Nível Atual: Nv. {nivelUsuario}
+            <span className="px-3.5 py-2 bg-blue-600 text-white rounded-xl shadow-sm">
+              Nível {nivelUsuario}
             </span>
           </div>
         </div>
@@ -118,11 +125,11 @@ export default function Loja() {
           <div
             className={`p-4 rounded-xl border text-sm font-semibold flex items-center space-x-2 ${
               mensagem.tipo === 'sucesso'
-                ? 'border-emerald-500/50 bg-emerald-950/40 text-emerald-300'
-                : 'border-rose-500/50 bg-rose-950/40 text-rose-300'
+                ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
+                : 'border-rose-200 bg-rose-50 text-rose-900'
             }`}
           >
-            {mensagem.tipo === 'sucesso' ? <Sparkles className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
+            {mensagem.tipo === 'sucesso' ? <Sparkles className="w-5 h-5 text-emerald-600" /> : <AlertCircle className="w-5 h-5 text-rose-600" />}
             <span>{mensagem.texto}</span>
           </div>
         )}
@@ -138,52 +145,52 @@ export default function Loja() {
             return (
               <div
                 key={avatar.id}
-                className={`bg-surface border rounded-xl p-6 flex flex-col justify-between transition-all shadow-md ${
+                className={`bg-white border rounded-2xl p-6 flex flex-col justify-between transition-all shadow-sm ${
                   equipado
-                    ? 'border-brand ring-1 ring-brand'
+                    ? 'border-blue-500 ring-2 ring-blue-100 shadow-md'
                     : desbloqueado
-                    ? 'border-border-light hover:border-slate-500'
-                    : 'border-border opacity-90'
+                    ? 'border-slate-200 hover:border-slate-300'
+                    : 'border-slate-200 opacity-90'
                 }`}
               >
                 <div className="space-y-4">
                   {/* Visualizador da Insígnia */}
-                  <div className="h-36 bg-surface-elevated rounded-lg border border-border flex items-center justify-center relative">
+                  <div className="h-36 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-center relative">
                     <AvatarBadge avatarId={avatar.id} size="xl" />
                     
                     {equipado && (
-                      <span className="absolute top-2.5 right-2.5 text-xs font-mono font-bold text-white bg-brand px-2 py-0.5 rounded">
+                      <span className="absolute top-2.5 right-2.5 text-xs font-bold text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-full border border-blue-200">
                         EQUIPADA
                       </span>
                     )}
                   </div>
 
                   <div className="space-y-1.5">
-                    <div className="flex items-baseline justify-between font-mono text-xs">
-                      <span className="text-brand font-bold">{avatar.subtitulo}</span>
-                      <span className="text-amber-400 font-bold">
+                    <div className="flex items-baseline justify-between text-xs">
+                      <span className="text-blue-700 font-bold uppercase">{avatar.subtitulo}</span>
+                      <span className="text-amber-700 font-extrabold">
                         {avatar.preco === 0 ? 'GRÁTIS' : `${avatar.preco} PTS`}
                       </span>
                     </div>
 
-                    <h3 className="font-serif text-xl font-bold text-white">{avatar.nome}</h3>
-                    <p className="text-sm text-slate-300 leading-relaxed">
+                    <h3 className="text-lg font-bold text-slate-900">{avatar.nome}</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed">
                       {avatar.descricao}
                     </p>
                   </div>
                 </div>
 
                 {/* Ações */}
-                <div className="mt-6 pt-4 border-t border-border font-mono text-xs">
+                <div className="mt-6 pt-4 border-t border-slate-100 text-xs">
                   {equipado ? (
-                    <div className="py-2.5 bg-surface-elevated rounded-lg text-center text-brand font-bold border border-brand/40">
+                    <div className="py-2.5 bg-blue-50 text-blue-700 rounded-xl text-center font-bold border border-blue-200">
                       EM USO NO PERFIL
                     </div>
                   ) : desbloqueado ? (
                     <button
                       onClick={() => handleEquiparAvatar(avatar.id)}
                       disabled={processando}
-                      className="w-full py-2.5 bg-surface-elevated hover:bg-surface-highlight text-white rounded-lg font-bold border border-border transition-colors"
+                      className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl font-bold border border-slate-300 transition"
                     >
                       EQUIPAR INSÍGNIA
                     </button>
@@ -191,10 +198,10 @@ export default function Loja() {
                     <button
                       onClick={() => handleComprarAvatar(avatar)}
                       disabled={processando || !podeComprar}
-                      className={`w-full py-2.5 rounded-lg transition-colors font-bold uppercase tracking-wider ${
+                      className={`w-full py-2.5 rounded-xl transition font-bold uppercase tracking-wide ${
                         podeComprar
-                          ? 'bg-brand hover:bg-brand-hover text-white shadow-md'
-                          : 'bg-surface-elevated text-slate-500 cursor-not-allowed border border-border'
+                          ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm'
+                          : 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
                       }`}
                     >
                       {!nivelSuficiente

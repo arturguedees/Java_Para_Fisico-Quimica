@@ -72,41 +72,41 @@ export default function Perfil() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas text-slate-100 pb-24 font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-800 pb-24 font-sans">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-8 pt-8 space-y-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 space-y-8">
         
         {/* Cartão de Perfil */}
-        <section className="bg-surface border border-border rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 shadow-xl">
+        <section className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6 shadow-sm">
           <AvatarBadge avatarId={usuario.avatarId} size="2xl" />
 
           <div className="space-y-2 text-center sm:text-left flex-1">
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 font-mono text-xs">
-              <span className="px-3 py-1 bg-surface-elevated border border-border rounded-full text-brand font-bold">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs">
+              <span className="px-3 py-1 bg-blue-50 border border-blue-200 rounded-full text-blue-700 font-bold">
                 {usuario.titulo}
               </span>
-              <span className="px-3 py-1 bg-surface-elevated border border-border rounded-full text-slate-300">
-                {usuario.experiencia} XP
+              <span className="px-3 py-1 bg-slate-100 border border-slate-200 rounded-full text-slate-700 font-medium">
+                {usuario.experiencia} XP Total
               </span>
             </div>
 
-            <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               {usuario.nomeCompleto}
             </h1>
-            <p className="font-mono text-xs text-slate-400">
+            <p className="text-sm text-slate-500">
               {usuario.email}
             </p>
           </div>
 
-          <div className="bg-surface-elevated border border-border rounded-xl p-4 text-center font-mono text-xs space-y-3 min-w-[160px]">
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center text-xs space-y-2.5 min-w-[160px]">
             <div>
-              <span className="text-slate-400 block text-[11px]">SALDO DE PONTOS:</span>
-              <span className="text-xl font-bold text-amber-400">{usuario.pontos} pts</span>
+              <span className="text-slate-500 block text-[11px] font-medium">SALDO DE PONTOS:</span>
+              <span className="text-xl font-bold text-amber-600 font-mono">{usuario.pontos} pts</span>
             </div>
             <Link
               to="/loja"
-              className="block w-full py-2 bg-brand hover:bg-brand-hover text-white font-bold rounded-lg transition uppercase tracking-wider text-xs"
+              className="block w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition uppercase tracking-wider text-xs shadow-sm"
             >
               Ir à Loja
             </Link>
@@ -114,20 +114,20 @@ export default function Perfil() {
         </section>
 
         {mensagem && (
-          <div className="p-4 bg-emerald-950/40 border border-emerald-500/50 text-emerald-300 text-sm font-semibold rounded-xl flex items-center space-x-2">
-            <CheckCircle className="w-5 h-5" />
+          <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-900 text-sm font-semibold rounded-xl flex items-center space-x-2">
+            <CheckCircle className="w-5 h-5 text-emerald-600" />
             <span>{mensagem}</span>
           </div>
         )}
 
         {/* Títulos Desbloqueados */}
-        <section className="bg-surface border border-border rounded-xl p-6 sm:p-8 space-y-4 shadow-md">
-          <div className="flex items-center justify-between border-b border-border pb-3">
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-white flex items-center space-x-2">
-              <Award className="w-6 h-6 text-brand" />
+        <section className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 space-y-4 shadow-sm">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h2 className="text-xl font-bold text-slate-900 flex items-center space-x-2">
+              <Award className="w-5 h-5 text-blue-600" />
               <span>Seus Títulos Desbloqueados</span>
             </h2>
-            <span className="font-mono text-xs text-slate-400">
+            <span className="text-xs text-slate-500 font-medium">
               {titulosDesbloqueados.length} conquistados
             </span>
           </div>
@@ -141,17 +141,17 @@ export default function Perfil() {
                   onClick={() => !ativo && handleTrocarTitulo(tit)}
                   className={`p-4 rounded-xl border flex items-center justify-between cursor-pointer transition ${
                     ativo
-                      ? 'border-brand bg-brand/10 text-white ring-1 ring-brand'
-                      : 'border-border bg-surface-elevated text-slate-300 hover:text-white hover:border-border-light'
+                      ? 'border-blue-600 bg-blue-50/70 text-blue-950 ring-1 ring-blue-500'
+                      : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300'
                   }`}
                 >
                   <span className="font-bold text-sm sm:text-base">{tit}</span>
 
-                  <span className="font-mono text-xs font-bold">
+                  <span className="text-xs font-bold">
                     {ativo ? (
-                      <span className="text-brand">ATIVO</span>
+                      <span className="text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">ATIVO</span>
                     ) : (
-                      <span className="text-slate-400 hover:text-white">EQUIPAR</span>
+                      <span className="text-slate-500 hover:text-slate-900">EQUIPAR</span>
                     )}
                   </span>
                 </div>
@@ -161,13 +161,13 @@ export default function Perfil() {
         </section>
 
         {/* Coleção de Insígnias */}
-        <section className="bg-surface border border-border rounded-xl p-6 sm:p-8 space-y-4 shadow-md">
-          <div className="flex items-center justify-between border-b border-border pb-3">
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-white flex items-center space-x-2">
-              <ShoppingBag className="w-6 h-6 text-amber-400" />
+        <section className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 space-y-4 shadow-sm">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h2 className="text-xl font-bold text-slate-900 flex items-center space-x-2">
+              <ShoppingBag className="w-5 h-5 text-amber-500" />
               <span>Suas Insígnias Desbloqueadas</span>
             </h2>
-            <Link to="/loja" className="font-mono text-xs text-brand font-bold hover:underline flex items-center space-x-1">
+            <Link to="/loja" className="text-xs text-blue-600 font-bold hover:underline flex items-center space-x-1">
               <span>Ver Loja Completa</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -181,22 +181,22 @@ export default function Perfil() {
                 <div
                   key={avatar.id}
                   onClick={() => !equipado && handleTrocarAvatar(avatar.id)}
-                  className={`bg-surface-elevated border rounded-xl p-4 flex flex-col items-center text-center justify-between cursor-pointer transition ${
+                  className={`bg-slate-50 border rounded-xl p-4 flex flex-col items-center text-center justify-between cursor-pointer transition ${
                     equipado
-                      ? 'border-brand ring-1 ring-brand'
-                      : 'border-border hover:border-border-light'
+                      ? 'border-blue-500 bg-blue-50/50 ring-2 ring-blue-200'
+                      : 'border-slate-200 hover:border-slate-300 bg-white'
                   }`}
                 >
                   <AvatarBadge avatarId={avatar.id} size="lg" />
-                  <span className="font-bold text-sm text-white mt-3 block">{avatar.nome}</span>
+                  <span className="font-bold text-sm text-slate-900 mt-3 block">{avatar.nome}</span>
 
-                  <div className="mt-3 w-full font-mono text-xs font-bold">
+                  <div className="mt-3 w-full text-xs font-bold">
                     {equipado ? (
-                      <span className="block py-1 bg-brand text-white rounded">
+                      <span className="block py-1 bg-blue-600 text-white rounded-lg">
                         EQUIPADA
                       </span>
                     ) : (
-                      <span className="block py-1 bg-surface text-slate-300 hover:text-white rounded border border-border">
+                      <span className="block py-1 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg border border-slate-300">
                         USAR
                       </span>
                     )}

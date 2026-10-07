@@ -43,44 +43,47 @@ export default function Ranking() {
   };
 
   return (
-    <div className="min-h-screen bg-canvas text-slate-100 pb-24 font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-800 pb-24 font-sans">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-8 pt-8 space-y-6">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 space-y-6">
         
         {/* Cabeçalho */}
-        <div className="bg-surface border border-border rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-md">
-          <div className="flex items-center space-x-3">
-            <div className="w-11 h-11 rounded-lg bg-surface-highlight flex items-center justify-center text-amber-400">
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+          <div className="flex items-center space-x-3.5">
+            <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
               <Trophy className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-xs font-mono font-bold text-amber-400 uppercase">CLASSIFICAÇÃO GERAL</span>
-              <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white">
-                Ranking dos Estudantes
+              <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 bg-amber-50 text-amber-700 rounded-md text-xs font-semibold mb-1">
+                <span>CLASSIFICAÇÃO GERAL</span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                Ranking da Turma
               </h1>
             </div>
           </div>
 
-          <div className="font-mono text-xs text-slate-300 bg-surface-elevated px-3.5 py-1.5 rounded-lg border border-border">
-            Ordenado por Experiência (XP)
+          <div className="text-xs text-slate-600 bg-slate-50 px-3.5 py-2 rounded-xl border border-slate-200 font-medium">
+            Classificado por total de <strong>Experiência (XP)</strong>
           </div>
         </div>
 
         {/* Tabela do Ranking */}
         {loading ? (
-          <div className="font-mono text-sm text-slate-400 py-12 text-center">
-            Calculando posições dos alunos...
+          <div className="bg-white border border-slate-200 rounded-2xl p-12 text-center text-sm text-slate-500 font-medium">
+            <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+            Calculando classificação dos alunos...
           </div>
         ) : (
-          <div className="bg-surface border border-border rounded-xl overflow-hidden shadow-md">
-            <div className="grid grid-cols-12 px-6 py-3.5 border-b border-border font-mono text-xs font-bold text-slate-300 uppercase tracking-wider bg-surface-elevated">
+          <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+            <div className="grid grid-cols-12 px-6 py-3.5 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase tracking-wider bg-slate-50">
               <div className="col-span-2 sm:col-span-1 text-center">POS</div>
               <div className="col-span-7 sm:col-span-8">ESTUDANTE & TÍTULO</div>
-              <div className="col-span-3 text-right">XP / PONTOS</div>
+              <div className="col-span-3 text-right">XP / MOEDAS</div>
             </div>
 
-            <div className="divide-y divide-border">
+            <div className="divide-y divide-slate-100">
               {ranking.map(user => {
                 const isCurrentUser = usuario?.id === user.id;
 
@@ -89,20 +92,20 @@ export default function Ranking() {
                     key={user.id}
                     className={`grid grid-cols-12 px-6 py-4 items-center transition-colors ${
                       isCurrentUser
-                        ? 'bg-brand/10 border-l-4 border-brand'
-                        : 'hover:bg-surface-elevated'
+                        ? 'bg-blue-50/60 border-l-4 border-blue-600'
+                        : 'hover:bg-slate-50/80'
                     }`}
                   >
                     {/* Posição */}
                     <div className="col-span-2 sm:col-span-1 font-mono text-sm font-bold text-center">
                       {user.posicao === 1 ? (
-                        <span className="text-amber-400 text-base">🥇 01</span>
+                        <span className="text-amber-500 text-base font-extrabold">🥇 01</span>
                       ) : user.posicao === 2 ? (
-                        <span className="text-slate-200">🥈 02</span>
+                        <span className="text-slate-400 text-base font-bold">🥈 02</span>
                       ) : user.posicao === 3 ? (
-                        <span className="text-amber-600">🥉 03</span>
+                        <span className="text-amber-700 text-base font-bold">🥉 03</span>
                       ) : (
-                        <span className="text-slate-400">{String(user.posicao).padStart(2, '0')}</span>
+                        <span className="text-slate-500">{String(user.posicao).padStart(2, '0')}</span>
                       )}
                     </div>
 
@@ -111,27 +114,27 @@ export default function Ranking() {
                       <AvatarBadge avatarId={user.avatarId} size="sm" />
                       <div>
                         <div className="flex items-center space-x-2">
-                          <span className="font-bold text-base text-white">
+                          <span className="font-bold text-sm sm:text-base text-slate-900">
                             {user.nomeCompleto}
                           </span>
                           {isCurrentUser && (
-                            <span className="text-[10px] font-mono font-bold bg-brand text-white px-2 py-0.5 rounded">
+                            <span className="text-[10px] font-bold bg-blue-600 text-white px-2 py-0.5 rounded-full">
                               VOCÊ
                             </span>
                           )}
                         </div>
-                        <span className="text-xs text-brand font-medium block">
+                        <span className="text-xs text-blue-700 font-medium block">
                           {user.titulo}
                         </span>
                       </div>
                     </div>
 
                     {/* Pontuação */}
-                    <div className="col-span-3 text-right font-mono text-xs">
-                      <div className="text-base font-bold text-white">
-                        {user.experiencia} <span className="text-[11px] text-slate-400 font-normal">XP</span>
+                    <div className="col-span-3 text-right text-xs">
+                      <div className="text-sm sm:text-base font-bold text-slate-900 font-mono">
+                        {user.experiencia} <span className="text-[11px] text-slate-500 font-normal">XP</span>
                       </div>
-                      <span className="text-amber-400 font-semibold">
+                      <span className="text-amber-700 font-semibold font-mono text-xs">
                         {user.pontos} pts
                       </span>
                     </div>
