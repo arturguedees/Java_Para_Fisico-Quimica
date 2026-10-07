@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
+import { FlaskConical, CheckCircle, AlertCircle, ArrowRight, Info, HelpCircle } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import {
   Chart as ChartJS,
@@ -72,23 +73,23 @@ export default function Cinetica() {
         labels: res.data.tempo.map((t: number) => t.toFixed(1)),
         datasets: [
           {
-            label: '[A] Reagente (M)',
+            label: '[A] Reagente (Molar)',
             data: res.data.concentracaoA,
-            borderColor: '#c85a32',
-            backgroundColor: 'rgba(200, 90, 50, 0.05)',
+            borderColor: '#ea580c',
+            backgroundColor: 'rgba(234, 88, 12, 0.15)',
             fill: true,
             pointRadius: 0,
-            borderWidth: 2,
+            borderWidth: 3,
             tension: 0.1
           },
           {
-            label: '[B] Produto (M)',
+            label: '[B] Produto (Molar)',
             data: res.data.concentracaoB,
-            borderColor: '#918b7e',
+            borderColor: '#38bdf8',
             backgroundColor: 'transparent',
-            borderDash: [4, 4],
+            borderDash: [5, 5],
             pointRadius: 0,
-            borderWidth: 1.5,
+            borderWidth: 2.5,
             tension: 0.1
           }
         ]
@@ -103,7 +104,7 @@ export default function Cinetica() {
 
     const valor = parseFloat(respostaUsuario);
     if (isNaN(valor)) {
-      setFeedback({ tipo: 'erro', msg: 'Formato numérico inválido.' });
+      setFeedback({ tipo: 'erro', msg: 'Digite um número válido.' });
       return;
     }
 
@@ -114,7 +115,7 @@ export default function Cinetica() {
       setResolvido(true);
       setFeedback({
         tipo: 'sucesso',
-        msg: `Cálculo validado: t½ = ${meiaVida.toFixed(2)} s. +60 Pontos e +60 XP creditados em seu dossier.`
+        msg: `Correto! O tempo de meia-vida é ${meiaVida.toFixed(2)} segundos. Você ganhou +60 XP e +60 Pontos!`
       });
 
       if (usuario) {
@@ -131,84 +132,88 @@ export default function Cinetica() {
     } else {
       setFeedback({
         tipo: 'erro',
-        msg: `Divergência de valor. Equação para ordem ${ordem}: ${
-          ordem === 1 ? 't½ = ln(2)/k ≈ 0.69315 / ' + k : 't½ = [A]₀ / (2k) = ' + a0 + ' / (2 * ' + k + ')'
+        msg: `Incorreto. Para reação de ordem ${ordem}: ${
+          ordem === 1 ? 'use t½ = ln(2) / k = 0.693 / ' + k : 'use t½ = [A]₀ / (2k) = ' + a0 + ' / (2 * ' + k + ')'
         }.`
       });
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0e1013] text-[#e5e2dc] pb-24 font-sans">
+    <div className="min-h-screen bg-canvas text-slate-100 pb-24 font-sans">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-10 space-y-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 space-y-6">
         
         {/* Cabeçalho */}
-        <div className="border-b border-[#1d2027] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="space-y-1">
-            <span className="font-mono text-xs text-[#c85a32] uppercase tracking-wider">
-              MÓDULO 01 • CINÉTICA DETERMINÍSTICA
-            </span>
-            <h1 className="font-serif text-3xl sm:text-4xl text-[#faf9f5]">
-              Cinética Química & Decaimento Reacional
-            </h1>
+        <div className="bg-surface border border-border rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-md">
+          <div className="flex items-center space-x-3">
+            <div className="w-11 h-11 rounded-lg bg-surface-highlight flex items-center justify-center text-brand">
+              <FlaskConical className="w-6 h-6" />
+            </div>
+            <div>
+              <span className="text-xs font-mono font-bold text-brand uppercase">MÓDULO 01 • ESTUDO CINÉTICO</span>
+              <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+                Cinética Química e Decaimento
+              </h1>
+            </div>
           </div>
 
-          <div className="flex items-center space-x-3 font-mono text-xs">
-            <span className="px-3 py-1 bg-[#14161b] border border-[#1d2027] text-[#918b7e]">
-              REAGENTE → PRODUTO
+          <div className="flex items-center space-x-2 font-mono text-xs">
+            <span className="px-3 py-1.5 bg-surface-elevated border border-border rounded-lg text-slate-200">
+              Reação: A → B
             </span>
-            <span className="px-3 py-1 bg-[#14161b] border border-[#1d2027] text-[#c85a32]">
-              ORDEM {ordem}
+            <span className="px-3 py-1.5 bg-brand text-white font-bold rounded-lg">
+              Ordem {ordem}
             </span>
           </div>
         </div>
 
         {/* Grade de Trabalho */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
-          {/* Parâmetros e Cálculos */}
+          {/* Parâmetros de Controle */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="border border-[#1d2027] bg-[#14161b] p-6 space-y-6">
-              <h2 className="font-serif text-xl text-[#faf9f5] border-b border-[#1d2027] pb-3">
-                Parâmetros da Reação
+            <div className="bg-surface border border-border rounded-xl p-6 space-y-5 shadow-md">
+              <h2 className="font-serif text-lg font-bold text-white border-b border-border pb-3 flex items-center justify-between">
+                <span>Ajuste de Parâmetros</span>
+                <Info className="w-4 h-4 text-slate-400" />
               </h2>
 
-              {/* Ordem */}
-              <div className="space-y-2 font-mono text-xs">
-                <label className="text-[#918b7e] block">ORDEM CINÉTICA (n)</label>
+              {/* Seletor de Ordem */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-200 block">Ordem da Reação</label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setOrdem(0)}
-                    className={`py-2 px-3 border text-center transition-colors ${
+                    className={`py-2 px-3 rounded-lg text-xs font-bold transition ${
                       ordem === 0
-                        ? 'border-[#c85a32] bg-[#c85a32]/10 text-[#faf9f5] font-bold'
-                        : 'border-[#1d2027] bg-[#0e1013] text-[#918b7e] hover:text-[#e5e2dc]'
+                        ? 'bg-brand text-white shadow-md'
+                        : 'bg-surface-elevated text-slate-300 hover:text-white border border-border'
                     }`}
                   >
-                    Ordem Zero
+                    Ordem Zero (0)
                   </button>
                   <button
                     type="button"
                     onClick={() => setOrdem(1)}
-                    className={`py-2 px-3 border text-center transition-colors ${
+                    className={`py-2 px-3 rounded-lg text-xs font-bold transition ${
                       ordem === 1
-                        ? 'border-[#c85a32] bg-[#c85a32]/10 text-[#faf9f5] font-bold'
-                        : 'border-[#1d2027] bg-[#0e1013] text-[#918b7e] hover:text-[#e5e2dc]'
+                        ? 'bg-brand text-white shadow-md'
+                        : 'bg-surface-elevated text-slate-300 hover:text-white border border-border'
                     }`}
                   >
-                    1ª Ordem
+                    Primeira Ordem (1)
                   </button>
                 </div>
               </div>
 
               {/* Constante k */}
-              <div className="space-y-2 font-mono text-xs">
-                <div className="flex justify-between">
-                  <span className="text-[#918b7e]">CONSTANTE (k)</span>
-                  <span className="text-[#c85a32] font-bold">{k.toFixed(2)} s⁻¹</span>
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span className="text-slate-200">Constante de Velocidade (k)</span>
+                  <span className="text-amber-400 font-mono font-bold">{k.toFixed(2)} s⁻¹</span>
                 </div>
                 <input
                   type="range"
@@ -217,15 +222,15 @@ export default function Cinetica() {
                   step="0.01"
                   value={k}
                   onChange={e => setK(parseFloat(e.target.value))}
-                  className="w-full accent-[#c85a32] bg-[#1d2027]"
+                  className="w-full accent-brand h-2 bg-surface-highlight rounded-lg cursor-pointer"
                 />
               </div>
 
               {/* Concentração Inicial */}
-              <div className="space-y-2 font-mono text-xs">
-                <div className="flex justify-between">
-                  <span className="text-[#918b7e]">CONCENTRAÇÃO INICIAL [A]₀</span>
-                  <span className="text-[#c85a32] font-bold">{a0.toFixed(1)} M</span>
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span className="text-slate-200">Concentração Inicial [A]₀</span>
+                  <span className="text-amber-400 font-mono font-bold">{a0.toFixed(1)} M</span>
                 </div>
                 <input
                   type="range"
@@ -234,15 +239,15 @@ export default function Cinetica() {
                   step="0.1"
                   value={a0}
                   onChange={e => setA0(parseFloat(e.target.value))}
-                  className="w-full accent-[#c85a32] bg-[#1d2027]"
+                  className="w-full accent-brand h-2 bg-surface-highlight rounded-lg cursor-pointer"
                 />
               </div>
 
-              {/* Janela de Tempo */}
-              <div className="space-y-2 font-mono text-xs">
-                <div className="flex justify-between">
-                  <span className="text-[#918b7e]">JANELA DE INTEGRAÇÃO</span>
-                  <span className="text-[#faf9f5]">{tempoMax} s</span>
+              {/* Tempo Máximo */}
+              <div className="space-y-1.5">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span className="text-slate-200">Tempo de Simulação</span>
+                  <span className="text-slate-200 font-mono font-bold">{tempoMax} s</span>
                 </div>
                 <input
                   type="range"
@@ -251,23 +256,27 @@ export default function Cinetica() {
                   step="5"
                   value={tempoMax}
                   onChange={e => setTempoMax(parseInt(e.target.value))}
-                  className="w-full accent-[#c85a32] bg-[#1d2027]"
+                  className="w-full accent-brand h-2 bg-surface-highlight rounded-lg cursor-pointer"
                 />
               </div>
 
-              {/* Constantes Derivadas */}
-              <div className="pt-4 border-t border-[#1d2027] space-y-2.5 font-mono text-xs">
-                <div className="flex justify-between">
-                  <span className="text-[#918b7e]">MEIA-VIDA (t½):</span>
-                  <span className="text-[#faf9f5] font-bold">
+              {/* Resultados Físicos Calculados */}
+              <div className="pt-4 border-t border-border space-y-2.5 bg-surface-elevated p-3.5 rounded-lg border">
+                <span className="text-xs font-mono text-slate-300 font-bold uppercase block">
+                  Propriedades Calculadas
+                </span>
+
+                <div className="flex justify-between text-xs">
+                  <span className="text-slate-300 font-medium">Tempo de Meia-Vida (t½):</span>
+                  <span className="text-white font-mono font-bold">
                     {meiaVida ? `${meiaVida.toFixed(2)} s` : '-'}
                   </span>
                 </div>
 
                 {tempoVida && (
-                  <div className="flex justify-between">
-                    <span className="text-[#918b7e]">TEMPO DE VIDA (τ):</span>
-                    <span className="text-[#faf9f5]">{tempoVida.toFixed(2)} s</span>
+                  <div className="flex justify-between text-xs">
+                    <span className="text-slate-300 font-medium">Tempo Médio de Vida (τ):</span>
+                    <span className="text-cyan-400 font-mono font-bold">{tempoVida.toFixed(2)} s</span>
                   </div>
                 )}
               </div>
@@ -275,15 +284,21 @@ export default function Cinetica() {
           </div>
 
           {/* Gráfico Científico */}
-          <div className="lg:col-span-8 border border-[#1d2027] bg-[#14161b] p-6 flex flex-col justify-between">
+          <div className="lg:col-span-8 bg-surface border border-border rounded-xl p-6 flex flex-col justify-between shadow-md">
             <div>
-              <div className="flex items-baseline justify-between border-b border-[#1d2027] pb-3 mb-4">
-                <h3 className="font-serif text-xl text-[#faf9f5]">
-                  Evolução Temporal das Espécies Moleculares
+              <div className="flex items-center justify-between border-b border-border pb-3 mb-4">
+                <h3 className="font-serif text-xl font-bold text-white">
+                  Gráfico de Concentração vs Tempo
                 </h3>
-                <div className="flex items-center space-x-4 font-mono text-[11px]">
-                  <span className="text-[#c85a32]">● [A] REAGENTE</span>
-                  <span className="text-[#918b7e]">- - [B] PRODUTO</span>
+                <div className="flex items-center space-x-4 text-xs font-semibold">
+                  <span className="flex items-center space-x-1.5 text-orange-400">
+                    <span className="w-3 h-3 rounded-full bg-brand"></span>
+                    <span>[A] Reagente</span>
+                  </span>
+                  <span className="flex items-center space-x-1.5 text-cyan-400">
+                    <span className="w-3 h-3 rounded-full bg-cyan-400"></span>
+                    <span>[B] Produto</span>
+                  </span>
                 </div>
               </div>
 
@@ -297,59 +312,61 @@ export default function Cinetica() {
                       animation: false,
                       scales: {
                         x: {
-                          grid: { color: '#1d2027' },
-                          ticks: { color: '#918b7e', font: { family: 'JetBrains Mono', size: 10 } },
-                          title: { display: true, text: 'Tempo (s)', color: '#918b7e', font: { family: 'JetBrains Mono' } }
+                          grid: { color: '#1e293b' },
+                          ticks: { color: '#cbd5e1', font: { family: 'JetBrains Mono', size: 11 } },
+                          title: { display: true, text: 'Tempo decorrido (segundos)', color: '#94a3b8', font: { weight: 'bold' } }
                         },
                         y: {
-                          grid: { color: '#1d2027' },
-                          ticks: { color: '#918b7e', font: { family: 'JetBrains Mono', size: 10 } },
-                          title: { display: true, text: 'Concentração (M)', color: '#918b7e', font: { family: 'JetBrains Mono' } },
+                          grid: { color: '#1e293b' },
+                          ticks: { color: '#cbd5e1', font: { family: 'JetBrains Mono', size: 11 } },
+                          title: { display: true, text: 'Concentração (mol/L)', color: '#94a3b8', font: { weight: 'bold' } },
                           min: 0
                         }
                       },
                       plugins: {
                         legend: { display: false },
                         tooltip: {
-                          backgroundColor: '#0e1013',
-                          titleColor: '#c85a32',
-                          bodyColor: '#e5e2dc',
-                          borderColor: '#1d2027',
+                          backgroundColor: '#111827',
+                          titleColor: '#ea580c',
+                          bodyColor: '#f1f5f9',
+                          borderColor: '#334155',
                           borderWidth: 1,
-                          titleFont: { family: 'JetBrains Mono' },
-                          bodyFont: { family: 'JetBrains Mono' }
+                          padding: 10
                         }
                       }
                     }}
                   />
                 ) : (
-                  <div className="h-full flex items-center justify-center font-mono text-xs text-[#918b7e]">
-                    PROCESSANDO CURVAS...
+                  <div className="h-full flex items-center justify-center text-slate-400">
+                    Calculando pontos da curva...
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="mt-6 pt-3 border-t border-[#1d2027] text-xs font-mono text-[#918b7e]">
-              EQUAÇÃO INTEGRADA: {ordem === 1 ? '[A]t = [A]₀ · exp(-k·t)' : '[A]t = max(0, [A]₀ - k·t)'}
+            <div className="mt-4 p-3 bg-surface-elevated rounded-lg border border-border text-xs text-slate-300 font-mono">
+              Fórmula da reação: <strong className="text-white">{ordem === 1 ? '[A] = [A]₀ · e^(-kt)' : '[A] = [A]₀ - kt'}</strong>
             </div>
           </div>
 
         </div>
 
-        {/* Bloco de Desafio de Laboratório */}
-        <section className="border border-[#1d2027] bg-[#14161b] p-6 sm:p-8 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-[#1d2027] pb-3">
-            <h3 className="font-serif text-2xl text-[#faf9f5]">
-              Problema de Verificação Cinética
-            </h3>
-            <span className="font-mono text-xs text-[#c85a32]">
-              RECOMPENSA: +60 CRÉDITOS ACADÊMICOS
+        {/* Exercício Prático do Módulo */}
+        <section className="bg-surface border border-border rounded-xl p-6 sm:p-8 space-y-4 shadow-md">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3">
+            <div className="flex items-center space-x-2">
+              <HelpCircle className="w-5 h-5 text-brand" />
+              <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
+                Exercício de Fixação: Tempo de Meia-Vida
+              </h3>
+            </div>
+            <span className="text-xs font-mono font-bold text-amber-400 bg-amber-950/40 px-3 py-1 rounded-full border border-amber-500/30">
+              RECOMPENSA: +60 XP & PONTOS
             </span>
           </div>
 
-          <p className="text-sm text-[#918b7e] leading-relaxed max-w-3xl">
-            Com base nos parâmetros ativos no painel lateral (<code className="text-[#faf9f5]">k = {k} s⁻¹</code>, <code className="text-[#faf9f5]">[A]₀ = {a0} M</code>, <code className="text-[#faf9f5]">Ordem {ordem}</code>), calcule e informe o <strong>Tempo de Meia-Vida (t½ em segundos)</strong>:
+          <p className="text-sm text-slate-300 leading-relaxed">
+            Observando os valores atuais configurados no painel (<strong className="text-white">k = {k}</strong> e <strong className="text-white">[A]₀ = {a0} M</strong> em uma reação de <strong className="text-white">Ordem {ordem}</strong>), qual é o <strong>Tempo de Meia-Vida (t½)</strong> aproximado em segundos?
           </p>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
@@ -359,27 +376,33 @@ export default function Cinetica() {
               value={respostaUsuario}
               onChange={e => setRespostaUsuario(e.target.value)}
               disabled={resolvido}
-              placeholder="Ex: 4.62"
-              className="px-4 py-2.5 bg-[#0e1013] border border-[#1d2027] text-sm font-mono text-[#faf9f5] focus:outline-none focus:border-[#c85a32] disabled:opacity-50 sm:w-64"
+              placeholder="Digite o resultado (ex: 4.62)"
+              className="px-4 py-3 bg-surface-elevated border border-border-light rounded-lg text-sm text-white font-mono focus:outline-none focus:border-brand disabled:opacity-50 sm:w-72"
             />
             <button
               onClick={verificarDesafio}
               disabled={resolvido || !respostaUsuario}
-              className="px-6 py-2.5 bg-[#c85a32] hover:bg-[#a74521] text-[#faf9f5] text-xs font-mono font-bold uppercase tracking-wider transition disabled:opacity-50"
+              className="px-6 py-3 bg-brand hover:bg-brand-hover text-white text-sm font-bold rounded-lg transition shadow-md disabled:opacity-50 flex items-center justify-center space-x-2"
             >
-              {resolvido ? 'Problema Concluído' : 'Submeter Cálculo'}
+              <span>{resolvido ? 'Exercício Concluído' : 'Verificar Resposta'}</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
           {feedback.tipo && (
             <div
-              className={`p-3.5 border font-mono text-xs ${
+              className={`p-4 rounded-lg border text-sm font-medium flex items-center space-x-2.5 ${
                 feedback.tipo === 'sucesso'
-                  ? 'border-[#52754f] bg-[#52754f]/10 text-[#9ebd9c]'
-                  : 'border-[#853416] bg-[#853416]/10 text-[#f09673]'
+                  ? 'border-emerald-500/50 bg-emerald-950/40 text-emerald-300'
+                  : 'border-rose-500/50 bg-rose-950/40 text-rose-300'
               }`}
             >
-              {feedback.msg}
+              {feedback.tipo === 'sucesso' ? (
+                <CheckCircle className="w-5 h-5 flex-shrink-0" />
+              ) : (
+                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              )}
+              <span>{feedback.msg}</span>
             </div>
           )}
         </section>

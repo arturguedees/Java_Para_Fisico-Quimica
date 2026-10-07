@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
+import { Wind, CheckCircle, AlertCircle, ArrowRight, HelpCircle } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import {
   Chart as ChartJS,
@@ -76,13 +77,13 @@ export default function Maxwell() {
           labels: res.data.velocidades.map((v: number) => v.toFixed(0)),
           datasets: [
             {
-              label: `f(v) Densidade de Probabilidade`,
+              label: `f(v) Distribuição de Velocidade - ${res.data.gas}`,
               data: res.data.densidadesVelocidade,
-              borderColor: '#c85a32',
-              backgroundColor: 'rgba(200, 90, 50, 0.05)',
+              borderColor: '#ea580c',
+              backgroundColor: 'rgba(234, 88, 12, 0.15)',
               fill: true,
               pointRadius: 0,
-              borderWidth: 2,
+              borderWidth: 3,
               tension: 0.2
             }
           ]
@@ -92,13 +93,13 @@ export default function Maxwell() {
           labels: res.data.energias.map((e: number) => (e / 1000).toFixed(1)),
           datasets: [
             {
-              label: `f(E) Densidade de Energia (kJ/mol)`,
+              label: `f(E) Energia Cinética (kJ/mol)`,
               data: res.data.densidadesEnergia,
-              borderColor: '#759972',
-              backgroundColor: 'rgba(117, 153, 114, 0.05)',
+              borderColor: '#10b981',
+              backgroundColor: 'rgba(16, 185, 129, 0.15)',
               fill: true,
               pointRadius: 0,
-              borderWidth: 2,
+              borderWidth: 3,
               tension: 0.2
             }
           ]
@@ -114,7 +115,7 @@ export default function Maxwell() {
 
     const valor = parseFloat(respostaUsuario);
     if (isNaN(valor)) {
-      setFeedback({ tipo: 'erro', msg: 'Formato numérico inválido.' });
+      setFeedback({ tipo: 'erro', msg: 'Digite um número válido.' });
       return;
     }
 
@@ -127,7 +128,7 @@ export default function Maxwell() {
       setResolvido(true);
       setFeedback({
         tipo: 'sucesso',
-        msg: `Correto: v_mp = ${vmpEsperada.toFixed(1)} m/s. +75 Pontos e +75 XP creditados no dossier.`
+        msg: `Muito bem! A velocidade mais provável é ${vmpEsperada.toFixed(1)} m/s. Você recebeu +75 XP e +75 Pontos!`
       });
 
       if (usuario) {
@@ -144,45 +145,48 @@ export default function Maxwell() {
     } else {
       setFeedback({
         tipo: 'erro',
-        msg: `Divergência. Equação: v_mp = sqrt(2·R·T / M). R = 8.314 J/(mol·K) e M em kg/mol.`
+        msg: `Valor incorreto. Dica de estudo: use a fórmula v_mp = sqrt(2 · R · T / M), com R = 8.314 J/(mol·K) e M em kg/mol.`
       });
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#0e1013] text-[#e5e2dc] pb-24 font-sans">
+    <div className="min-h-screen bg-canvas text-slate-100 pb-24 font-sans">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-10 space-y-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 space-y-6">
         
         {/* Cabeçalho */}
-        <div className="border-b border-[#1d2027] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="space-y-1">
-            <span className="font-mono text-xs text-[#c85a32] uppercase tracking-wider">
-              MÓDULO 02 • TERMODINÂMICA ESTATÍSTICA
-            </span>
-            <h1 className="font-serif text-3xl sm:text-4xl text-[#faf9f5]">
-              Distribuição de Maxwell-Boltzmann
-            </h1>
+        <div className="bg-surface border border-border rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-md">
+          <div className="flex items-center space-x-3">
+            <div className="w-11 h-11 rounded-lg bg-surface-highlight flex items-center justify-center text-cyan-400">
+              <Wind className="w-6 h-6" />
+            </div>
+            <div>
+              <span className="text-xs font-mono font-bold text-cyan-400 uppercase">MÓDULO 02 • TERMODINÂMICA DOS GASES</span>
+              <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+                Distribuição de Maxwell-Boltzmann
+              </h1>
+            </div>
           </div>
 
           <div className="flex items-center space-x-2 font-mono text-xs">
             <button
               onClick={() => setTipoGrafico('velocidade')}
-              className={`px-3 py-1.5 border transition-colors ${
+              className={`px-3 py-1.5 rounded-lg font-bold transition ${
                 tipoGrafico === 'velocidade'
-                  ? 'border-[#c85a32] bg-[#c85a32]/10 text-[#faf9f5] font-semibold'
-                  : 'border-[#1d2027] bg-[#14161b] text-[#918b7e] hover:text-[#e5e2dc]'
+                  ? 'bg-brand text-white shadow-sm'
+                  : 'bg-surface-elevated text-slate-300 hover:text-white border border-border'
               }`}
             >
               Velocidades f(v)
             </button>
             <button
               onClick={() => setTipoGrafico('energia')}
-              className={`px-3 py-1.5 border transition-colors ${
+              className={`px-3 py-1.5 rounded-lg font-bold transition ${
                 tipoGrafico === 'energia'
-                  ? 'border-[#759972] bg-[#759972]/10 text-[#faf9f5] font-semibold'
-                  : 'border-[#1d2027] bg-[#14161b] text-[#918b7e] hover:text-[#e5e2dc]'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'bg-surface-elevated text-slate-300 hover:text-white border border-border'
               }`}
             >
               Energia Cinética f(E)
@@ -191,40 +195,42 @@ export default function Maxwell() {
         </div>
 
         {/* Grade de Trabalho */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Painel de Controle */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="border border-[#1d2027] bg-[#14161b] p-6 space-y-6">
-              <h2 className="font-serif text-xl text-[#faf9f5] border-b border-[#1d2027] pb-3">
-                Seleção do Sistema Gasoso
+            <div className="bg-surface border border-border rounded-xl p-6 space-y-5 shadow-md">
+              <h2 className="font-serif text-lg font-bold text-white border-b border-border pb-3">
+                Seleção do Gás & Temperatura
               </h2>
 
               {/* Lista de Gases */}
-              <div className="space-y-1.5 font-mono text-xs">
-                <label className="text-[#918b7e] block">ESPÉCIE QUÍMICA</label>
-                {gases.map(g => (
-                  <button
-                    key={g.chave}
-                    type="button"
-                    onClick={() => setGasSelecionado(g.chave)}
-                    className={`w-full py-2 px-3 border text-left flex items-center justify-between transition-colors ${
-                      gasSelecionado === g.chave
-                        ? 'border-[#c85a32] bg-[#c85a32]/10 text-[#faf9f5] font-bold'
-                        : 'border-[#1d2027] bg-[#0e1013] text-[#918b7e] hover:text-[#e5e2dc]'
-                    }`}
-                  >
-                    <span>{g.nome}</span>
-                    <span className="text-[10px] text-[#5e594d]">{g.massaG}</span>
-                  </button>
-                ))}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-200 block">Tipo de Gás</label>
+                <div className="space-y-1.5">
+                  {gases.map(g => (
+                    <button
+                      key={g.chave}
+                      type="button"
+                      onClick={() => setGasSelecionado(g.chave)}
+                      className={`w-full py-2.5 px-3.5 rounded-lg text-xs font-semibold flex items-center justify-between transition ${
+                        gasSelecionado === g.chave
+                          ? 'bg-brand text-white shadow-md'
+                          : 'bg-surface-elevated text-slate-300 hover:text-white border border-border'
+                      }`}
+                    >
+                      <span>{g.nome}</span>
+                      <span className="font-mono text-[11px] opacity-80">{g.massaG}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {/* Slider de Temperatura */}
-              <div className="space-y-2 font-mono text-xs pt-2">
-                <div className="flex justify-between">
-                  <span className="text-[#918b7e]">TEMPERATURA ABSOLUTA (T)</span>
-                  <span className="text-[#c85a32] font-bold">{temperatura} K</span>
+              <div className="space-y-1.5 pt-2">
+                <div className="flex justify-between text-xs font-semibold">
+                  <span className="text-slate-200">Temperatura Absoluta (T)</span>
+                  <span className="text-cyan-400 font-mono font-bold">{temperatura} K</span>
                 </div>
                 <input
                   type="range"
@@ -233,47 +239,45 @@ export default function Maxwell() {
                   step="25"
                   value={temperatura}
                   onChange={e => setTemperatura(parseInt(e.target.value))}
-                  className="w-full accent-[#c85a32] bg-[#1d2027]"
+                  className="w-full accent-cyan-400 h-2 bg-surface-highlight rounded-lg cursor-pointer"
                 />
-                <div className="flex justify-between text-[10px] text-[#5e594d]">
+                <div className="flex justify-between text-[11px] text-slate-400 font-mono">
                   <span>100 K (-173°C)</span>
                   <span>1200 K (927°C)</span>
                 </div>
               </div>
 
-              {/* Tabela de Velocidades Notáveis */}
+              {/* Velocidades Notáveis Calculadas */}
               {infoFisica && (
-                <div className="pt-4 border-t border-[#1d2027] space-y-2 font-mono text-xs">
-                  <span className="text-[11px] text-[#918b7e] uppercase block pb-1">
-                    Grandezas Notáveis
+                <div className="pt-4 border-t border-border space-y-2 bg-surface-elevated p-3.5 rounded-lg border text-xs">
+                  <span className="text-slate-200 font-bold uppercase block pb-1">
+                    Velocidades Moleculares
                   </span>
 
                   <div className="flex justify-between">
-                    <span className="text-[#918b7e]">v_mp (Mais Provável):</span>
-                    <span className="text-[#faf9f5] font-bold">
+                    <span className="text-slate-300">v_mp (Mais Provável):</span>
+                    <span className="text-white font-mono font-bold">
                       {infoFisica.velocidadeMaisProvavel.toFixed(1)} m/s
                     </span>
                   </div>
 
                   <div className="flex justify-between">
-                    <span className="text-[#918b7e]">v_m (Velocidade Média):</span>
-                    <span className="text-[#faf9f5]">
+                    <span className="text-slate-300">v_m (Velocidade Média):</span>
+                    <span className="text-white font-mono font-bold">
                       {infoFisica.velocidadeMedia.toFixed(1)} m/s
                     </span>
                   </div>
 
                   <div className="flex justify-between">
-                    <span className="text-[#918b7e]">v_rms (Quadrática Média):</span>
-                    <span className="text-[#faf9f5]">
+                    <span className="text-slate-300">v_rms (Quadrática Média):</span>
+                    <span className="text-white font-mono font-bold">
                       {infoFisica.velocidadeQuadraticaMedia.toFixed(1)} m/s
                     </span>
                   </div>
 
-                  <div className="flex justify-between pt-1 border-t border-[#1d2027]">
-                    <span className="text-[#918b7e]">Velocidade do Som:</span>
-                    <span className="text-[#c85a32]">
-                      {infoFisica.velocidadeDoSom.toFixed(1)} m/s
-                    </span>
+                  <div className="flex justify-between pt-1 border-t border-border text-cyan-400 font-semibold">
+                    <span>Velocidade do Som no Gás:</span>
+                    <span className="font-mono">{infoFisica.velocidadeDoSom.toFixed(1)} m/s</span>
                   </div>
                 </div>
               )}
@@ -281,15 +285,15 @@ export default function Maxwell() {
           </div>
 
           {/* Gráfico */}
-          <div className="lg:col-span-8 border border-[#1d2027] bg-[#14161b] p-6 flex flex-col justify-between">
+          <div className="lg:col-span-8 bg-surface border border-border rounded-xl p-6 flex flex-col justify-between shadow-md">
             <div>
-              <div className="flex items-baseline justify-between border-b border-[#1d2027] pb-3 mb-4">
-                <h3 className="font-serif text-xl text-[#faf9f5]">
+              <div className="flex items-center justify-between border-b border-border pb-3 mb-4">
+                <h3 className="font-serif text-xl font-bold text-white">
                   {tipoGrafico === 'velocidade'
-                    ? 'Densidade de Probabilidade de Velocidades f(v)'
-                    : 'Densidade de Energia Cinética Translacional f(E)'}
+                    ? 'Curva de Distribuição de Velocidades f(v)'
+                    : 'Curva de Energia Cinética Translacional f(E)'}
                 </h3>
-                <span className="font-mono text-xs text-[#918b7e]">
+                <span className="text-xs font-mono font-bold text-cyan-400">
                   {infoFisica?.gas} • {temperatura} K
                 </span>
               </div>
@@ -304,64 +308,66 @@ export default function Maxwell() {
                       animation: false,
                       scales: {
                         x: {
-                          grid: { color: '#1d2027' },
-                          ticks: { color: '#918b7e', font: { family: 'JetBrains Mono', size: 10 } },
+                          grid: { color: '#1e293b' },
+                          ticks: { color: '#cbd5e1', font: { family: 'JetBrains Mono', size: 11 } },
                           title: { 
                             display: true, 
                             text: tipoGrafico === 'velocidade' ? 'Velocidade Molecular (m/s)' : 'Energia Cinética (kJ/mol)', 
-                            color: '#918b7e', 
-                            font: { family: 'JetBrains Mono' } 
+                            color: '#94a3b8', 
+                            font: { weight: 'bold' } 
                           }
                         },
                         y: {
-                          grid: { color: '#1d2027' },
-                          ticks: { color: '#918b7e', font: { family: 'JetBrains Mono', size: 10 } },
-                          title: { display: true, text: 'Densidade Probabilística', color: '#918b7e', font: { family: 'JetBrains Mono' } },
+                          grid: { color: '#1e293b' },
+                          ticks: { color: '#cbd5e1', font: { family: 'JetBrains Mono', size: 11 } },
+                          title: { display: true, text: 'Densidade de Probabilidade', color: '#94a3b8', font: { weight: 'bold' } },
                           min: 0
                         }
                       },
                       plugins: {
                         legend: { display: false },
                         tooltip: {
-                          backgroundColor: '#0e1013',
-                          titleColor: '#c85a32',
-                          bodyColor: '#e5e2dc',
-                          borderColor: '#1d2027',
+                          backgroundColor: '#111827',
+                          titleColor: '#ea580c',
+                          bodyColor: '#f1f5f9',
+                          borderColor: '#334155',
                           borderWidth: 1,
-                          titleFont: { family: 'JetBrains Mono' },
-                          bodyFont: { family: 'JetBrains Mono' }
+                          padding: 10
                         }
                       }
                     }}
                   />
                 ) : (
-                  <div className="h-full flex items-center justify-center font-mono text-xs text-[#918b7e]">
-                    CÁLCULO ESTATÍSTICO...
+                  <div className="h-full flex items-center justify-center text-slate-400">
+                    Calculando curva térmica...
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="mt-6 pt-3 border-t border-[#1d2027] text-xs font-mono text-[#918b7e]">
-              RELAÇÃO TEÓRICA: v_mp &lt; v_média &lt; v_rms • ∫ f(v) dv = 1.0 (Normalização Estocástica)
+            <div className="mt-4 p-3 bg-surface-elevated rounded-lg border border-border text-xs text-slate-300">
+              Conceito: gases mais leves (como Hélio) ou temperaturas maiores provocam uma curva mais achatada e deslocada para a direita (maiores velocidades).
             </div>
           </div>
 
         </div>
 
-        {/* Problema de Laboratório */}
-        <section className="border border-[#1d2027] bg-[#14161b] p-6 sm:p-8 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-[#1d2027] pb-3">
-            <h3 className="font-serif text-2xl text-[#faf9f5]">
-              Determinação de Velocidade Mais Provável
-            </h3>
-            <span className="font-mono text-xs text-[#c85a32]">
-              RECOMPENSA: +75 CRÉDITOS ACADÊMICOS
+        {/* Exercício de Fixação */}
+        <section className="bg-surface border border-border rounded-xl p-6 sm:p-8 space-y-4 shadow-md">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3">
+            <div className="flex items-center space-x-2">
+              <HelpCircle className="w-5 h-5 text-brand" />
+              <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
+                Exercício de Fixação: Velocidade Molecular
+              </h3>
+            </div>
+            <span className="text-xs font-mono font-bold text-amber-400 bg-amber-950/40 px-3 py-1 rounded-full border border-amber-500/30">
+              RECOMPENSA: +75 XP & PONTOS
             </span>
           </div>
 
-          <p className="text-sm text-[#918b7e] leading-relaxed max-w-3xl">
-            Calcule a <strong>Velocidade Mais Provável (v_mp em m/s)</strong> das moléculas de {infoFisica?.gas} na temperatura de {temperatura} K:
+          <p className="text-sm text-slate-300 leading-relaxed">
+            Para o gás <strong className="text-white">{infoFisica?.gas}</strong> na temperatura de <strong className="text-white">{temperatura} K</strong>, qual é a <strong>Velocidade Mais Provável (v_mp em m/s)</strong>?
           </p>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
@@ -371,27 +377,33 @@ export default function Maxwell() {
               value={respostaUsuario}
               onChange={e => setRespostaUsuario(e.target.value)}
               disabled={resolvido}
-              placeholder="Ex: 353.5"
-              className="px-4 py-2.5 bg-[#0e1013] border border-[#1d2027] text-sm font-mono text-[#faf9f5] focus:outline-none focus:border-[#c85a32] disabled:opacity-50 sm:w-64"
+              placeholder="Digite a velocidade (ex: 353.5)"
+              className="px-4 py-3 bg-surface-elevated border border-border-light rounded-lg text-sm text-white font-mono focus:outline-none focus:border-brand disabled:opacity-50 sm:w-72"
             />
             <button
               onClick={verificarDesafio}
               disabled={resolvido || !respostaUsuario}
-              className="px-6 py-2.5 bg-[#c85a32] hover:bg-[#a74521] text-[#faf9f5] text-xs font-mono font-bold uppercase tracking-wider transition disabled:opacity-50"
+              className="px-6 py-3 bg-brand hover:bg-brand-hover text-white text-sm font-bold rounded-lg transition shadow-md disabled:opacity-50 flex items-center justify-center space-x-2"
             >
-              {resolvido ? 'Problema Concluído' : 'Submeter Cálculo'}
+              <span>{resolvido ? 'Exercício Concluído' : 'Verificar Resposta'}</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
           {feedback.tipo && (
             <div
-              className={`p-3.5 border font-mono text-xs ${
+              className={`p-4 rounded-lg border text-sm font-medium flex items-center space-x-2.5 ${
                 feedback.tipo === 'sucesso'
-                  ? 'border-[#52754f] bg-[#52754f]/10 text-[#9ebd9c]'
-                  : 'border-[#853416] bg-[#853416]/10 text-[#f09673]'
+                  ? 'border-emerald-500/50 bg-emerald-950/40 text-emerald-300'
+                  : 'border-rose-500/50 bg-rose-950/40 text-rose-300'
               }`}
             >
-              {feedback.msg}
+              {feedback.tipo === 'sucesso' ? (
+                <CheckCircle className="w-5 h-5 flex-shrink-0" />
+              ) : (
+                <AlertCircle className="w-5 h-5 flex-shrink-0" />
+              )}
+              <span>{feedback.msg}</span>
             </div>
           )}
         </section>

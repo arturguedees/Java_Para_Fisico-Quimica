@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { HelpCircle, CheckCircle, AlertCircle, ArrowRight, Sparkles, Filter } from 'lucide-react';
 import Navbar from '../components/Navbar';
 
 interface Exercicio {
@@ -88,19 +89,17 @@ export default function Exercicios() {
   });
 
   return (
-    <div className="min-h-screen bg-[#0e1013] text-[#e5e2dc] pb-24 font-sans">
+    <div className="min-h-screen bg-canvas text-slate-100 pb-24 font-sans">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-8 pt-10 space-y-8">
+      <main className="max-w-5xl mx-auto px-4 sm:px-8 pt-8 space-y-6">
         
         {/* Cabeçalho */}
-        <div className="border-b border-[#1d2027] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="space-y-1">
-            <span className="font-mono text-xs text-[#c85a32] uppercase tracking-wider">
-              CADERNO DE PROBLEMAS • AVALIAÇÃO CONTÍNUA
-            </span>
-            <h1 className="font-serif text-3xl sm:text-4xl text-[#faf9f5]">
-              Desafios & Avaliações Teórico-Práticas
+        <div className="bg-surface border border-border rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-md">
+          <div>
+            <span className="text-xs font-mono font-bold text-brand uppercase">CADERNO DE QUESTÕES</span>
+            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white">
+              Central de Exercícios & Quiz
             </h1>
           </div>
 
@@ -110,13 +109,13 @@ export default function Exercicios() {
               <button
                 key={mod}
                 onClick={() => setFiltroModulo(mod)}
-                className={`px-3 py-1.5 border transition-colors ${
+                className={`px-3 py-1.5 rounded-lg font-semibold transition ${
                   filtroModulo === mod
-                    ? 'border-[#c85a32] bg-[#c85a32]/10 text-[#faf9f5] font-semibold'
-                    : 'border-[#1d2027] bg-[#14161b] text-[#918b7e] hover:text-[#e5e2dc]'
+                    ? 'bg-brand text-white shadow-md'
+                    : 'bg-surface-elevated text-slate-300 hover:text-white border border-border'
                 }`}
               >
-                {mod === 'TODOS' ? 'Todos os Problemas' : mod}
+                {mod === 'TODOS' ? 'Todos os Tópicos' : mod}
               </button>
             ))}
           </div>
@@ -124,11 +123,11 @@ export default function Exercicios() {
 
         {/* Lista de Questões */}
         {loading ? (
-          <div className="font-mono text-xs text-[#918b7e] py-12 text-center">
-            CARREGANDO CADERNO DE QUESTÕES...
+          <div className="font-mono text-sm text-slate-400 py-12 text-center">
+            Carregando banco de questões...
           </div>
         ) : (
-          <div className="space-y-8">
+          <div className="space-y-6">
             {exerciciosFiltrados.map((ex, index) => {
               const isResolvido = exerciciosResolvidosSet.has(ex.id) || (feedbacks[ex.id]?.correto);
               const fb = feedbacks[ex.id];
@@ -136,40 +135,46 @@ export default function Exercicios() {
               return (
                 <article
                   key={ex.id}
-                  className={`border p-6 sm:p-8 space-y-5 transition-colors ${
+                  className={`bg-surface border rounded-xl p-6 sm:p-8 space-y-4 shadow-md transition-all ${
                     isResolvido
-                      ? 'border-[#52754f] bg-[#14161b]'
-                      : 'border-[#1d2027] bg-[#14161b]'
+                      ? 'border-emerald-500/60 bg-surface/90'
+                      : 'border-border hover:border-border-light'
                   }`}
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-[#1d2027] pb-3 text-xs font-mono">
-                    <div className="flex items-center space-x-3">
-                      <span className="text-[#c85a32] font-semibold">QUESTÃO {String(index + 1).padStart(2, '0')}</span>
-                      <span className="text-[#5e594d]">/</span>
-                      <span className="text-[#918b7e] uppercase">{ex.modulo}</span>
-                      <span className="text-[#5e594d]">/</span>
-                      <span className="text-[#918b7e]">{ex.nivel}</span>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3 text-xs font-mono">
+                    <div className="flex items-center space-x-2.5">
+                      <span className="text-brand font-bold">QUESTÃO {String(index + 1).padStart(2, '0')}</span>
+                      <span className="text-slate-500">•</span>
+                      <span className="px-2 py-0.5 bg-surface-elevated rounded border border-border text-slate-300">
+                        {ex.modulo}
+                      </span>
+                      <span className="text-slate-400">({ex.nivel})</span>
                     </div>
 
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-2">
                       {isResolvido ? (
-                        <span className="text-[#9ebd9c] font-semibold">● RESOLVIDO</span>
+                        <span className="text-emerald-400 font-bold flex items-center space-x-1">
+                          <CheckCircle className="w-4 h-4" />
+                          <span>RESOLVIDO</span>
+                        </span>
                       ) : (
-                        <span className="text-[#c85a32]">+{ex.recompensaXp} XP • +{ex.recompensaPontos} PTS</span>
+                        <span className="text-amber-400 font-bold bg-amber-950/40 px-2.5 py-0.5 rounded border border-amber-500/30">
+                          +{ex.recompensaXp} XP • +{ex.recompensaPontos} PTS
+                        </span>
                       )}
                     </div>
                   </div>
 
-                  <h3 className="font-serif text-xl sm:text-2xl text-[#faf9f5]">
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
                     {ex.titulo}
                   </h3>
 
-                  <p className="text-sm text-[#e5e2dc] leading-relaxed max-w-4xl font-sans">
+                  <p className="text-sm sm:text-base text-slate-200 leading-relaxed font-normal">
                     {ex.enunciado}
                   </p>
 
                   {/* Formulário */}
-                  <div className="pt-2">
+                  <div className="pt-2 space-y-4">
                     {ex.tipo === 'NUMERICO' ? (
                       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                         <input
@@ -178,15 +183,16 @@ export default function Exercicios() {
                           value={respostas[ex.id] ?? ''}
                           onChange={e => setRespostas({ ...respostas, [ex.id]: e.target.value })}
                           disabled={isResolvido}
-                          placeholder="Informe o valor numérico..."
-                          className="px-4 py-2.5 bg-[#0e1013] border border-[#1d2027] text-sm font-mono text-[#faf9f5] focus:outline-none focus:border-[#c85a32] disabled:opacity-50 sm:w-80"
+                          placeholder="Digite seu valor numérico..."
+                          className="px-4 py-3 bg-surface-elevated border border-border-light rounded-lg text-sm text-white font-mono focus:outline-none focus:border-brand disabled:opacity-50 sm:w-80"
                         />
                         <button
                           onClick={() => handleResponder(ex)}
                           disabled={isResolvido || processando[ex.id] || respostas[ex.id] === undefined}
-                          className="px-6 py-2.5 bg-[#c85a32] hover:bg-[#a74521] text-[#faf9f5] text-xs font-mono font-bold uppercase tracking-wider transition disabled:opacity-50"
+                          className="px-6 py-3 bg-brand hover:bg-brand-hover text-white text-sm font-bold rounded-lg transition shadow-md disabled:opacity-50 flex items-center justify-center space-x-2"
                         >
-                          {isResolvido ? 'Concluído' : processando[ex.id] ? 'Validando...' : 'Submeter Resposta'}
+                          <span>{isResolvido ? 'Concluído' : processando[ex.id] ? 'Validando...' : 'Confirmar Resposta'}</span>
+                          <ArrowRight className="w-4 h-4" />
                         </button>
                       </div>
                     ) : (
@@ -194,10 +200,10 @@ export default function Exercicios() {
                         {ex.opcoes.map((op, idx) => (
                           <label
                             key={idx}
-                            className={`flex items-start space-x-3 p-3.5 border text-xs sm:text-sm font-sans cursor-pointer transition ${
+                            className={`flex items-start space-x-3 p-3.5 rounded-lg border text-sm font-medium cursor-pointer transition ${
                               respostas[ex.id] === idx
-                                ? 'border-[#c85a32] bg-[#c85a32]/10 text-[#faf9f5]'
-                                : 'border-[#1d2027] bg-[#0e1013] text-[#918b7e] hover:text-[#e5e2dc]'
+                                ? 'border-brand bg-brand-subtle text-white'
+                                : 'border-border bg-surface-elevated text-slate-300 hover:text-white hover:border-border-light'
                             }`}
                           >
                             <input
@@ -207,7 +213,7 @@ export default function Exercicios() {
                               checked={respostas[ex.id] === idx}
                               onChange={() => setRespostas({ ...respostas, [ex.id]: idx })}
                               disabled={isResolvido}
-                              className="mt-1 accent-[#c85a32]"
+                              className="mt-1 accent-brand w-4 h-4"
                             />
                             <span>{op}</span>
                           </label>
@@ -217,27 +223,31 @@ export default function Exercicios() {
                           <button
                             onClick={() => handleResponder(ex)}
                             disabled={isResolvido || processando[ex.id] || respostas[ex.id] === undefined}
-                            className="px-6 py-2.5 bg-[#c85a32] hover:bg-[#a74521] text-[#faf9f5] text-xs font-mono font-bold uppercase tracking-wider transition disabled:opacity-50"
+                            className="px-6 py-3 bg-brand hover:bg-brand-hover text-white text-sm font-bold rounded-lg transition shadow-md disabled:opacity-50 flex items-center justify-center space-x-2"
                           >
-                            {isResolvido ? 'Concluído' : processando[ex.id] ? 'Validando...' : 'Confirmar Opção'}
+                            <span>{isResolvido ? 'Concluído' : processando[ex.id] ? 'Validando...' : 'Confirmar Opção'}</span>
+                            <ArrowRight className="w-4 h-4" />
                           </button>
                         </div>
                       </div>
                     )}
 
-                    {/* Feedback e Explicação */}
+                    {/* Feedback */}
                     {fb && (
                       <div
-                        className={`mt-4 p-4 border text-xs font-mono space-y-1.5 ${
+                        className={`p-4 rounded-lg border text-sm space-y-1.5 ${
                           fb.correto
-                            ? 'border-[#52754f] bg-[#52754f]/10 text-[#9ebd9c]'
-                            : 'border-[#853416] bg-[#853416]/10 text-[#f09673]'
+                            ? 'border-emerald-500/50 bg-emerald-950/40 text-emerald-300'
+                            : 'border-rose-500/50 bg-rose-950/40 text-rose-300'
                         }`}
                       >
-                        <div className="font-bold">{fb.mensagem}</div>
+                        <div className="flex items-center space-x-2 font-bold">
+                          {fb.correto ? <CheckCircle className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
+                          <span>{fb.mensagem}</span>
+                        </div>
                         {fb.explicacao && (
-                          <p className="font-sans text-xs text-[#e5e2dc] pt-1 leading-relaxed">
-                            <strong className="font-mono text-[#faf9f5]">Justificativa Teórica:</strong> {fb.explicacao}
+                          <p className="text-slate-200 text-xs sm:text-sm pt-1 leading-relaxed">
+                            <strong className="text-white">Explicação Teórica:</strong> {fb.explicacao}
                           </p>
                         )}
                       </div>

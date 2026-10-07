@@ -12,36 +12,26 @@ export default {
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       colors: {
-        ink: {
-          950: '#0a0b0d',
-          900: '#0e1013',
-          850: '#14161b',
-          800: '#1d2027',
-          700: '#2b303b',
-          600: '#3e4452',
+        canvas: '#090d16',
+        surface: {
+          DEFAULT: '#111827',
+          elevated: '#1a2234',
+          highlight: '#242f46',
         },
-        sand: {
-          50: '#fdfcf9',
-          100: '#f5f2eb',
-          200: '#e5e2dc',
-          300: '#c5bfb4',
-          400: '#918b7e',
-          500: '#5e594d',
+        border: {
+          DEFAULT: '#2a3449',
+          light: '#3d4b66',
         },
-        copper: {
-          300: '#f09673',
-          400: '#e0734a',
-          500: '#c85a32',
-          600: '#a74521',
-          700: '#853416',
-          900: '#3d1a0e',
-          950: '#240d06',
+        brand: {
+          DEFAULT: '#ea580c',
+          hover: '#c2410c',
+          subtle: '#ea580c1a',
         },
-        sage: {
-          300: '#9ebd9c',
-          400: '#759972',
-          500: '#52754f',
-          900: '#162b14',
+        accent: {
+          emerald: '#10b981',
+          cyan: '#06b6d4',
+          amber: '#f59e0b',
+          rose: '#f43f5e',
         }
       }
     },

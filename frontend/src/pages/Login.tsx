@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { FlaskConical, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -20,11 +21,11 @@ export default function Login() {
       navigate('/dashboard');
     } catch (err: any) {
       if (err.code === 'ERR_NETWORK') {
-        setErro('Servidor de dados inacessível. Certifique-se de que o backend Java e PostgreSQL estejam ativos.');
+        setErro('Servidor Java ou Banco de Dados offline. Certifique-se de que o backend esteja rodando.');
       } else if (err.response && err.response.data) {
-        setErro(typeof err.response.data === 'string' ? err.response.data : 'Credenciais acadêmicas inválidas.');
+        setErro(typeof err.response.data === 'string' ? err.response.data : 'Email ou senha inválidos.');
       } else {
-        setErro('Credenciais inválidas.');
+        setErro('Email ou senha inválidos.');
       }
     } finally {
       setCarregando(false);
@@ -32,80 +33,88 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0e1013] text-[#e5e2dc] flex flex-col justify-between p-6 sm:p-12 font-sans selection:bg-[#c85a32] selection:text-white">
+    <div className="min-h-screen bg-canvas text-slate-100 flex flex-col justify-between p-6 sm:p-12 font-sans selection:bg-brand selection:text-white">
       
-      {/* Header Editorial */}
-      <header className="flex items-center justify-between border-b border-[#1d2027] pb-4 font-mono text-xs text-[#918b7e]">
-        <span className="text-[#c85a32] font-semibold">● LAB QUÂNTICO</span>
-        <span>ACESSO AO PORTAL ACADÊMICO</span>
+      {/* Header */}
+      <header className="flex items-center justify-between border-b border-border pb-4 font-mono text-xs text-slate-400">
+        <span className="text-brand font-bold text-sm">● LAB QUÂNTICO</span>
+        <span>UNIVERSIDADE TIRADENTES</span>
       </header>
 
-      {/* Caixa Central de Acesso */}
-      <main className="max-w-md w-full mx-auto my-12 border border-[#1d2027] bg-[#14161b] p-8 sm:p-10 space-y-6">
+      {/* Caixa de Acesso */}
+      <main className="max-w-md w-full mx-auto my-12 bg-surface border border-border rounded-2xl p-8 sm:p-10 space-y-6 shadow-2xl">
         <div className="space-y-2 text-center">
-          <span className="font-mono text-[11px] text-[#c85a32] tracking-wider uppercase">
-            AUTENTICAÇÃO DE PESQUISADOR
-          </span>
-          <h1 className="font-serif text-3xl sm:text-4xl text-[#faf9f5]">
+          <div className="w-12 h-12 bg-surface-elevated rounded-xl border border-border flex items-center justify-center mx-auto text-brand mb-3">
+            <FlaskConical className="w-6 h-6" />
+          </div>
+          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-white">
             Lab Quântico
           </h1>
-          <p className="text-xs text-[#918b7e] max-w-xs mx-auto leading-relaxed">
-            Plataforma computacional de físico-química e termodinâmica experimental.
+          <p className="text-sm text-slate-300 max-w-xs mx-auto leading-relaxed">
+            Plataforma de estudos práticos e simulações em Físico-Química.
           </p>
         </div>
 
         {erro && (
-          <div className="p-3 border border-[#853416] bg-[#853416]/10 text-[#f09673] font-mono text-xs">
-            {erro}
+          <div className="p-3.5 bg-rose-950/40 border border-rose-500/50 text-rose-300 rounded-lg text-xs font-medium flex items-center space-x-2">
+            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            <span>{erro}</span>
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-4 font-mono text-xs">
+        <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-[#918b7e] block">EMAIL ACADÊMICO</label>
-            <input 
-              type="email" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-[#0e1013] border border-[#1d2027] text-sm text-[#faf9f5] focus:outline-none focus:border-[#c85a32] transition"
-              placeholder="exemplo@unit.br"
-              required 
-            />
+            <label className="text-xs font-semibold text-slate-200 block">Email Institucional / Pessoal</label>
+            <div className="relative">
+              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+              <input 
+                type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-surface-elevated border border-border-light rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand transition"
+                placeholder="seu@email.com"
+                required 
+              />
+            </div>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[#918b7e] block">CHAVE DE ACESSO</label>
-            <input 
-              type="password" 
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-[#0e1013] border border-[#1d2027] text-sm text-[#faf9f5] focus:outline-none focus:border-[#c85a32] transition"
-              placeholder="••••••••"
-              required 
-            />
+            <label className="text-xs font-semibold text-slate-200 block">Senha</label>
+            <div className="relative">
+              <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+              <input 
+                type="password" 
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 bg-surface-elevated border border-border-light rounded-lg text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brand transition"
+                placeholder="••••••••"
+                required 
+              />
+            </div>
           </div>
 
           <button 
             type="submit" 
             disabled={carregando}
-            className="w-full mt-3 py-3 bg-[#c85a32] hover:bg-[#a74521] text-[#faf9f5] font-bold uppercase tracking-wider transition disabled:opacity-50"
+            className="w-full mt-2 py-3.5 bg-brand hover:bg-brand-hover text-white font-bold rounded-lg transition shadow-md disabled:opacity-50 flex items-center justify-center space-x-2 text-sm"
           >
-            {carregando ? 'AUTENTICANDO...' : 'ACESSAR LABORATÓRIO'}
+            <span>{carregando ? 'Entrando...' : 'Acessar Laboratório'}</span>
+            <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <div className="pt-4 border-t border-[#1d2027] text-center font-mono text-xs text-[#918b7e]">
-          Novo pesquisador?{' '}
-          <Link to="/cadastro" className="text-[#c85a32] hover:underline font-semibold">
-            Criar credencial
+        <div className="pt-4 border-t border-border text-center text-xs text-slate-400">
+          Ainda não tem conta?{' '}
+          <Link to="/cadastro" className="text-brand hover:underline font-bold">
+            Cadastre-se gratuitamente
           </Link>
         </div>
       </main>
 
-      {/* Rodapé Editorial */}
-      <footer className="border-t border-[#1d2027] pt-4 flex flex-col sm:flex-row items-center justify-between font-mono text-[11px] text-[#5e594d]">
-        <span>UNIVERSIDADE TIRADENTES • DEPARTAMENTO DE COMPUTAÇÃO</span>
-        <span>EDIÇÃO 2026 • TODOS OS DIREITOS RESERVADOS</span>
+      {/* Rodapé */}
+      <footer className="border-t border-border pt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 font-mono">
+        <span>Projeto de Programação • Físico-Química</span>
+        <span>Universidade Tiradentes</span>
       </footer>
 
     </div>

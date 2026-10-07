@@ -13,8 +13,8 @@ export interface AvatarDef {
 export const AVATARES_CATALOGO: AvatarDef[] = [
   {
     id: 'avatar_default',
-    nome: 'Insígnia Básica de Laboratório',
-    descricao: 'Credencial inaugural concedida a novos pesquisadores e estudantes.',
+    nome: 'Insígnia de Iniciação',
+    descricao: 'Concedida aos estudantes ao iniciarem seus estudos na plataforma.',
     preco: 0,
     nivelMinimo: 1,
     simbolo: 'α',
@@ -22,8 +22,8 @@ export const AVATARES_CATALOGO: AvatarDef[] = [
   },
   {
     id: 'avatar_quantum',
-    nome: 'Selo Quântico de Planck',
-    descricao: 'Homenagem aos fundamentos da mecânica quântica e quantização de energia.',
+    nome: 'Insígnia de Planck',
+    descricao: 'Símbolo da física quântica e quantização de energia.',
     preco: 150,
     nivelMinimo: 2,
     simbolo: 'ℏ',
@@ -31,8 +31,8 @@ export const AVATARES_CATALOGO: AvatarDef[] = [
   },
   {
     id: 'avatar_fire',
-    nome: 'Ordem Termodinâmica de Carnot',
-    descricao: 'Insígnia de domínio em ciclos térmicos, entalpia de reação e conservação de energia.',
+    nome: 'Insígnia de Termodinâmica',
+    descricao: 'Domínio em entalpia, conservação de energia e calorimetria.',
     preco: 300,
     nivelMinimo: 3,
     simbolo: 'ΔH',
@@ -40,17 +40,17 @@ export const AVATARES_CATALOGO: AvatarDef[] = [
   },
   {
     id: 'avatar_cyber',
-    nome: 'Medalha Estatística de Boltzmann',
-    descricao: 'Honraria dedicada à interpretação probabilística dos sistemas e entropia.',
+    nome: 'Insígnia de Boltzmann',
+    descricao: 'Dedicada aos estudos de entropia e velocidade dos gases.',
     preco: 500,
     nivelMinimo: 4,
     simbolo: 'kB',
-    subtitulo: 'ENTROPIA & ESTATÍSTICA'
+    subtitulo: 'CONSTANTE DE BOLTZMANN'
   },
   {
     id: 'avatar_supernova',
-    nome: 'Crest Espectroscópico de Bohr',
-    descricao: 'Reconhecimento pela resolução precisa de modelos atômicos e transições eletrônicas.',
+    nome: 'Insígnia de Bohr',
+    descricao: 'Reconhecimento pela resolução precisa de modelos atômicos.',
     preco: 800,
     nivelMinimo: 5,
     simbolo: 'Ψ',
@@ -58,17 +58,17 @@ export const AVATARES_CATALOGO: AvatarDef[] = [
   },
   {
     id: 'avatar_void',
-    nome: 'Selo Real de Marie Curie',
-    descricao: 'Consagração máxima em transformações nucleares e radioatividade.',
+    nome: 'Insígnia de Marie Curie',
+    descricao: 'Homenagem aos estudos avançados em transformações moleculares.',
     preco: 1200,
     nivelMinimo: 6,
     simbolo: 'Ra',
-    subtitulo: 'PESQUISA AVANÇADA'
+    subtitulo: 'QUÍMICA AVANÇADA'
   },
   {
     id: 'avatar_nobel',
-    nome: 'Láurea Suprema da Ciência',
-    descricao: 'A mais alta distinção acadêmica outorgada por excelência investigativa.',
+    nome: 'Láurea de Excelência',
+    descricao: 'A mais alta distinção de estudo na disciplina.',
     preco: 2000,
     nivelMinimo: 7,
     simbolo: 'Ω',
@@ -89,19 +89,19 @@ export default function AvatarBadge({
   const avatar = AVATARES_CATALOGO.find(a => a.id === avatarId) || AVATARES_CATALOGO[0];
 
   const sizeClasses = {
-    sm: 'w-7 h-7 text-xs border-[1px]',
-    md: 'w-10 h-10 text-sm border-[1px]',
-    lg: 'w-14 h-14 text-lg border-[1.5px]',
-    xl: 'w-20 h-20 text-2xl border-[1.5px]',
-    '2xl': 'w-28 h-28 text-4xl border-[2px]',
+    sm: 'w-8 h-8 text-sm border',
+    md: 'w-11 h-11 text-base border-[1.5px]',
+    lg: 'w-16 h-16 text-xl border-2',
+    xl: 'w-20 h-20 text-3xl border-2',
+    '2xl': 'w-28 h-28 text-4xl border-2',
   };
 
   return (
     <div className="relative inline-flex items-center justify-center select-none font-serif">
       <div
-        className={`${sizeClasses[size]} rounded-none bg-[#13161b] border-[#2b303b] hover:border-[#c85a32] flex items-center justify-center text-[#e5e2dc] shadow-sm transition-colors duration-200`}
+        className={`${sizeClasses[size]} rounded-lg bg-surface-elevated border-border-light hover:border-brand flex items-center justify-center text-white shadow-md transition-colors duration-200`}
       >
-        <span className="font-serif italic font-semibold text-[#c85a32]">{avatar.simbolo}</span>
+        <span className="font-serif italic font-bold text-brand">{avatar.simbolo}</span>
       </div>
     </div>
   );

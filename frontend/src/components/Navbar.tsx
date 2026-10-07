@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LogOut } from 'lucide-react';
+import { LogOut, Coins, Award, Sparkles } from 'lucide-react';
 import AvatarBadge from './AvatarBadge';
 
 interface NavbarProps {
@@ -22,37 +22,44 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
   };
 
   const navItems = [
-    { path: '/dashboard', label: 'Visão Geral' },
+    { path: '/dashboard', label: 'Início' },
     { path: '/cinetica', label: '01. Cinética' },
     { path: '/maxwell', label: '02. Maxwell' },
     { path: '/dsc', label: '03. Calorimetria' },
-    { path: '/exercicios', label: '04. Desafios' },
+    { path: '/exercicios', label: '04. Exercícios' },
     { path: '/loja', label: '05. Insígnias' },
-    { path: '/ranking', label: '06. Tábua de Honra' },
+    { path: '/ranking', label: '06. Ranking' },
   ];
 
   const xp = usuario?.experiencia || 0;
   let nivel = 1;
-  if (xp < 100) nivel = 1;
-  else if (xp < 300) nivel = 2;
-  else if (xp < 600) nivel = 3;
-  else if (xp < 1000) nivel = 4;
-  else if (xp < 1500) nivel = 5;
-  else if (xp < 2500) nivel = 6;
-  else nivel = 7;
+  let xpBase = 0;
+  let xpProximo = 100;
+
+  if (xp < 100) { nivel = 1; xpBase = 0; xpProximo = 100; }
+  else if (xp < 300) { nivel = 2; xpBase = 100; xpProximo = 300; }
+  else if (xp < 600) { nivel = 3; xpBase = 300; xpProximo = 600; }
+  else if (xp < 1000) { nivel = 4; xpBase = 600; xpProximo = 1000; }
+  else if (xp < 1500) { nivel = 5; xpBase = 1000; xpProximo = 1500; }
+  else if (xp < 2500) { nivel = 6; xpBase = 1500; xpProximo = 2500; }
+  else { nivel = 7; xpBase = 2500; xpProximo = 5000; }
+
+  const progressoPercent = Math.min(100, Math.max(0, ((xp - xpBase) / (xpProximo - xpBase)) * 100));
 
   return (
-    <header className="bg-[#0e1013] border-b border-[#1d2027] sticky top-0 z-50">
-      {/* Barra de Topo Editorial */}
-      <div className="border-b border-[#1d2027] px-4 sm:px-8 py-1.5 flex items-center justify-between text-[11px] font-mono tracking-wider text-[#918b7e] uppercase">
-        <div className="flex items-center space-x-3">
-          <span className="text-[#c85a32] font-semibold">● LAB QUÂNTICO</span>
+    <header className="bg-surface border-b border-border sticky top-0 z-50 shadow-md">
+      {/* Barra de Topo Acadêmica */}
+      <div className="border-b border-border/80 px-4 sm:px-8 py-1.5 flex items-center justify-between text-xs font-mono text-slate-300">
+        <div className="flex items-center space-x-2">
+          <span className="w-2 h-2 rounded-full bg-brand"></span>
+          <span className="text-white font-bold tracking-wider">LAB QUÂNTICO</span>
+          <span className="text-slate-500">•</span>
+          <span className="hidden sm:inline text-slate-400">Universidade Tiradentes</span>
         </div>
         <div className="flex items-center space-x-4">
-          <span className="hidden md:inline">EDIÇÃO ACADÊMICA 2026</span>
           {usuario && (
-            <span className="text-[#e5e2dc]">
-              PESQUISADOR: <strong className="text-[#c85a32]">{usuario.nomeCompleto}</strong>
+            <span className="text-slate-200">
+              Aluno: <strong className="text-white font-bold">{usuario.nomeCompleto}</strong>
             </span>
           )}
         </div>
@@ -62,28 +69,25 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
         <div className="flex items-center justify-between h-16">
           
-          {/* Logo Tipográfico Editorial */}
+          {/* Logo */}
           <Link to="/dashboard" className="flex items-baseline space-x-2 group">
-            <span className="font-serif text-2xl font-normal tracking-tight text-[#f5f2eb] group-hover:text-[#c85a32] transition-colors">
+            <span className="font-serif text-2xl sm:text-3xl font-bold tracking-tight text-white group-hover:text-brand transition-colors">
               Lab Quântico
-            </span>
-            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#918b7e]">
-              v2.0
             </span>
           </Link>
 
           {/* Links de Módulos */}
-          <nav className="hidden lg:flex items-center space-x-6 text-xs font-mono tracking-wider">
+          <nav className="hidden lg:flex items-center space-x-6 text-sm font-medium">
             {navItems.map(item => {
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`py-5 transition-colors border-b-2 ${
+                  className={`py-5 transition-colors border-b-2 font-semibold ${
                     isActive
-                      ? 'border-[#c85a32] text-[#f5f2eb] font-semibold'
-                      : 'border-transparent text-[#918b7e] hover:text-[#e5e2dc]'
+                      ? 'border-brand text-brand'
+                      : 'border-transparent text-slate-300 hover:text-white'
                   }`}
                 >
                   {item.label}
@@ -92,51 +96,60 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
             })}
           </nav>
 
-          {/* Dados do Pesquisador (Status) */}
-          <div className="flex items-center space-x-5">
+          {/* HUD do Estudante */}
+          <div className="flex items-center space-x-4">
             {usuario ? (
               <>
-                {/* Saldo de Moedas & Nível */}
-                <div className="hidden sm:flex items-center space-x-3 text-xs font-mono">
-                  <div className="px-2.5 py-1 bg-[#14161b] border border-[#1d2027] text-[#c85a32] font-semibold">
-                    {usuario.pontos} <span className="text-[10px] text-[#918b7e]">PTS</span>
+                {/* Pontos / Moedas */}
+                <div className="flex items-center space-x-1.5 px-3 py-1.5 bg-surface-elevated border border-border-light rounded-lg text-xs font-mono">
+                  <Coins className="w-4 h-4 text-amber-400" />
+                  <span className="text-white font-bold">{usuario.pontos}</span>
+                  <span className="text-slate-400 text-[10px]">pts</span>
+                </div>
+
+                {/* Nível e XP */}
+                <div className="hidden sm:flex flex-col items-end text-xs font-mono">
+                  <div className="flex items-center space-x-1 font-bold">
+                    <span className="text-brand">Nível {nivel}</span>
+                    <span className="text-slate-400">•</span>
+                    <span className="text-white">{xp} XP</span>
                   </div>
-                  <div className="px-2.5 py-1 bg-[#14161b] border border-[#1d2027] text-[#e5e2dc]">
-                    NV. {nivel} <span className="text-[10px] text-[#918b7e]">({xp} XP)</span>
+                  <div className="w-24 bg-surface-highlight h-1.5 rounded-full overflow-hidden mt-1 border border-border">
+                    <div
+                      className="bg-brand h-full rounded-full transition-all duration-300"
+                      style={{ width: `${progressoPercent}%` }}
+                    />
                   </div>
                 </div>
 
-                {/* Insígnia e Perfil */}
+                {/* Avatar e Perfil */}
                 <Link
                   to="/perfil"
-                  className="flex items-center space-x-2.5 hover:opacity-80 transition"
-                  title="Acessar Dossier do Pesquisador"
+                  className="flex items-center space-x-2 p-1 rounded-lg hover:bg-surface-elevated transition"
+                  title="Acessar meu perfil"
                 >
                   <AvatarBadge avatarId={usuario.avatarId} size="sm" />
-                  <span className="hidden xl:inline text-xs font-serif italic text-[#c5bfb4] max-w-[120px] truncate">
-                    {usuario.titulo}
-                  </span>
                 </Link>
 
                 {/* Sair */}
                 <button
                   onClick={handleLogout}
-                  className="text-[#918b7e] hover:text-[#c85a32] transition p-1"
-                  title="Desconectar"
+                  className="p-2 text-slate-400 hover:text-rose-400 hover:bg-surface-elevated rounded-lg transition"
+                  title="Sair da conta"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
               </>
             ) : (
-              <div className="flex items-center space-x-3 text-xs font-mono">
-                <Link to="/login" className="text-[#918b7e] hover:text-[#e5e2dc]">
-                  ENTRAR
+              <div className="flex items-center space-x-3 text-sm font-semibold">
+                <Link to="/login" className="text-slate-300 hover:text-white">
+                  Entrar
                 </Link>
                 <Link
                   to="/cadastro"
-                  className="px-3 py-1.5 bg-[#c85a32] hover:bg-[#a74521] text-[#faf9f5] font-semibold tracking-wider uppercase transition"
+                  className="px-4 py-2 bg-brand hover:bg-brand-hover text-white rounded-lg transition shadow-md"
                 >
-                  REGISTRAR
+                  Criar Conta
                 </Link>
               </div>
             )}
@@ -146,15 +159,15 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
       </div>
 
       {/* Menu mobile secundário */}
-      <div className="lg:hidden flex items-center space-x-4 px-4 py-2 bg-[#14161b] border-t border-[#1d2027] overflow-x-auto text-xs font-mono">
+      <div className="lg:hidden flex items-center space-x-3 px-4 py-2 bg-surface-elevated border-t border-border overflow-x-auto text-xs font-medium">
         {navItems.map(item => {
           const isActive = location.pathname === item.path;
           return (
             <Link
               key={item.path}
               to={item.path}
-              className={`whitespace-nowrap ${
-                isActive ? 'text-[#c85a32] font-semibold' : 'text-[#918b7e]'
+              className={`whitespace-nowrap px-2.5 py-1 rounded-md ${
+                isActive ? 'bg-brand text-white font-bold' : 'text-slate-300 hover:text-white'
               }`}
             >
               {item.label}
