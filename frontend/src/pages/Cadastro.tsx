@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { FlaskConical, Lock, Mail, User, ArrowRight, AlertCircle } from 'lucide-react';
+import { FlaskConical, Lock, Mail, User, ArrowRight, AlertCircle, Sparkles } from 'lucide-react';
 
 export default function Cadastro() {
   const navigate = useNavigate();
@@ -38,24 +38,24 @@ export default function Cadastro() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col justify-between p-6 sm:p-12 font-sans">
+    <div className="min-h-screen text-slate-800 flex flex-col justify-between p-6 sm:p-12 font-sans">
       
       {/* Header */}
-      <header className="flex items-center justify-between border-b border-slate-200 pb-4 text-xs font-semibold text-slate-500">
-        <div className="flex items-center space-x-2">
-          <div className="w-6 h-6 rounded-lg bg-blue-600 flex items-center justify-center text-white">
-            <FlaskConical className="w-3.5 h-3.5" />
+      <header className="flex items-center justify-between border-b border-slate-200/80 pb-4 text-xs font-bold text-slate-500">
+        <div className="flex items-center space-x-2.5">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-500 flex items-center justify-center text-white shadow-xs">
+            <FlaskConical className="w-4 h-4" />
           </div>
-          <span className="text-slate-900 font-bold tracking-tight">LAB QUÂNTICO</span>
+          <span className="text-slate-900 font-extrabold tracking-tight text-sm">LAB QUÂNTICO</span>
         </div>
-        <span>CADASTRO DE ESTUDANTE</span>
+        <span className="text-slate-400">CADASTRO DE ESTUDANTE</span>
       </header>
 
       {/* Caixa de Registro */}
-      <main className="max-w-md w-full mx-auto my-12 bg-white border border-slate-200 rounded-2xl p-8 sm:p-10 space-y-6 shadow-sm">
+      <main className="max-w-md w-full mx-auto my-12 quantum-card rounded-3xl p-8 sm:p-10 space-y-6 shadow-card hover:shadow-card-hover transition-all">
         <div className="space-y-2 text-center">
-          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mx-auto mb-3">
-            <FlaskConical className="w-6 h-6" />
+          <div className="w-14 h-14 bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md shadow-indigo-500/25 hover:rotate-6 transition-transform">
+            <FlaskConical className="w-7 h-7" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             Criar Conta
@@ -66,7 +66,7 @@ export default function Cadastro() {
         </div>
 
         {erro && (
-          <div className="p-3.5 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-xs font-medium flex items-center space-x-2">
+          <div className="p-3.5 bg-rose-50 border border-rose-300 text-rose-900 rounded-2xl text-xs font-bold flex items-center space-x-2 animate-slide-up">
             <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-600" />
             <span>{erro}</span>
           </div>
@@ -74,14 +74,14 @@ export default function Cadastro() {
 
         <form onSubmit={handleCadastro} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-700 block">Nome Completo</label>
+            <label className="text-xs font-bold text-slate-700 block">Nome Completo</label>
             <div className="relative">
               <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
               <input 
                 type="text" 
                 value={nomeCompleto}
                 onChange={(e) => setNomeCompleto(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
+                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition shadow-xs"
                 placeholder="Seu nome completo"
                 required 
               />
@@ -89,14 +89,14 @@ export default function Cadastro() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-700 block">Email Institucional ou Pessoal</label>
+            <label className="text-xs font-bold text-slate-700 block">Email Institucional ou Pessoal</label>
             <div className="relative">
               <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
               <input 
                 type="email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
+                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition shadow-xs"
                 placeholder="seu@email.com"
                 required 
               />
@@ -104,14 +104,14 @@ export default function Cadastro() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-700 block">Senha de Acesso</label>
+            <label className="text-xs font-bold text-slate-700 block">Senha de Acesso</label>
             <div className="relative">
               <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
               <input 
                 type="password" 
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
+                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition shadow-xs"
                 placeholder="••••••••"
                 required 
               />
@@ -121,7 +121,7 @@ export default function Cadastro() {
           <button 
             type="submit" 
             disabled={carregando}
-            className="w-full mt-2 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition shadow-sm disabled:opacity-50 flex items-center justify-center space-x-2 text-sm"
+            className="btn-quantum-primary w-full mt-2 py-3.5 rounded-xl font-bold transition shadow-md disabled:opacity-50 flex items-center justify-center space-x-2 text-sm"
           >
             <span>{carregando ? 'Cadastrando...' : 'Criar Minha Conta'}</span>
             <ArrowRight className="w-4 h-4" />
@@ -130,14 +130,14 @@ export default function Cadastro() {
 
         <div className="pt-4 border-t border-slate-100 text-center text-xs text-slate-500">
           Já possui conta?{' '}
-          <Link to="/login" className="text-blue-600 hover:text-blue-700 font-bold">
+          <Link to="/login" className="text-indigo-600 hover:text-indigo-800 font-extrabold hover:underline">
             Fazer login
           </Link>
         </div>
       </main>
 
       {/* Rodapé */}
-      <footer className="border-t border-slate-200 pt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
+      <footer className="border-t border-slate-200/80 pt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-medium">
         <span>Projeto de Programação • Físico-Química</span>
         <span>Universidade Tiradentes</span>
       </footer>
