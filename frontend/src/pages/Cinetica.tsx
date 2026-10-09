@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import { FlaskConical, CheckCircle2, AlertCircle, ArrowRight, Info, HelpCircle, Sparkles, Activity } from 'lucide-react';
+import { FlaskConical, CheckCircle2, AlertCircle, ArrowRight, Info, HelpCircle, Sparkles, Activity, Printer, Download } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import Navbar from '../components/Navbar';
 import {
@@ -28,6 +28,7 @@ export default function Cinetica() {
   const [k, setK] = useState<number>(0.15);
   const [a0, setA0] = useState<number>(2.0);
   const [tempoMax, setTempoMax] = useState<number>(25);
+  const [cenario, setCenario] = useState<string>('padrao');
 
   // Dados calculados
   const [dadosGrafico, setDadosGrafico] = useState<any>(null);
@@ -38,6 +39,28 @@ export default function Cinetica() {
   const [respostaUsuario, setRespostaUsuario] = useState<string>('');
   const [feedback, setFeedback] = useState<{ tipo: 'sucesso' | 'erro' | null; msg: string }>({ tipo: null, msg: '' });
   const [resolvido, setResolvido] = useState<boolean>(false);
+
+  const aplicarCenario = (tipo: string) => {
+    setCenario(tipo);
+    if (tipo === 'padrao') {
+      setOrdem(1);
+      setK(0.15);
+      setA0(2.0);
+      setTempoMax(25);
+    } else if (tipo === 'ozonio') {
+      // Degradação fotoquímica do ozônio na estratosfera (alta reatividade)
+      setOrdem(1);
+      setK(0.28);
+      setA0(1.5);
+      setTempoMax(20);
+    } else if (tipo === 'poluente') {
+      // Decomposição térmica do poluente N2O5 (mais lenta)
+      setOrdem(1);
+      setK(0.04);
+      setA0(3.0);
+      setTempoMax(60);
+    }
+  };
 
   useEffect(() => {
     const data = localStorage.getItem('usuario');
@@ -169,13 +192,66 @@ export default function Cinetica() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-4 text-xs font-black uppercase tracking-widest">
-            <span className="px-4 py-3 bg-white border-4 border-dark text-dark shadow-neo-sm">
-              Reação: A → B
-            </span>
+          <div className="flex flex-wrap items-center gap-3 text-xs font-black uppercase tracking-widest">
+            <button
+              onClick={() => window.print()}
+              className="px-4 py-3 bg-white hover:bg-yellow-300 border-4 border-dark text-dark shadow-neo-sm hover:-translate-y-0.5 transition-all flex items-center space-x-2"
+              title="Gerar/Imprimir Relatório de Laboratório"
+            >
+              <Printer className="w-4 h-4 stroke-[2.5]" />
+              <span>Relatório PDF</span>
+            </button>
             <span className="btn-quantum-primary px-5 py-3 border-4 shadow-neo-sm">
               Ordem {ordem}
             </span>
+          </div>
+        </div>
+
+        {/* Barra de Cenários Experimentais do Paper ACS */}
+        <div className="bg-white border-4 border-dark rounded-2xl p-5 shadow-neo space-y-3">
+          <div className="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-dark">
+            <Sparkles className="w-4 h-4 text-brand fill-dark stroke-[2.5]" />
+            <span>Cenários de Laboratório (Inspirados no Paper J. Chem. Educ.):</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button
+              type="button"
+              onClick={() => aplicarCenario('padrao')}
+              className={`p-3.5 border-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all text-left ${
+                cenario === 'padrao'
+                  ? 'bg-brand border-dark shadow-neo-sm -translate-y-0.5'
+                  : 'bg-white border-dark/40 hover:border-dark text-dark/70 hover:text-dark'
+              }`}
+            >
+              <div className="text-dark font-extrabold text-sm">🧪 Reação Geral (A → B)</div>
+              <div className="text-[11px] text-dark/60 font-mono mt-1">k = 0.15 s⁻¹ • [A]₀ = 2.0 M</div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => aplicarCenario('ozonio')}
+              className={`p-3.5 border-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all text-left ${
+                cenario === 'ozonio'
+                  ? 'bg-brand border-dark shadow-neo-sm -translate-y-0.5'
+                  : 'bg-white border-dark/40 hover:border-dark text-dark/70 hover:text-dark'
+              }`}
+            >
+              <div className="text-dark font-extrabold text-sm">🌍 Ozônio Estratosférico (O₃)</div>
+              <div className="text-[11px] text-dark/60 font-mono mt-1">k = 0.28 s⁻¹ • Rápido decaimento</div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => aplicarCenario('poluente')}
+              className={`p-3.5 border-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all text-left ${
+                cenario === 'poluente'
+                  ? 'bg-brand border-dark shadow-neo-sm -translate-y-0.5'
+                  : 'bg-white border-dark/40 hover:border-dark text-dark/70 hover:text-dark'
+              }`}
+            >
+              <div className="text-dark font-extrabold text-sm">🏭 Poluente Gasoso (N₂O₅)</div>
+              <div className="text-[11px] text-dark/60 font-mono mt-1">k = 0.04 s⁻¹ • e-folding prolongado</div>
+            </button>
           </div>
         </div>
 
@@ -184,23 +260,23 @@ export default function Cinetica() {
           
           {/* Parâmetros de Controle */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="quantum-card rounded-3xl p-6 space-y-5 shadow-sm">
-              <h2 className="text-lg font-extrabold text-slate-900 border-b border-slate-100 pb-3 flex items-center justify-between">
-                <span>Parâmetros da Reação</span>
-                <Info className="w-4 h-4 text-slate-400" />
+            <div className="bg-white border-4 border-dark rounded-3xl p-6 space-y-5 shadow-neo">
+              <h2 className="text-lg font-black uppercase text-dark border-b-2 border-dark/20 pb-3 flex items-center justify-between font-display">
+                <span>Controles da Reação</span>
+                <Info className="w-5 h-5 text-dark stroke-[2.5]" />
               </h2>
 
               {/* Seletor de Ordem */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700 block">Ordem da Reação</label>
+                <label className="text-xs font-black uppercase tracking-wider text-dark block">Ordem da Reação</label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setOrdem(0)}
-                    className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 ${
+                    className={`py-3 px-3 rounded-xl text-xs font-black uppercase tracking-wider border-2 transition-all ${
                       ordem === 0
-                        ? 'btn-quantum-primary shadow-sm scale-102'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
+                        ? 'btn-quantum-primary border-dark shadow-neo-sm'
+                        : 'bg-white text-dark border-dark/40 hover:border-dark'
                     }`}
                   >
                     Ordem Zero (0)
@@ -208,22 +284,22 @@ export default function Cinetica() {
                   <button
                     type="button"
                     onClick={() => setOrdem(1)}
-                    className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 ${
+                    className={`py-3 px-3 rounded-xl text-xs font-black uppercase tracking-wider border-2 transition-all ${
                       ordem === 1
-                        ? 'btn-quantum-primary shadow-sm scale-102'
-                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
+                        ? 'btn-quantum-primary border-dark shadow-neo-sm'
+                        : 'bg-white text-dark border-dark/40 hover:border-dark'
                     }`}
                   >
-                    Primeira Ordem (1)
+                    1ª Ordem (1)
                   </button>
                 </div>
               </div>
 
               {/* Constante k */}
               <div className="space-y-1.5">
-                <div className="flex justify-between text-xs font-bold">
-                  <span className="text-slate-700">Constante de Velocidade (k)</span>
-                  <span className="text-indigo-600 font-mono">{k.toFixed(2)} s⁻¹</span>
+                <div className="flex justify-between text-xs font-black uppercase tracking-wider">
+                  <span className="text-dark">Constante de Velocidade (k)</span>
+                  <span className="text-dark font-mono bg-yellow-300 px-2 py-0.5 border border-dark rounded">{k.toFixed(2)} s⁻¹</span>
                 </div>
                 <input
                   type="range"
@@ -232,15 +308,15 @@ export default function Cinetica() {
                   step="0.01"
                   value={k}
                   onChange={e => setK(parseFloat(e.target.value))}
-                  className="w-full accent-indigo-600 h-2 bg-slate-200 rounded-lg cursor-pointer"
+                  className="w-full accent-dark h-2.5 bg-slate-200 border border-dark rounded-lg cursor-pointer"
                 />
               </div>
 
               {/* Concentração Inicial */}
               <div className="space-y-1.5">
-                <div className="flex justify-between text-xs font-bold">
-                  <span className="text-slate-700">Concentração Inicial [A]₀</span>
-                  <span className="text-indigo-600 font-mono">{a0.toFixed(1)} mol/L</span>
+                <div className="flex justify-between text-xs font-black uppercase tracking-wider">
+                  <span className="text-dark">Concentração Inicial [A]₀</span>
+                  <span className="text-dark font-mono bg-brand px-2 py-0.5 border border-dark rounded">{a0.toFixed(1)} mol/L</span>
                 </div>
                 <input
                   type="range"
@@ -249,15 +325,15 @@ export default function Cinetica() {
                   step="0.1"
                   value={a0}
                   onChange={e => setA0(parseFloat(e.target.value))}
-                  className="w-full accent-indigo-600 h-2 bg-slate-200 rounded-lg cursor-pointer"
+                  className="w-full accent-dark h-2.5 bg-slate-200 border border-dark rounded-lg cursor-pointer"
                 />
               </div>
 
               {/* Tempo Máximo */}
               <div className="space-y-1.5">
-                <div className="flex justify-between text-xs font-bold">
-                  <span className="text-slate-700">Tempo de Simulação</span>
-                  <span className="text-slate-800 font-mono">{tempoMax} s</span>
+                <div className="flex justify-between text-xs font-black uppercase tracking-wider">
+                  <span className="text-dark">Janela de Tempo</span>
+                  <span className="text-dark font-mono bg-slate-100 px-2 py-0.5 border border-dark rounded">{tempoMax} s</span>
                 </div>
                 <input
                   type="range"
@@ -266,27 +342,29 @@ export default function Cinetica() {
                   step="5"
                   value={tempoMax}
                   onChange={e => setTempoMax(parseInt(e.target.value))}
-                  className="w-full accent-indigo-600 h-2 bg-slate-200 rounded-lg cursor-pointer"
+                  className="w-full accent-dark h-2.5 bg-slate-200 border border-dark rounded-lg cursor-pointer"
                 />
               </div>
 
               {/* Resultados Físicos Calculados */}
-              <div className="pt-4 border-t border-slate-100 space-y-2.5 bg-gradient-to-br from-indigo-50/40 to-slate-50 p-4 rounded-2xl border border-indigo-100">
-                <span className="text-xs font-extrabold text-indigo-700 uppercase tracking-wider block">
-                  Propriedades Calculadas
+              <div className="pt-4 border-t-2 border-dark/20 space-y-3 bg-brand/30 p-4 rounded-2xl border-2 border-dark">
+                <span className="text-xs font-black text-dark uppercase tracking-wider block">
+                  Propriedades Teóricas
                 </span>
 
-                <div className="flex justify-between text-xs">
-                  <span className="text-slate-600 font-medium">Tempo de Meia-Vida (t½):</span>
-                  <span className="text-slate-900 font-mono font-extrabold">
+                <div className="flex justify-between text-xs font-black uppercase">
+                  <span className="text-dark/80">Meia-Vida (t½):</span>
+                  <span className="text-dark font-mono bg-white px-2 py-0.5 border border-dark rounded shadow-neo-sm">
                     {meiaVida ? `${meiaVida.toFixed(2)} s` : '-'}
                   </span>
                 </div>
 
                 {tempoVida && (
-                  <div className="flex justify-between text-xs">
-                    <span className="text-slate-600 font-medium">Tempo Médio de Vida (τ):</span>
-                    <span className="text-cyan-700 font-mono font-extrabold">{tempoVida.toFixed(2)} s</span>
+                  <div className="flex justify-between text-xs font-black uppercase">
+                    <span className="text-dark/80">Tempo de Vida (τ = 1/k):</span>
+                    <span className="text-dark font-mono bg-white px-2 py-0.5 border border-dark rounded shadow-neo-sm">
+                      {tempoVida.toFixed(2)} s
+                    </span>
                   </div>
                 )}
               </div>

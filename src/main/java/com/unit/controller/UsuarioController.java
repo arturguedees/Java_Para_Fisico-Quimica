@@ -149,6 +149,23 @@ public class UsuarioController {
         return ResponseEntity.ok(u);
     }
 
+    @PostMapping("/{id}/descontar-pontos")
+    public ResponseEntity<?> descontarPontos(@PathVariable Long id, @RequestParam int pontos) {
+        Optional<Usuario> usuarioOpt = repository.findById(id);
+        if (usuarioOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Usuario u = usuarioOpt.get();
+        if (u.getPontos() < pontos) {
+            return ResponseEntity.badRequest().body("Pontos insuficientes para esta ação!");
+        }
+
+        u.setPontos(u.getPontos() - pontos);
+        repository.save(u);
+        return ResponseEntity.ok(u);
+    }
+
     @PostMapping("/{id}/equipar-avatar")
     public ResponseEntity<?> equiparAvatar(@PathVariable Long id, @RequestParam String avatarId) {
         Optional<Usuario> usuarioOpt = repository.findById(id);

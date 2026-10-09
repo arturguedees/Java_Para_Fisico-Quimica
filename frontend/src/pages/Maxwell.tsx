@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import { Wind, CheckCircle2, AlertCircle, ArrowRight, HelpCircle, Activity } from 'lucide-react';
+import { Wind, CheckCircle2, AlertCircle, ArrowRight, HelpCircle, Activity, Printer } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import Navbar from '../components/Navbar';
 import {
@@ -180,26 +180,34 @@ export default function Maxwell() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 text-xs font-bold">
+          <div className="flex flex-wrap items-center gap-3 text-xs font-black uppercase tracking-widest">
+            <button
+              onClick={() => window.print()}
+              className="px-4 py-3 bg-white hover:bg-yellow-300 border-4 border-dark text-dark shadow-neo-sm hover:-translate-y-0.5 transition-all flex items-center space-x-2"
+              title="Gerar/Imprimir Relatório de Laboratório"
+            >
+              <Printer className="w-4 h-4 stroke-[2.5]" />
+              <span>Relatório PDF</span>
+            </button>
             <button
               onClick={() => setTipoGrafico('velocidade')}
-              className={`px-4 py-2.5 rounded-xl font-bold transition-all duration-200 ${
+              className={`px-4 py-3 border-4 transition-all ${
                 tipoGrafico === 'velocidade'
-                  ? 'btn-quantum-primary shadow-sm scale-102'
-                  : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                  ? 'btn-quantum-primary shadow-neo-sm border-dark'
+                  : 'bg-white text-dark border-dark hover:bg-slate-50'
               }`}
             >
               Velocidades f(v)
             </button>
             <button
               onClick={() => setTipoGrafico('energia')}
-              className={`px-4 py-2.5 rounded-xl font-bold transition-all duration-200 ${
+              className={`px-4 py-3 border-4 transition-all ${
                 tipoGrafico === 'energia'
-                  ? 'bg-gradient-to-tr from-emerald-600 to-teal-600 text-white shadow-sm scale-102'
-                  : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                  ? 'bg-yellow-300 text-dark border-dark shadow-neo-sm'
+                  : 'bg-white text-dark border-dark hover:bg-slate-50'
               }`}
             >
-              Energia Cinética f(E)
+              Energia f(E)
             </button>
           </div>
         </div>
@@ -209,28 +217,28 @@ export default function Maxwell() {
           
           {/* Painel de Controle */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="quantum-card rounded-3xl p-6 space-y-5 shadow-sm">
-              <h2 className="text-lg font-extrabold text-slate-900 border-b border-slate-100 pb-3">
-                Seleção do Gás & Temperatura
+            <div className="bg-white border-4 border-dark rounded-3xl p-6 space-y-5 shadow-neo">
+              <h2 className="text-lg font-black uppercase text-dark border-b-2 border-dark/20 pb-3 font-display">
+                Gás & Temperatura
               </h2>
 
               {/* Lista de Gases */}
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700 block">Tipo de Gás</label>
-                <div className="space-y-1.5">
+                <label className="text-xs font-black uppercase tracking-wider text-dark block">Gases de Estudo (Paper ACS)</label>
+                <div className="space-y-2">
                   {gases.map(g => (
                     <button
                       key={g.chave}
                       type="button"
                       onClick={() => setGasSelecionado(g.chave)}
-                      className={`w-full py-2.5 px-3.5 rounded-xl text-xs font-bold flex items-center justify-between transition-all duration-200 ${
+                      className={`w-full py-3 px-3.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center justify-between border-2 transition-all ${
                         gasSelecionado === g.chave
-                          ? 'btn-quantum-primary shadow-sm scale-101'
-                          : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                          ? 'bg-brand border-dark text-dark shadow-neo-sm translate-x-1'
+                          : 'bg-white text-dark border-dark/40 hover:border-dark hover:bg-slate-50'
                       }`}
                     >
                       <span>{g.nome}</span>
-                      <span className="font-mono text-[11px] opacity-80">{g.massaG}</span>
+                      <span className="font-mono text-[11px] bg-dark text-white px-2 py-0.5 rounded">{g.massaG}</span>
                     </button>
                   ))}
                 </div>
@@ -238,9 +246,9 @@ export default function Maxwell() {
 
               {/* Slider de Temperatura */}
               <div className="space-y-1.5 pt-2">
-                <div className="flex justify-between text-xs font-bold">
-                  <span className="text-slate-700">Temperatura Absoluta (T)</span>
-                  <span className="text-indigo-600 font-mono text-sm">{temperatura} K</span>
+                <div className="flex justify-between text-xs font-black uppercase tracking-wider">
+                  <span className="text-dark">Temperatura Absoluta (T)</span>
+                  <span className="text-dark font-mono bg-yellow-300 px-2 py-0.5 border border-dark rounded">{temperatura} K</span>
                 </div>
                 <input
                   type="range"
@@ -249,9 +257,9 @@ export default function Maxwell() {
                   step="25"
                   value={temperatura}
                   onChange={e => setTemperatura(parseInt(e.target.value))}
-                  className="w-full accent-indigo-600 h-2 bg-slate-200 rounded-lg cursor-pointer"
+                  className="w-full accent-dark h-2.5 bg-slate-200 border border-dark rounded-lg cursor-pointer"
                 />
-                <div className="flex justify-between text-[11px] text-slate-500 font-mono">
+                <div className="flex justify-between text-[11px] text-dark/60 font-mono font-bold">
                   <span>100 K (-173°C)</span>
                   <span>1200 K (927°C)</span>
                 </div>
@@ -259,35 +267,35 @@ export default function Maxwell() {
 
               {/* Velocidades Notáveis Calculadas */}
               {infoFisica && (
-                <div className="pt-4 border-t border-slate-100 space-y-2.5 bg-gradient-to-br from-indigo-50/40 to-slate-50 p-4 rounded-2xl border border-indigo-100 text-xs">
-                  <span className="text-indigo-700 font-extrabold uppercase tracking-wider block pb-1">
-                    Velocidades Moleculares
+                <div className="pt-4 border-t-2 border-dark/20 space-y-3 bg-brand/30 p-4 rounded-2xl border-2 border-dark text-xs">
+                  <span className="text-xs font-black text-dark uppercase tracking-wider block pb-1">
+                    Velocidades Notáveis (m/s)
                   </span>
 
-                  <div className="flex justify-between">
-                    <span className="text-slate-600">v_mp (Mais Provável):</span>
-                    <span className="text-slate-900 font-mono font-extrabold">
+                  <div className="flex justify-between font-black uppercase">
+                    <span className="text-dark/80">v_mp (Mais Provável):</span>
+                    <span className="text-dark font-mono bg-white px-2 py-0.5 border border-dark rounded shadow-neo-sm">
                       {infoFisica.velocidadeMaisProvavel.toFixed(1)} m/s
                     </span>
                   </div>
 
-                  <div className="flex justify-between">
-                    <span className="text-slate-600">v_m (Velocidade Média):</span>
-                    <span className="text-slate-900 font-mono font-extrabold">
+                  <div className="flex justify-between font-black uppercase">
+                    <span className="text-dark/80">v_m (Velocidade Média):</span>
+                    <span className="text-dark font-mono bg-white px-2 py-0.5 border border-dark rounded shadow-neo-sm">
                       {infoFisica.velocidadeMedia.toFixed(1)} m/s
                     </span>
                   </div>
 
-                  <div className="flex justify-between">
-                    <span className="text-slate-600">v_rms (Quadrática Média):</span>
-                    <span className="text-slate-900 font-mono font-extrabold">
+                  <div className="flex justify-between font-black uppercase">
+                    <span className="text-dark/80">v_rms (Quadrática Média):</span>
+                    <span className="text-dark font-mono bg-white px-2 py-0.5 border border-dark rounded shadow-neo-sm">
                       {infoFisica.velocidadeQuadraticaMedia.toFixed(1)} m/s
                     </span>
                   </div>
 
-                  <div className="flex justify-between pt-1 border-t border-slate-200/80 text-indigo-700 font-bold">
-                    <span>Velocidade do Som no Gás:</span>
-                    <span className="font-mono">{infoFisica.velocidadeDoSom.toFixed(1)} m/s</span>
+                  <div className="flex justify-between pt-2 border-t-2 border-dark/20 text-dark font-black uppercase bg-yellow-300 -mx-4 -mb-4 p-3 rounded-b-xl border-x-0 border-b-0">
+                    <span>⚡ Velocidade do Som (c):</span>
+                    <span className="font-mono bg-dark text-white px-2 py-0.5 rounded shadow-neo-sm">{infoFisica.velocidadeDoSom.toFixed(1)} m/s</span>
                   </div>
                 </div>
               )}

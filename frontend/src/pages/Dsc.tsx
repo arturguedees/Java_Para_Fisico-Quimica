@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import { Flame, CheckCircle2, AlertCircle, ArrowRight, HelpCircle, Activity } from 'lucide-react';
+import { Flame, CheckCircle2, AlertCircle, ArrowRight, HelpCircle, Activity, Printer } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import Navbar from '../components/Navbar';
 import {
@@ -145,12 +145,20 @@ export default function Dsc() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-4 text-xs font-black uppercase tracking-widest">
+          <div className="flex flex-wrap items-center gap-3 text-xs font-black uppercase tracking-widest">
+            <button
+              onClick={() => window.print()}
+              className="px-4 py-3 bg-white hover:bg-yellow-300 border-4 border-dark text-dark shadow-neo-sm hover:-translate-y-0.5 transition-all flex items-center space-x-2"
+              title="Gerar/Imprimir Relatório de Laboratório"
+            >
+              <Printer className="w-4 h-4 stroke-[2.5]" />
+              <span>Relatório PDF</span>
+            </button>
             <span className="px-4 py-3 bg-white border-4 border-dark text-dark shadow-neo-sm">
               Lisozima (HEWL)
             </span>
             <span className="btn-quantum-primary px-5 py-3 border-4 shadow-neo-sm">
-              Integração Numérica
+              Simpson & Trapézio
             </span>
           </div>
         </div>
@@ -160,54 +168,54 @@ export default function Dsc() {
           
           {/* Painel de Resultados */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="quantum-card rounded-3xl p-6 space-y-5 shadow-sm">
-              <h2 className="text-lg font-extrabold text-slate-900 border-b border-slate-100 pb-3">
+            <div className="bg-white border-4 border-dark rounded-3xl p-6 space-y-5 shadow-neo">
+              <h2 className="text-lg font-black uppercase text-dark border-b-2 border-dark/20 pb-3 font-display">
                 Resultados Termodinâmicos
               </h2>
 
               {dadosAnalise ? (
                 <div className="space-y-4 text-xs">
                   {/* Tm */}
-                  <div className="p-4 bg-gradient-to-br from-rose-50 via-rose-50/70 to-orange-50 rounded-2xl border border-rose-200/80 space-y-1">
-                    <span className="text-rose-800 font-extrabold uppercase text-[11px] block">
-                      Temperatura de Desnaturação (Tm)
+                  <div className="p-5 bg-rose-200 border-3 border-dark rounded-2xl space-y-1 shadow-neo-sm">
+                    <span className="text-dark font-black uppercase text-xs block">
+                      Transição Térmica (Tm)
                     </span>
-                    <span className="text-3xl text-rose-700 font-extrabold block">
+                    <span className="text-4xl text-dark font-black block font-display">
                       {dadosAnalise.temperaturaTransicaoTm.toFixed(1)} °C
                     </span>
-                    <span className="text-rose-600 font-mono text-[11px]">
-                      Equivalente a {(dadosAnalise.temperaturaTransicaoTm + 273.15).toFixed(1)} Kelvin
+                    <span className="text-dark/80 font-mono font-bold text-xs">
+                      Equivalente a {(dadosAnalise.temperaturaTransicaoTm + 273.15).toFixed(1)} K
                     </span>
                   </div>
 
                   {/* Comparativo de Integração */}
-                  <div className="space-y-2 pt-2 bg-slate-50/80 p-4 rounded-2xl border border-slate-200/80">
-                    <span className="text-slate-800 font-bold uppercase block pb-1">
+                  <div className="space-y-3 bg-brand/30 p-4 rounded-2xl border-2 border-dark">
+                    <span className="text-dark font-black uppercase block pb-1 tracking-wider text-xs">
                       Entalpia Calorimétrica (ΔH_cal)
                     </span>
 
-                    <div className="flex justify-between py-1.5 border-b border-slate-200/80">
-                      <span className="text-slate-600">Regra do Trapézio:</span>
-                      <span className="text-slate-900 font-mono font-bold">
+                    <div className="flex justify-between py-1.5 border-b-2 border-dark/20 font-black uppercase text-xs">
+                      <span className="text-dark/70">Regra do Trapézio:</span>
+                      <span className="text-dark font-mono bg-white px-2 py-0.5 border border-dark rounded shadow-neo-sm">
                         {dadosAnalise.entalpiaTrapezio.toFixed(2)} kJ/mol
                       </span>
                     </div>
 
-                    <div className="flex justify-between py-1.5 border-b border-slate-200/80">
-                      <span className="text-slate-600">Simpson 1/3 (Spline):</span>
-                      <span className="text-emerald-700 font-mono font-extrabold">
+                    <div className="flex justify-between py-1.5 border-b-2 border-dark/20 font-black uppercase text-xs">
+                      <span className="text-dark/70">Simpson 1/3 (Spline):</span>
+                      <span className="text-dark font-mono bg-yellow-300 px-2 py-0.5 border border-dark rounded shadow-neo-sm">
                         {dadosAnalise.entalpiaSimpsonSpline.toFixed(2)} kJ/mol
                       </span>
                     </div>
 
-                    <div className="flex justify-between py-1 text-slate-500 text-[11px]">
-                      <span>Capacidade Máxima ΔCp:</span>
-                      <span className="font-semibold text-slate-700">{dadosAnalise.capacidadeCalorificaMaxima.toFixed(2)} kJ/(mol·K)</span>
+                    <div className="flex justify-between py-1 text-dark text-xs font-black uppercase">
+                      <span>Pico Máximo ΔCp:</span>
+                      <span className="font-mono bg-white px-2 py-0.5 border border-dark rounded">{dadosAnalise.capacidadeCalorificaMaxima.toFixed(2)} kJ/(mol·K)</span>
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed pt-1">
-                    💡 <strong>Conceito:</strong> A área sob a curva representa a quantidade de calor absorvida para romper as pontes de hidrogênio e interações hidrofóbicas que estabilizam a estrutura nativa da proteína.
+                  <p className="text-xs text-dark/80 leading-relaxed pt-1 font-medium bg-white p-3 border-2 border-dark rounded-xl shadow-neo-sm">
+                    💡 <strong>Conceito Fundamental:</strong> A integral de excesso representa a energia necessária para desestabilizar as pontes de hidrogênio da Lisozima durante o enovelamento.
                   </p>
                 </div>
               ) : (

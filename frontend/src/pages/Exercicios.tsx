@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { HelpCircle, CheckCircle2, AlertCircle, ArrowRight, Sparkles, Filter, Award, Zap, Check, ChevronRight } from 'lucide-react';
+import { HelpCircle, CheckCircle2, AlertCircle, ArrowRight, Sparkles, Filter, Award, Zap, Check, ChevronRight, Lightbulb, BookOpen, Coins } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import Navbar from '../components/Navbar';
 
@@ -28,6 +28,8 @@ export default function Exercicios() {
   const [respostas, setRespostas] = useState<{ [key: string]: any }>({});
   const [feedbacks, setFeedbacks] = useState<{ [key: string]: any }>({});
   const [processando, setProcessando] = useState<{ [key: string]: boolean }>({});
+  const [dicas, setDicas] = useState<{ [key: string]: { formula?: string; resolucao?: string } }>({});
+  const [desbloqueandoDica, setDesbloqueandoDica] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const data = localStorage.getItem('usuario');
@@ -94,6 +96,47 @@ export default function Exercicios() {
       console.error('Erro ao validar resposta:', err);
     } finally {
       setProcessando(prev => ({ ...prev, [exercicio.id]: false }));
+    }
+  };
+
+  const handleDesbloquearDica = async (exercicioId: string, tipo: 'formula' | 'resolucao', custo: number) => {
+    if (!usuario) {
+      alert('Faça login para utilizar suas moedas e desbloquear dicas.');
+      return;
+    }
+
+    if (usuario.pontos < custo) {
+      alert(`Saldo insuficiente! Você precisa de ${custo} PTS para desbloquear esta dica.`);
+      return;
+    }
+
+    setDesbloqueandoDica(prev => ({ ...prev, [`${exercicioId}_${tipo}`]: true }));
+
+    try {
+      // 1. Desconta os pontos do usuário no backend
+      const resUser = await axios.post(
+        `http://localhost:8080/api/usuarios/${usuario.id}/descontar-pontos?pontos=${custo}`
+      );
+      setUsuario(resUser.data);
+      localStorage.setItem('usuario', JSON.stringify(resUser.data));
+
+      // 2. Busca a dica correspondente
+      const resDica = await axios.get(
+        `http://localhost:8080/api/exercicios/${exercicioId}/dica?tipo=${tipo}`
+      );
+
+      setDicas(prev => ({
+        ...prev,
+        [exercicioId]: {
+          ...prev[exercicioId],
+          [tipo]: resDica.data.dica
+        }
+      }));
+    } catch (err: any) {
+      console.error('Erro ao desbloquear dica:', err);
+      alert('Não foi possível desbloquear a dica no momento.');
+    } finally {
+      setDesbloqueandoDica(prev => ({ ...prev, [`${exercicioId}_${tipo}`]: false }));
     }
   };
 
@@ -238,6 +281,59 @@ export default function Exercicios() {
                     <p className="text-dark text-base sm:text-lg leading-relaxed font-medium">
                       {ex.enunciado}
                     </p>
+                  </div>
+
+                  {/* Central de Dicas Progressivas (Economia de Moedas) */}
+                  <div className="space-y-3 pt-2">
+                    <div className="flex flex-wrap items-center gap-3">
+                      {!dicas[ex.id]?.formula && (
+                        <button
+                          type="button"
+                          onClick={() => handleDesbloquearDica(ex.id, 'formula', 20)}
+                          disabled={desbloqueandoDica[`${ex.id}_formula`] || isResolvido}
+                          className="px-4 py-2 bg-yellow-300 hover:bg-yellow-400 border-2 border-dark rounded-xl text-xs font-black uppercase tracking-wider text-dark shadow-neo-sm hover:-translate-y-0.5 transition-all flex items-center space-x-1.5 disabled:opacity-50"
+                          title="Gaste 20 moedas para revelar a fórmula essencial"
+                        >
+                          <Lightbulb className="w-4 h-4 text-dark stroke-[2.5]" />
+                          <span>{desbloqueandoDica[`${ex.id}_formula`] ? 'Desbloqueando...' : '💡 Revelar Fórmula (-20 PTS)'}</span>
+                        </button>
+                      )}
+
+                      {!dicas[ex.id]?.resolucao && (
+                        <button
+                          type="button"
+                          onClick={() => handleDesbloquearDica(ex.id, 'resolucao', 40)}
+                          disabled={desbloqueandoDica[`${ex.id}_resolucao`] || isResolvido}
+                          className="px-4 py-2 bg-orange-300 hover:bg-orange-400 border-2 border-dark rounded-xl text-xs font-black uppercase tracking-wider text-dark shadow-neo-sm hover:-translate-y-0.5 transition-all flex items-center space-x-1.5 disabled:opacity-50"
+                          title="Gaste 40 moedas para ver a rota de resolução passo-a-passo"
+                        >
+                          <BookOpen className="w-4 h-4 text-dark stroke-[2.5]" />
+                          <span>{desbloqueandoDica[`${ex.id}_resolucao`] ? 'Desbloqueando...' : '🔍 Passo-a-Passo (-40 PTS)'}</span>
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Exibição da Fórmula Desbloqueada */}
+                    {dicas[ex.id]?.formula && (
+                      <div className="p-4 bg-yellow-100 border-2 border-dark rounded-xl text-dark text-sm space-y-1 shadow-neo-sm animate-slide-up">
+                        <div className="flex items-center space-x-2 font-black uppercase tracking-wider text-xs">
+                          <Lightbulb className="w-4 h-4 text-dark stroke-[2.5]" />
+                          <span>Dica Teórica de Fórmula:</span>
+                        </div>
+                        <p className="font-mono font-bold text-xs sm:text-sm pl-6">{dicas[ex.id].formula}</p>
+                      </div>
+                    )}
+
+                    {/* Exibição do Passo a Passo Desbloqueado */}
+                    {dicas[ex.id]?.resolucao && (
+                      <div className="p-4 bg-orange-100 border-2 border-dark rounded-xl text-dark text-sm space-y-1 shadow-neo-sm animate-slide-up">
+                        <div className="flex items-center space-x-2 font-black uppercase tracking-wider text-xs">
+                          <BookOpen className="w-4 h-4 text-dark stroke-[2.5]" />
+                          <span>Passo-a-Passo Armado:</span>
+                        </div>
+                        <p className="font-mono font-bold text-xs sm:text-sm pl-6">{dicas[ex.id].resolucao}</p>
+                      </div>
+                    )}
                   </div>
 
                   {/* Área de Resposta */}
