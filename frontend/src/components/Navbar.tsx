@@ -50,15 +50,15 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
     <header className="bg-white border-b-4 border-dark sticky top-0 z-50 transition-all">
       {/* Barra de Navegação Principal */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between gap-4 xl:gap-6 h-20">
           
           {/* Logo e Nome */}
-          <Link to="/dashboard" className="flex items-center space-x-3 group">
+          <Link to="/dashboard" className="flex items-center space-x-3 group shrink-0">
             <div className="w-12 h-12 bg-white border-4 border-dark flex items-center justify-center p-1 shadow-neo group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-none transition-all duration-200">
               <img src="/logo.png" alt="Lab Quântico" className="w-full h-full object-contain" />
             </div>
             <div>
-              <span className="text-2xl font-black tracking-tight text-dark uppercase font-display leading-none">
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-dark uppercase font-display leading-none">
                 Lab Quântico
               </span>
               <span className="text-[10px] text-dark font-bold uppercase tracking-widest block mt-0.5">
@@ -68,14 +68,14 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
           </Link>
 
           {/* Links Centrais de Navegação */}
-          <nav className="hidden lg:flex items-center space-x-2 text-sm font-bold font-display">
+          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 text-xs xl:text-sm font-bold font-display">
             {navItems.map(item => {
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-4 py-2.5 border-4 transition-all duration-300 uppercase tracking-wide hover:-translate-y-1 ${
+                  className={`px-2.5 xl:px-4 py-2 xl:py-2.5 border-2 xl:border-4 transition-all duration-200 uppercase tracking-wide hover:-translate-y-1 ${
                     isActive
                       ? 'bg-brand border-dark shadow-neo'
                       : 'bg-white border-transparent text-dark hover:border-dark hover:shadow-neo-sm'
@@ -87,8 +87,8 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
             })}
           </nav>
 
-          {/* Indicadores de Gamificação e Perfil */}
-          <div className="flex items-center space-x-3 sm:space-x-4">
+          {/* Indicadores de Gamificação e Perfil com Espaçamento Garantido */}
+          <div className="flex items-center space-x-3 sm:space-x-4 shrink-0 pl-3 sm:pl-5 border-l-2 border-dark/20">
             {usuario ? (
               <>
                 {/* Saldo de Moedas/Pontos Animado */}

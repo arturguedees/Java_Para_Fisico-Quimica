@@ -135,15 +135,16 @@ export default function Ranking() {
                       </div>
                     </div>
 
-                    {/* Pontuação */}
-                    <div className="col-span-3 text-right text-xs">
-                      <div className="text-lg sm:text-xl font-black text-dark font-mono flex items-end justify-end space-x-1">
+                    {/* Pontuação com espaçamento e badges dedicados */}
+                    <div className="col-span-3 flex flex-col items-end justify-center space-y-1.5">
+                      <div className="inline-flex items-center space-x-1.5 bg-dark text-white px-2.5 py-0.5 rounded-md border-2 border-dark text-xs font-mono font-black shadow-neo-sm">
                         <span>{user.experiencia}</span>
-                        <span className="text-[10px] uppercase tracking-widest pb-1">XP</span>
+                        <span className="text-[10px] text-brand uppercase tracking-wider">XP</span>
                       </div>
-                      <span className="text-dark font-bold font-mono text-xs">
-                        {user.pontos} pts
-                      </span>
+                      <div className="inline-flex items-center space-x-1 bg-yellow-300 text-dark px-2 py-0.5 rounded-md border-2 border-dark text-[11px] font-mono font-black shadow-neo-sm">
+                        <Coins className="w-3.5 h-3.5 text-dark fill-dark" />
+                        <span>{user.pontos} pts</span>
+                      </div>
                     </div>
 
                   </div>
