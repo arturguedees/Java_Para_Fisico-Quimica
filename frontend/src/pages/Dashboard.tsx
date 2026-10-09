@@ -139,7 +139,7 @@ export default function Dashboard() {
               <div className="pt-4 flex flex-wrap gap-4">
                 <Link
                   to="/exercicios"
-                  className="btn-quantum-primary inline-flex items-center space-x-2 px-6 py-3.5 rounded-xl font-bold text-base shadow-neo hover:shadow-neo-hover"
+                  className="btn-quantum-primary inline-flex items-center space-x-2 px-6 py-3.5 rounded-xl font-bold text-base shadow-neo hover:shadow-neo-hover active:translate-y-1 active:scale-95 active:shadow-none transition-all duration-150"
                 >
                   <HelpCircle className="w-5 h-5 stroke-[2]" />
                   <span>Resolver Questões</span>
@@ -147,7 +147,7 @@ export default function Dashboard() {
                 </Link>
                 <Link
                   to="/cinetica"
-                  className="inline-flex items-center space-x-2 px-6 py-3.5 bg-white text-dark hover:bg-dark hover:text-white border-2 border-dark rounded-xl font-bold text-base shadow-neo hover:shadow-neo-hover transition-all duration-200"
+                  className="inline-flex items-center space-x-2 px-6 py-3.5 bg-white text-dark hover:bg-dark hover:text-white border-2 border-dark rounded-xl font-bold text-base shadow-neo hover:shadow-neo-hover active:translate-y-1 active:scale-95 active:shadow-none transition-all duration-150"
                 >
                   <FlaskConical className="w-5 h-5 stroke-[2]" />
                   <span>Abrir Simuladores</span>
@@ -227,7 +227,7 @@ export default function Dashboard() {
                 <Link
                   key={mod.indice}
                   to={mod.rota}
-                  className={`${mod.bgClass} group rounded-3xl p-6 sm:p-8 flex flex-col justify-between`}
+                  className={`${mod.bgClass} group rounded-3xl p-6 sm:p-8 flex flex-col justify-between active:scale-[0.98] active:translate-y-1 cursor-pointer transition-all duration-150`}
                 >
                   <div className="space-y-6">
                     <div className="flex items-center justify-between">

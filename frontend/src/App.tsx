@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
 import Dashboard from './pages/Dashboard';
@@ -10,23 +10,33 @@ import Loja from './pages/Loja';
 import Ranking from './pages/Ranking';
 import Perfil from './pages/Perfil';
 
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <div key={location.pathname} className="page-transition">
+      <Routes location={location}>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/cinetica" element={<Cinetica />} />
+        <Route path="/maxwell" element={<Maxwell />} />
+        <Route path="/dsc" element={<Dsc />} />
+        <Route path="/exercicios" element={<Exercicios />} />
+        <Route path="/loja" element={<Loja />} />
+        <Route path="/ranking" element={<Ranking />} />
+        <Route path="/perfil" element={<Perfil />} />
+      </Routes>
+    </div>
+  );
+}
+
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-indigo-500 selection:text-white">
-        <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/cadastro" element={<Cadastro />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/cinetica" element={<Cinetica />} />
-          <Route path="/maxwell" element={<Maxwell />} />
-          <Route path="/dsc" element={<Dsc />} />
-          <Route path="/exercicios" element={<Exercicios />} />
-          <Route path="/loja" element={<Loja />} />
-          <Route path="/ranking" element={<Ranking />} />
-          <Route path="/perfil" element={<Perfil />} />
-        </Routes>
+      <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-brand selection:text-dark">
+        <AnimatedRoutes />
       </div>
     </Router>
   );

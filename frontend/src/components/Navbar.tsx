@@ -65,7 +65,7 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
             </div>
           </Link>
 
-          {/* Links Centrais de Navegação com Hierarquia Limpa e Harmônica */}
+          {/* Links Centrais de Navegação com Hierarquia Limpa e Feedback Tátil ao Clicar */}
           <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2 text-xs xl:text-sm font-bold font-display">
             {navItems.map(item => {
               const isActive = location.pathname === item.path;
@@ -73,10 +73,10 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-3 py-1.5 rounded-xl uppercase tracking-wide transition-all duration-200 ${
+                  className={`px-3 py-1.5 rounded-xl uppercase tracking-wide transition-all duration-150 cursor-pointer select-none active:scale-95 active:translate-y-1 active:shadow-none ${
                     isActive
                       ? 'bg-brand text-dark font-black border-2 border-dark shadow-neo-sm -translate-y-0.5'
-                      : 'text-dark/75 hover:text-dark hover:bg-slate-100 font-bold border-2 border-transparent hover:border-dark/20'
+                      : 'text-dark/75 hover:text-dark hover:bg-slate-100 font-bold border-2 border-transparent hover:border-dark hover:shadow-neo-sm hover:-translate-y-0.5'
                   }`}
                 >
                   {item.label}
@@ -99,10 +99,10 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
                   <span className="text-dark/70 text-[10px] uppercase font-bold tracking-wider">pts</span>
                 </div>
 
-                {/* Botão de Perfil */}
+                {/* Botão de Perfil com Feedback Tátil */}
                 <Link
                   to="/perfil"
-                  className="flex items-center space-x-2.5 px-3 py-1.5 bg-white border-2 border-dark rounded-xl hover:bg-brand hover:-translate-y-0.5 hover:shadow-neo shadow-neo-sm transition-all duration-200"
+                  className="flex items-center space-x-2.5 px-3 py-1.5 bg-white border-2 border-dark rounded-xl hover:bg-brand hover:-translate-y-0.5 hover:shadow-neo shadow-neo-sm active:translate-y-1 active:scale-95 active:shadow-none transition-all duration-150 cursor-pointer"
                   title="Meu Perfil"
                 >
                   <AvatarBadge avatarId={usuario.avatarId} size="sm" />
@@ -116,10 +116,10 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
                   </div>
                 </Link>
 
-                {/* Botão Sair */}
+                {/* Botão Sair com Feedback Tátil */}
                 <button
                   onClick={handleLogout}
-                  className="w-10 h-10 flex items-center justify-center text-dark bg-white hover:text-white hover:bg-dark border-2 border-dark rounded-xl shadow-neo-sm hover:shadow-neo hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                  className="w-10 h-10 flex items-center justify-center text-dark bg-white hover:text-white hover:bg-dark border-2 border-dark rounded-xl shadow-neo-sm hover:shadow-neo hover:-translate-y-0.5 active:translate-y-1 active:scale-95 active:shadow-none transition-all duration-150 cursor-pointer"
                   title="Sair da conta"
                 >
                   <LogOut className="w-4 h-4 stroke-[2.5]" />
@@ -127,12 +127,12 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
               </>
             ) : (
               <div className="flex items-center space-x-3 text-xs font-black font-display uppercase tracking-widest">
-                <Link to="/login" className="text-dark hover:-translate-y-0.5 transition-transform px-3 py-1.5">
+                <Link to="/login" className="text-dark hover:-translate-y-0.5 active:translate-y-1 transition-transform px-3 py-1.5">
                   Entrar
                 </Link>
                 <Link
                   to="/cadastro"
-                  className="btn-quantum-primary px-5 py-2.5 rounded-xl text-xs hover:-translate-y-0.5 transition-transform shadow-neo-sm"
+                  className="btn-quantum-primary px-5 py-2.5 rounded-xl text-xs hover:-translate-y-0.5 active:translate-y-1 transition-transform shadow-neo-sm"
                 >
                   Criar Conta
                 </Link>
@@ -151,7 +151,7 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
             <Link
               key={item.path}
               to={item.path}
-              className={`whitespace-nowrap px-3 py-1.5 rounded-xl border-2 transition-all ${
+              className={`whitespace-nowrap px-3 py-1.5 rounded-xl border-2 transition-all active:scale-95 active:translate-y-1 cursor-pointer duration-150 ${
                 isActive
                   ? 'bg-brand text-dark border-dark font-black shadow-neo-sm'
                   : 'bg-white text-dark/80 border-dark/20 hover:border-dark'

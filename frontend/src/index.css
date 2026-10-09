@@ -37,6 +37,10 @@
   transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0px 0px #191A23;
 }
+.quantum-card:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px #191A23;
+}
 
 /* Solid Lime Accent Cards */
 .quantum-card-lime {
@@ -49,6 +53,10 @@
 .quantum-card-lime:hover {
   transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0px 0px #191A23;
+}
+.quantum-card-lime:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px #191A23;
 }
 
 /* Solid Dark Accent Cards */
@@ -63,6 +71,35 @@
 .quantum-card-dark:hover {
   transform: translate(-2px, -2px);
   box-shadow: 6px 6px 0px 0px #BFFF00;
+}
+.quantum-card-dark:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px 0px #BFFF00;
+}
+
+/* Transição Suave ao Trocar de Tela */
+.page-transition {
+  animation: pageEnter 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Efeito Tátil Universal de Clique */
+.click-press {
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.click-press:active {
+  transform: translateY(2px) scale(0.96) !important;
+  box-shadow: 0px 0px 0px 0px transparent !important;
 }
 
 /* Neo Brutalism Buttons */
