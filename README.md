@@ -6,7 +6,7 @@
 ---
 
 ## 🌟 Visão Geral do Projeto
-Esta plataforma foi desenvolvida como parte da disciplina de **Físico-Química Computacional / Programação Orientada a Objetos** na Universidade Tiradentes (UNIT). O projeto reconstruiu os modelos científicos de cinéticas de reações e teoria cinética dos gases em **Java 21**, com suporte a **JavaFX**, **XChart**, **Apache Commons Math**, **JUnit 5** e uma **versão Web Gamificada**.
+Esta plataforma foi desenvolvida como parte da disciplina de **Físico-Química Computacional / Programação Orientada a Objetos**. O projeto reconstruiu os modelos científicos de cinéticas de reações e teoria cinética dos gases em **Java 21**, com suporte a **JavaFX**, **XChart**, **Apache Commons Math**, **JUnit 5** e uma **versão Web Gamificada**.
 
 ---
 

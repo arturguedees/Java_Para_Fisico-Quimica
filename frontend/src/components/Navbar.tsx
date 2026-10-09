@@ -54,8 +54,8 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
           
           {/* Logo e Nome */}
           <Link to="/dashboard" className="flex items-center space-x-3 group">
-            <div className="w-12 h-12 bg-brand border-4 border-dark flex items-center justify-center text-dark shadow-neo group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-none transition-all duration-200">
-              <FlaskConical className="w-6 h-6 stroke-[2.5]" />
+            <div className="w-12 h-12 bg-white border-4 border-dark flex items-center justify-center p-1 shadow-neo group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-none transition-all duration-200">
+              <img src="/logo.png" alt="Lab Quântico" className="w-full h-full object-contain" />
             </div>
             <div>
               <span className="text-2xl font-black tracking-tight text-dark uppercase font-display leading-none">

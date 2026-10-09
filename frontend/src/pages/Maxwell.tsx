@@ -294,7 +294,7 @@ export default function Maxwell() {
                   </div>
 
                   <div className="flex justify-between pt-2 border-t-2 border-dark/20 text-dark font-black uppercase bg-yellow-300 -mx-4 -mb-4 p-3 rounded-b-xl border-x-0 border-b-0">
-                    <span>⚡ Velocidade do Som (c):</span>
+                    <span>Velocidade do Som (c):</span>
                     <span className="font-mono bg-dark text-white px-2 py-0.5 rounded shadow-neo-sm">{infoFisica.velocidadeDoSom.toFixed(1)} m/s</span>
                   </div>
                 </div>
@@ -363,7 +363,7 @@ export default function Maxwell() {
             </div>
 
             <div className="mt-4 p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200/80 text-xs text-slate-600">
-              💡 <strong>Comportamento Físico:</strong> Moléculas leves deslocam o pico da distribuição para velocidades mais altas, achatando a amplitude de $f(v)$ para manter a integral unitária.
+              <strong>Comportamento Físico:</strong> Moléculas leves deslocam o pico da distribuição para velocidades mais altas, achatando a amplitude de $f(v)$ para manter a integral unitária.
             </div>
           </div>
 

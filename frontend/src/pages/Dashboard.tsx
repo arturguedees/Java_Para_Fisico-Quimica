@@ -107,7 +107,7 @@ export default function Dashboard() {
       icone: HelpCircle,
       bgClass: 'quantum-card',
       textClass: 'text-dark',
-      iconClass: 'bg-dark text-white border-4 border-dark shadow-neo-sm',
+      iconClass: 'bg-yellow-300 text-dark border-4 border-dark shadow-neo-sm',
     }
   ];
 

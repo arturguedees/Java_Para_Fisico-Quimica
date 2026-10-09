@@ -223,7 +223,7 @@ export default function Cinetica() {
                   : 'bg-white border-dark/40 hover:border-dark text-dark/70 hover:text-dark'
               }`}
             >
-              <div className="text-dark font-extrabold text-sm">🧪 Reação Geral (A → B)</div>
+              <div className="text-dark font-extrabold text-sm">Reação Geral (A → B)</div>
               <div className="text-[11px] text-dark/60 font-mono mt-1">k = 0.15 s⁻¹ • [A]₀ = 2.0 M</div>
             </button>
 
@@ -236,7 +236,7 @@ export default function Cinetica() {
                   : 'bg-white border-dark/40 hover:border-dark text-dark/70 hover:text-dark'
               }`}
             >
-              <div className="text-dark font-extrabold text-sm">🌍 Ozônio Estratosférico (O₃)</div>
+              <div className="text-dark font-extrabold text-sm">Ozônio Estratosférico (O₃)</div>
               <div className="text-[11px] text-dark/60 font-mono mt-1">k = 0.28 s⁻¹ • Rápido decaimento</div>
             </button>
 
@@ -249,7 +249,7 @@ export default function Cinetica() {
                   : 'bg-white border-dark/40 hover:border-dark text-dark/70 hover:text-dark'
               }`}
             >
-              <div className="text-dark font-extrabold text-sm">🏭 Poluente Gasoso (N₂O₅)</div>
+              <div className="text-dark font-extrabold text-sm">Poluente Gasoso (N₂O₅)</div>
               <div className="text-[11px] text-dark/60 font-mono mt-1">k = 0.04 s⁻¹ • e-folding prolongado</div>
             </button>
           </div>

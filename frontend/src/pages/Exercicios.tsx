@@ -295,7 +295,7 @@ export default function Exercicios() {
                           title="Gaste 20 moedas para revelar a fórmula essencial"
                         >
                           <Lightbulb className="w-4 h-4 text-dark stroke-[2.5]" />
-                          <span>{desbloqueandoDica[`${ex.id}_formula`] ? 'Desbloqueando...' : '💡 Revelar Fórmula (-20 PTS)'}</span>
+                          <span>{desbloqueandoDica[`${ex.id}_formula`] ? 'Desbloqueando...' : 'Revelar Fórmula (-20 PTS)'}</span>
                         </button>
                       )}
 
@@ -308,7 +308,7 @@ export default function Exercicios() {
                           title="Gaste 40 moedas para ver a rota de resolução passo-a-passo"
                         >
                           <BookOpen className="w-4 h-4 text-dark stroke-[2.5]" />
-                          <span>{desbloqueandoDica[`${ex.id}_resolucao`] ? 'Desbloqueando...' : '🔍 Passo-a-Passo (-40 PTS)'}</span>
+                          <span>{desbloqueandoDica[`${ex.id}_resolucao`] ? 'Desbloqueando...' : 'Passo-a-Passo (-40 PTS)'}</span>
                         </button>
                       )}
                     </div>

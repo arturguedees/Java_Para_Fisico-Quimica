@@ -115,7 +115,7 @@ public final class PlataformaFisicoQuimicaApp extends Application {
         Label lblInfo = new Label();
         lblInfo.setStyle("-fx-font-weight: bold; -fx-text-fill: #1a5276;");
 
-        Button btnExportar = new Button("📥 Exportar Dados para CSV");
+        Button btnExportar = new Button("Exportar Dados para CSV");
         btnExportar.setStyle("-fx-background-color: #2e86c1; -fx-text-fill: white; -fx-font-weight: bold;");
 
         SwingNode chartNode = new SwingNode();
@@ -229,7 +229,7 @@ public final class PlataformaFisicoQuimicaApp extends Application {
         Label lblValores = new Label();
         lblValores.setStyle("-fx-font-weight: bold; -fx-text-fill: #117864;");
 
-        Button btnExportar = new Button("📥 Exportar Distribuição (CSV)");
+        Button btnExportar = new Button("Exportar Distribuição (CSV)");
         btnExportar.setStyle("-fx-background-color: #16a085; -fx-text-fill: white; -fx-font-weight: bold;");
 
         SwingNode chartNode = new SwingNode();
@@ -422,7 +422,7 @@ public final class PlataformaFisicoQuimicaApp extends Application {
         VBox conteudo = new VBox(14);
         conteudo.setPadding(new Insets(20));
 
-        Label titulo = new Label("📘 Guia Teórico e Equações da Plataforma");
+        Label titulo = new Label("Guia Teórico e Equações da Plataforma");
         titulo.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1a5276;");
 
         Label cinetica = new Label(

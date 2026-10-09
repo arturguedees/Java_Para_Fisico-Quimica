@@ -24,7 +24,7 @@ public class Main {
         System.out.println("===============================================================");
         System.out.println("  PLATAFORMA COMPUTACIONAL DE FÍSICO-QUÍMICA (JAVA 21 / POO)   ");
         System.out.println("===============================================================");
-        System.out.printf("🔹 Exemplo: Gás %s (M = %.5f kg/mol, γ = %.2f) a %.2f K:%n",
+        System.out.printf("[*] Exemplo: Gás %s (M = %.5f kg/mol, γ = %.2f) a %.2f K:%n",
                 argonio.getNome(), argonio.getMassaMolarKgPorMol(), argonio.getCoeficienteAdiabatico(), tempRef);
         System.out.printf("   • Velocidade Mais Provável (v_mp):          %.2f m/s%n", calculadora.calcularVelocidadeMaisProvavel(argonio, tempRef));
         System.out.printf("   • Velocidade Média (v_m):                   %.2f m/s%n", calculadora.calcularVelocidadeMedia(argonio, tempRef));
@@ -35,7 +35,7 @@ public class Main {
 
         ReacaoOrdemZero r0 = new ReacaoOrdemZero(1.0, 0.05);
         ReacaoPrimeiraOrdem r1 = new ReacaoPrimeiraOrdem(1.0, 0.08);
-        System.out.println("\n🔹 Cinética Química Comparativa ([A]₀ = 1.0 mol/L):");
+        System.out.println("\n[*] Cinética Química Comparativa ([A]₀ = 1.0 mol/L):");
         System.out.printf("   • Ordem Zero (k = 0.05):       t₁/₂ = %.2f s | Consumo Total = %.2f s%n", r0.primeiraMeiaVida(), r0.tempoConsumoTotal());
         System.out.printf("   • Primeira Ordem (k = 0.08):   t₁/₂ = %.2f s | Lifetime (τ) = %.2f s%n", r1.primeiraMeiaVida(), r1.tempoVidaQuimico());
         System.out.println("===============================================================");

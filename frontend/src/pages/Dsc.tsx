@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
-import { Flame, CheckCircle2, AlertCircle, ArrowRight, HelpCircle, Activity, Printer } from 'lucide-react';
+import { Flame, CheckCircle2, AlertCircle, ArrowRight, HelpCircle, Activity, Printer, Lightbulb, BarChart3 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import Navbar from '../components/Navbar';
 import {
@@ -214,8 +214,9 @@ export default function Dsc() {
                     </div>
                   </div>
 
-                  <p className="text-xs text-dark/80 leading-relaxed pt-1 font-medium bg-white p-3 border-2 border-dark rounded-xl shadow-neo-sm">
-                    💡 <strong>Conceito Fundamental:</strong> A integral de excesso representa a energia necessária para desestabilizar as pontes de hidrogênio da Lisozima durante o enovelamento.
+                  <p className="text-xs text-dark/80 leading-relaxed pt-1 font-medium bg-white p-3 border-2 border-dark rounded-xl shadow-neo-sm flex items-start gap-2">
+                    <Lightbulb className="w-4 h-4 text-dark flex-shrink-0 mt-0.5" />
+                    <span><strong>Conceito Fundamental:</strong> A integral de excesso representa a energia necessária para desestabilizar as pontes de hidrogênio da Lisozima durante o enovelamento.</span>
                   </p>
                 </div>
               ) : (
@@ -277,8 +278,9 @@ export default function Dsc() {
               </div>
             </div>
 
-            <div className="mt-4 p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200/80 text-xs text-slate-600">
-              📊 <strong>Integração de Alta Precisão:</strong> Os dados experimentais são interpolados por Splines Cúbicos para garantir derivadas contínuas antes do cálculo pelo método composto de Simpson 1/3.
+            <div className="mt-4 p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200/80 text-xs text-slate-600 flex items-start gap-2">
+              <BarChart3 className="w-4 h-4 text-slate-700 flex-shrink-0 mt-0.5" />
+              <span><strong>Integração de Alta Precisão:</strong> Os dados experimentais são interpolados por Splines Cúbicos para garantir derivadas contínuas antes do cálculo pelo método composto de Simpson 1/3.</span>
             </div>
           </div>
 

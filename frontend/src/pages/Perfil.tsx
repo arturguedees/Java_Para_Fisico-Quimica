@@ -38,36 +38,42 @@ export default function Perfil() {
     : ['avatar_default'];
 
   const handleTrocarTitulo = async (titulo: string) => {
-    setProcessando(true);
-    setMensagem(null);
+    if (!usuario || usuario.titulo === titulo) return;
+    
+    // Atualização otimista imediata para transição instantânea e suave
+    const anterior = usuario.titulo;
+    setUsuario((prev: any) => ({ ...prev, titulo }));
+    localStorage.setItem('usuario', JSON.stringify({ ...usuario, titulo }));
+
     try {
       const res = await axios.post(
         `http://localhost:8080/api/usuarios/${usuario.id}/equipar-titulo?titulo=${encodeURIComponent(titulo)}`
       );
       setUsuario(res.data);
       localStorage.setItem('usuario', JSON.stringify(res.data));
-      setMensagem(`Título "${titulo}" ativado com sucesso!`);
     } catch (err) {
       console.error(err);
-    } finally {
-      setProcessando(false);
+      setUsuario((prev: any) => ({ ...prev, titulo: anterior }));
     }
   };
 
   const handleTrocarAvatar = async (avatarId: string) => {
-    setProcessando(true);
-    setMensagem(null);
+    if (!usuario || usuario.avatarId === avatarId) return;
+
+    // Atualização otimista imediata
+    const anterior = usuario.avatarId;
+    setUsuario((prev: any) => ({ ...prev, avatarId }));
+    localStorage.setItem('usuario', JSON.stringify({ ...usuario, avatarId }));
+
     try {
       const res = await axios.post(
         `http://localhost:8080/api/usuarios/${usuario.id}/equipar-avatar?avatarId=${avatarId}`
       );
       setUsuario(res.data);
       localStorage.setItem('usuario', JSON.stringify(res.data));
-      setMensagem('Insígnia equipada com sucesso!');
     } catch (err) {
       console.error(err);
-    } finally {
-      setProcessando(false);
+      setUsuario((prev: any) => ({ ...prev, avatarId: anterior }));
     }
   };
 
@@ -115,13 +121,6 @@ export default function Perfil() {
             </Link>
           </div>
         </section>
-
-        {mensagem && (
-          <div className="p-5 bg-brand border-4 border-dark text-dark text-base font-black rounded-2xl flex items-center space-x-3 animate-slide-up shadow-neo uppercase tracking-wide">
-            <CheckCircle2 className="w-8 h-8 text-dark stroke-[3] animate-bounce" />
-            <span>{mensagem}</span>
-          </div>
-        )}
 
         {/* Títulos Desbloqueados */}
         <section className="bg-white border-4 border-dark rounded-3xl p-6 sm:p-8 space-y-6 shadow-neo">

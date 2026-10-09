@@ -53,10 +53,15 @@ public class UsuarioController {
 
         Optional<Usuario> usuario = repository.findByEmail(loginAttempt.getEmail().trim().toLowerCase());
 
-        if (usuario.isPresent() && usuario.get().getSenha().equals(loginAttempt.getSenha())) {
+        if (usuario.isEmpty()) {
+            return ResponseEntity.status(404).body("EMAIL_NAO_CADASTRADO");
+        }
+
+        if (usuario.get().getSenha().equals(loginAttempt.getSenha())) {
             return ResponseEntity.ok(usuario.get());
         }
-        return ResponseEntity.status(401).body("Email ou senha inválidos.");
+
+        return ResponseEntity.status(401).body("SENHA_INCORRETA");
     }
 
     @GetMapping("/{id}")
