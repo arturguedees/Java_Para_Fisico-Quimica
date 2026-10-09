@@ -43,93 +43,93 @@ export default function Ranking() {
   };
 
   return (
-    <div className="min-h-screen text-slate-800 pb-24 font-sans">
+    <div className="min-h-screen pb-24">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 space-y-6">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-10 space-y-10">
         
         {/* Cabeçalho */}
-        <div className="quantum-card rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-yellow-400 text-white flex items-center justify-center shadow-md shadow-amber-500/25">
-              <Trophy className="w-6 h-6 animate-pulse" />
+        <div className="quantum-card bg-brand rounded-3xl p-6 sm:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-neo border-4 border-dark">
+          <div className="flex items-center space-x-6">
+            <div className="w-16 h-16 bg-white border-4 border-dark text-dark flex items-center justify-center shadow-neo-sm transform hover:rotate-12 transition-all">
+              <Trophy className="w-8 h-8 stroke-[2.5]" />
             </div>
-            <div>
-              <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 bg-amber-50 text-amber-700 rounded-md text-xs font-bold mb-1 border border-amber-200/60 shadow-2xs">
+            <div className="space-y-2">
+              <div className="inline-flex items-center space-x-2 px-3 py-1.5 bg-dark text-white border-2 border-dark rounded-md text-xs font-black uppercase tracking-widest shadow-neo-sm">
                 <span>CLASSIFICAÇÃO GERAL DOS ALUNOS</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              <h1 className="text-4xl sm:text-5xl font-black text-dark tracking-tighter uppercase font-display leading-tight">
                 Ranking da Turma
               </h1>
             </div>
           </div>
 
-          <div className="text-xs text-slate-600 bg-slate-50/90 px-4 py-2.5 rounded-xl border border-slate-200 font-semibold shadow-2xs">
-            Classificado por <strong className="text-indigo-600 font-extrabold">Experiência (XP)</strong>
+          <div className="text-xs text-dark bg-white border-4 border-dark px-5 py-3 shadow-neo-sm font-black uppercase tracking-widest">
+            Classificado por <strong className="text-dark font-black underline underline-offset-4 decoration-4">XP</strong>
           </div>
         </div>
 
-        {/* Tabela do Ranking com Estilo Moderno */}
+        {/* Tabela do Ranking com Estilo Brutalista */}
         {loading ? (
-          <div className="quantum-card rounded-3xl p-12 text-center text-sm text-slate-500 font-medium">
-            <div className="w-8 h-8 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+          <div className="quantum-card bg-white border-4 border-dark shadow-neo rounded-3xl p-12 text-center text-sm text-dark font-black uppercase tracking-widest">
+            <div className="w-12 h-12 border-4 border-dark border-t-brand rounded-full animate-spin mx-auto mb-4"></div>
             Calculando classificação geral...
           </div>
         ) : (
-          <div className="quantum-card rounded-3xl overflow-hidden shadow-sm">
-            <div className="grid grid-cols-12 px-6 py-4 border-b border-slate-200/80 text-xs font-extrabold text-slate-500 uppercase tracking-wider bg-slate-50/80">
+          <div className="bg-white border-4 border-dark rounded-3xl overflow-hidden shadow-neo">
+            <div className="grid grid-cols-12 px-6 py-5 border-b-4 border-dark text-xs font-black text-dark uppercase tracking-widest bg-brand">
               <div className="col-span-2 sm:col-span-1 text-center">POS</div>
               <div className="col-span-7 sm:col-span-8">ESTUDANTE & TÍTULO</div>
               <div className="col-span-3 text-right">XP / MOEDAS</div>
             </div>
 
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y-4 divide-dark">
               {ranking.map(user => {
                 const isCurrentUser = usuario?.id === user.id;
 
                 return (
                   <div
                     key={user.id}
-                    className={`grid grid-cols-12 px-6 py-4.5 items-center transition-all duration-200 ${
+                    className={`group grid grid-cols-12 px-6 py-5 items-center transition-all duration-300 ${
                       isCurrentUser
-                        ? 'bg-gradient-to-r from-indigo-50/80 via-blue-50/40 to-transparent border-l-4 border-indigo-600 shadow-2xs'
-                        : 'hover:bg-slate-50/80'
+                        ? 'bg-yellow-300 shadow-[inset_8px_0_0_#191A23]'
+                        : 'bg-white hover:bg-slate-50'
                     }`}
                   >
                     {/* Posição */}
-                    <div className="col-span-2 sm:col-span-1 font-mono text-sm font-bold text-center">
+                    <div className="col-span-2 sm:col-span-1 font-mono text-base font-black text-center text-dark flex items-center justify-center">
                       {user.posicao === 1 ? (
-                        <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-400 to-amber-500 text-white font-extrabold shadow-sm shadow-amber-500/30 scale-110">
+                        <div className="inline-flex items-center justify-center w-10 h-10 border-4 border-dark rounded-full bg-brand text-dark shadow-neo-sm transform group-hover:scale-110 transition-transform">
                           1º
                         </div>
                       ) : user.posicao === 2 ? (
-                        <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-tr from-slate-300 to-slate-400 text-white font-extrabold shadow-2xs">
+                        <div className="inline-flex items-center justify-center w-10 h-10 border-4 border-dark rounded-full bg-slate-200 text-dark shadow-neo-sm transform group-hover:scale-110 transition-transform">
                           2º
                         </div>
                       ) : user.posicao === 3 ? (
-                        <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-tr from-amber-600 to-amber-700 text-white font-extrabold shadow-2xs">
+                        <div className="inline-flex items-center justify-center w-10 h-10 border-4 border-dark rounded-full bg-orange-400 text-dark shadow-neo-sm transform group-hover:scale-110 transition-transform">
                           3º
                         </div>
                       ) : (
-                        <span className="text-slate-500 font-bold">{String(user.posicao).padStart(2, '0')}</span>
+                        <span>{String(user.posicao).padStart(2, '0')}º</span>
                       )}
                     </div>
 
                     {/* Aluno, Insígnia e Título */}
-                    <div className="col-span-7 sm:col-span-8 flex items-center space-x-3.5">
+                    <div className="col-span-7 sm:col-span-8 flex items-center space-x-4 pl-4 sm:pl-0">
                       <AvatarBadge avatarId={user.avatarId} size="sm" />
-                      <div>
-                        <div className="flex items-center space-x-2">
-                          <span className="font-extrabold text-sm sm:text-base text-slate-900">
+                      <div className="space-y-1">
+                        <div className="flex items-center space-x-3">
+                          <span className="font-black text-sm sm:text-base text-dark uppercase tracking-wide">
                             {user.nomeCompleto}
                           </span>
                           {isCurrentUser && (
-                            <span className="text-[10px] font-extrabold bg-indigo-600 text-white px-2 py-0.5 rounded-full shadow-2xs">
+                            <span className="text-[10px] font-black bg-dark text-white px-2.5 py-1 border-2 border-dark rounded-md shadow-neo-sm uppercase tracking-widest">
                               VOCÊ
                             </span>
                           )}
                         </div>
-                        <span className="text-xs text-indigo-700 font-bold block">
+                        <span className="text-xs text-dark/70 font-bold uppercase tracking-widest block">
                           {user.titulo}
                         </span>
                       </div>
@@ -137,10 +137,11 @@ export default function Ranking() {
 
                     {/* Pontuação */}
                     <div className="col-span-3 text-right text-xs">
-                      <div className="text-sm sm:text-base font-extrabold text-slate-900 font-mono">
-                        {user.experiencia} <span className="text-[11px] text-slate-500 font-normal">XP</span>
+                      <div className="text-lg sm:text-xl font-black text-dark font-mono flex items-end justify-end space-x-1">
+                        <span>{user.experiencia}</span>
+                        <span className="text-[10px] uppercase tracking-widest pb-1">XP</span>
                       </div>
-                      <span className="text-amber-700 font-bold font-mono text-xs">
+                      <span className="text-dark font-bold font-mono text-xs">
                         {user.pontos} pts
                       </span>
                     </div>

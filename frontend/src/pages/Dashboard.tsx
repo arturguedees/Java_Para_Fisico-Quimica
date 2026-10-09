@@ -31,12 +31,12 @@ export default function Dashboard() {
 
   if (loading || !usuario) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center text-sm text-slate-600 font-sans">
+      <div className="min-h-screen bg-stone-50 flex items-center justify-center text-sm text-stone-600 font-sans">
         <div className="flex flex-col items-center space-y-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-cyan-500 flex items-center justify-center text-white animate-bounce shadow-lg shadow-indigo-500/25">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand to-emerald-500 flex items-center justify-center text-white animate-bounce shadow-lg shadow-brand-500/25">
             <FlaskConical className="w-5 h-5" />
           </div>
-          <span className="font-semibold text-slate-700 animate-pulse">Carregando ambiente quântico...</span>
+          <span className="font-semibold text-stone-700 animate-pulse">Carregando ambiente quântico...</span>
         </div>
       </div>
     );
@@ -65,144 +65,140 @@ export default function Dashboard() {
       indice: '01',
       titulo: 'Cinética Química',
       subtitulo: 'Reações de 0ª e 1ª Ordem',
-      descricao: 'Simule o decaimento exponencial de reagentes no tempo, controle a constante k e visualize o tempo de meia-vida (t½) e vida média (τ).',
+      descricao: 'Simule o decaimento exponencial de reagentes no tempo, controle a constante k e visualize o tempo de meia-vida (t½).',
       rota: '/cinetica',
       tag: 'Simulação Dinâmica',
       icone: FlaskConical,
-      corIcone: 'from-blue-600 to-indigo-600',
-      corSombra: 'shadow-blue-500/20',
-      tagBadge: 'bg-blue-50 text-blue-700 border-blue-200/80'
+      bgClass: 'quantum-card',
+      textClass: 'text-dark',
+      iconClass: 'bg-brand text-dark border-4 border-dark shadow-neo-sm',
     },
     {
       indice: '02',
       titulo: 'Distribuição de Maxwell-Boltzmann',
-      subtitulo: 'Velocidade e Energia dos Gases',
-      descricao: 'Descubra a agitação molecular dos gases ideais (He, Ar, O₂). Calcule velocidades térmicas (v_mp, v_m, v_rms) sob variações de temperatura.',
+      subtitulo: 'Velocidade dos Gases',
+      descricao: 'Descubra a agitação molecular dos gases ideais (He, Ar, O₂). Calcule velocidades térmicas sob variações de temperatura.',
       rota: '/maxwell',
       tag: 'Termodinâmica',
       icone: Wind,
-      corIcone: 'from-indigo-600 to-violet-600',
-      corSombra: 'shadow-indigo-500/20',
-      tagBadge: 'bg-indigo-50 text-indigo-700 border-indigo-200/80'
+      bgClass: 'quantum-card-lime',
+      textClass: 'text-dark',
+      iconClass: 'bg-white text-dark border-4 border-dark shadow-neo-sm',
     },
     {
       indice: '03',
-      titulo: 'Calorimetria DSC (Lisozima)',
-      subtitulo: 'Desnaturação Térmica & Entalpia',
-      descricao: 'Analise o termograma de desnaturação da proteína. Realize integração numérica (Simpson 1/3 com Spline Cúbico) para quantificar o ΔH de transição.',
+      titulo: 'Calorimetria DSC',
+      subtitulo: 'Desnaturação Térmica',
+      descricao: 'Analise o termograma de desnaturação. Realize integração numérica para quantificar o ΔH de transição.',
       rota: '/dsc',
       tag: 'Métodos Numéricos',
       icone: Flame,
-      corIcone: 'from-rose-500 to-amber-600',
-      corSombra: 'shadow-rose-500/20',
-      tagBadge: 'bg-rose-50 text-rose-700 border-rose-200/80'
+      bgClass: 'quantum-card-dark',
+      textClass: 'text-white',
+      iconClass: 'bg-brand text-dark border-4 border-dark shadow-neo-sm',
     },
     {
       indice: '04',
-      titulo: 'Central de Exercícios & Quiz',
-      subtitulo: 'Banco de Questões Interativo',
-      descricao: 'Pratique questões com resolução passo a passo. Ganhe experiência (XP), moedas para trocar por insígnias e suba no ranking da turma!',
+      titulo: 'Central de Exercícios',
+      subtitulo: 'Banco de Questões',
+      descricao: 'Pratique questões passo a passo. Ganhe experiência (XP), moedas para trocar por insígnias e suba no ranking.',
       rota: '/exercicios',
       tag: 'Ganhe XP & Moedas',
       icone: HelpCircle,
-      corIcone: 'from-emerald-500 to-teal-600',
-      corSombra: 'shadow-emerald-500/20',
-      tagBadge: 'bg-emerald-50 text-emerald-700 border-emerald-200/80'
+      bgClass: 'quantum-card',
+      textClass: 'text-dark',
+      iconClass: 'bg-dark text-white border-4 border-dark shadow-neo-sm',
     }
   ];
 
   return (
-    <div className="min-h-screen text-slate-800 pb-20 font-sans">
+    <div className="min-h-screen pb-20">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 space-y-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-10 space-y-12">
         
-        {/* Card Hero do Estudante com Gradiente Moderno e Iluminação */}
-        <section className="relative overflow-hidden bg-white/95 backdrop-blur-xl border border-slate-200/80 rounded-3xl p-6 sm:p-10 shadow-sm transition-all">
-          {/* Efeito sutil de luz de fundo */}
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-indigo-200/40 via-blue-200/20 to-transparent rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-gradient-to-tr from-cyan-200/30 via-emerald-200/20 to-transparent rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        {/* Card Hero do Estudante */}
+        <section className="quantum-card relative overflow-hidden bg-brand p-8 sm:p-12 transition-all">
+          <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
             {/* Boas-vindas e Introdução */}
-            <div className="lg:col-span-7 space-y-4">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-200/80 rounded-full text-xs font-bold text-indigo-700 shadow-xs">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-500 animate-spin" style={{ animationDuration: '6s' }} />
-                <span>LABORATÓRIO INTERATIVO DE FÍSICO-QUÍMICA</span>
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center space-x-2 px-3 py-1.5 bg-white border-2 border-dark rounded-full text-xs font-bold text-dark shadow-neo-sm uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5 text-dark" />
+                <span>Laboratório Físico-Química</span>
               </div>
 
-              <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-                Olá, {usuario.nomeCompleto}! 🚀
+              <h1 className="text-4xl sm:text-6xl font-black text-dark tracking-tighter leading-[1.1] font-display uppercase">
+                Olá, {usuario.nomeCompleto}!
               </h1>
 
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl font-normal">
-                Bem-vindo ao <strong>Lab Quântico</strong>. Aqui você explora fenômenos termodinâmicos e cinéticos através de simulações em tempo real e treina com nosso banco de exercícios gamificado.
+              <p className="text-dark/90 text-base sm:text-lg leading-relaxed max-w-2xl font-medium">
+                Bem-vindo ao <strong>Lab Quântico</strong>. Aqui você explora fenômenos termodinâmicos e cinéticos através de simulações em tempo real e treina com nosso banco de questões gamificado.
               </p>
 
-              <div className="pt-2 flex flex-wrap gap-3">
+              <div className="pt-4 flex flex-wrap gap-4">
                 <Link
                   to="/exercicios"
-                  className="btn-quantum-primary inline-flex items-center space-x-2 px-6 py-3 rounded-xl font-bold text-sm shadow-md"
+                  className="btn-quantum-primary inline-flex items-center space-x-2 px-6 py-3.5 rounded-xl font-bold text-base shadow-neo hover:shadow-neo-hover"
                 >
-                  <HelpCircle className="w-4 h-4" />
+                  <HelpCircle className="w-5 h-5 stroke-[2]" />
                   <span>Resolver Questões</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform stroke-[2]" />
                 </Link>
                 <Link
                   to="/cinetica"
-                  className="inline-flex items-center space-x-2 px-5 py-3 bg-slate-100/90 hover:bg-slate-200 text-slate-700 hover:text-slate-900 rounded-xl font-semibold text-sm transition-all duration-200 border border-slate-200/80 hover:shadow-xs"
+                  className="inline-flex items-center space-x-2 px-6 py-3.5 bg-white text-dark hover:bg-dark hover:text-white border-2 border-dark rounded-xl font-bold text-base shadow-neo hover:shadow-neo-hover transition-all duration-200"
                 >
+                  <FlaskConical className="w-5 h-5 stroke-[2]" />
                   <span>Abrir Simuladores</span>
                 </Link>
               </div>
             </div>
 
             {/* Quadro de Status do Estudante (Gamificação Dinâmica) */}
-            <div className="lg:col-span-5 bg-gradient-to-br from-slate-50 to-indigo-50/30 border border-indigo-100/80 rounded-2xl p-6 space-y-5 shadow-xs">
-              <div className="flex items-center space-x-4 pb-4 border-b border-slate-200/70">
+            <div className="lg:col-span-5 bg-white border-4 border-dark rounded-2xl p-6 sm:p-8 space-y-6 shadow-neo">
+              <div className="flex items-center space-x-4 pb-5 border-b-2 border-dark">
                 <AvatarBadge avatarId={usuario.avatarId} size="lg" />
-                <div className="space-y-1">
-                  <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-0.5 rounded-md border border-indigo-200/60 inline-block">
+                <div className="space-y-1.5">
+                  <span className="text-xs font-black uppercase tracking-widest text-dark bg-brand px-2.5 py-1 rounded-sm border-2 border-dark inline-block shadow-neo-sm">
                     {usuario.titulo}
                   </span>
-                  <h3 className="font-extrabold text-lg text-slate-900 flex items-center space-x-2">
+                  <h3 className="font-black text-2xl text-dark flex items-center space-x-2 font-display uppercase tracking-tight">
                     <span>Nível {nivel}</span>
-                    <span className="text-xs font-semibold text-slate-400 font-mono">• {xp} XP</span>
+                    <span className="text-sm font-bold text-dark/40 font-mono">• {xp} XP</span>
                   </h3>
                 </div>
               </div>
 
-              {/* Barra de Progresso com Shimmer */}
-              <div className="space-y-2 text-xs font-semibold">
-                <div className="flex justify-between text-slate-600">
-                  <span>Progresso para o Nível {nivel + 1}</span>
-                  <span className="font-mono text-slate-800">{xp} / {xpProximo} XP</span>
+              {/* Barra de Progresso */}
+              <div className="space-y-2 text-sm font-bold">
+                <div className="flex justify-between text-dark">
+                  <span>PRÓXIMO NÍVEL</span>
+                  <span className="font-mono">{xp} / {xpProximo} XP</span>
                 </div>
-                <div className="w-full bg-slate-200/80 h-3 rounded-full overflow-hidden relative shadow-inner">
+                <div className="w-full bg-white border-2 border-dark h-4 rounded-full overflow-hidden relative shadow-neo-sm">
                   <div
-                    className="bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-400 h-full rounded-full transition-all duration-700 ease-out shadow-xs relative"
+                    className="bg-brand border-r-2 border-dark h-full transition-all duration-700 ease-out relative"
                     style={{ width: `${progressoPercent}%` }}
                   >
-                    <div className="absolute inset-0 bg-white/20 animate-shimmer" />
                   </div>
                 </div>
               </div>
 
-              {/* Métricas Rápidas com Efeito de Hover */}
-              <div className="grid grid-cols-2 gap-3 pt-1">
-                <div className="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs hover:border-amber-300 hover:shadow-amber-500/10 hover:-translate-y-0.5 transition-all">
-                  <span className="text-slate-500 block text-[11px] font-bold uppercase">Moedas Acumuladas</span>
-                  <div className="flex items-center space-x-1.5 mt-1 text-amber-600">
-                    <Coins className="w-5 h-5 fill-amber-500" />
-                    <span className="text-xl font-extrabold font-mono">{usuario.pontos}</span>
+              {/* Métricas Rápidas */}
+              <div className="grid grid-cols-2 gap-4 pt-2">
+                <div className="bg-white p-4 rounded-2xl border-4 border-dark shadow-neo hover:shadow-neo-hover hover:-translate-y-1 transition-all">
+                  <span className="text-dark block text-xs font-bold uppercase tracking-wider">Moedas</span>
+                  <div className="flex items-center space-x-2 mt-2 text-dark">
+                    <Coins className="w-6 h-6 stroke-[2]" />
+                    <span className="text-2xl font-black font-mono">{usuario.pontos}</span>
                   </div>
                 </div>
-                <div className="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs hover:border-emerald-300 hover:shadow-emerald-500/10 hover:-translate-y-0.5 transition-all">
-                  <span className="text-slate-500 block text-[11px] font-bold uppercase">Exercícios Feitos</span>
-                  <div className="flex items-center space-x-1.5 mt-1 text-emerald-600">
-                    <CheckCircle className="w-5 h-5" />
-                    <span className="text-xl font-extrabold font-mono">{totalExerciciosResolvidos}</span>
+                <div className="bg-dark p-4 rounded-2xl border-4 border-dark shadow-neo-lime hover:shadow-neo hover:-translate-y-1 transition-all text-white">
+                  <span className="text-brand block text-xs font-bold uppercase tracking-wider">Exercícios</span>
+                  <div className="flex items-center space-x-2 mt-2">
+                    <CheckCircle className="w-6 h-6 stroke-[2] text-brand" />
+                    <span className="text-2xl font-black font-mono">{totalExerciciosResolvidos}</span>
                   </div>
                 </div>
               </div>
@@ -212,60 +208,60 @@ export default function Dashboard() {
         </section>
 
         {/* Grade de Módulos de Estudo Interativo */}
-        <section className="space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-200/80 pb-4">
+        <section className="space-y-8">
+          <div className="flex items-center justify-between border-b-4 border-dark pb-4">
             <div>
-              <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center space-x-2">
-                <span>Módulos de Estudo Interativo</span>
+              <h2 className="text-3xl font-black text-dark tracking-tighter uppercase font-display">
+                Módulos de Estudo Interativo
               </h2>
-              <p className="text-slate-500 text-xs sm:text-sm mt-1">
+              <p className="text-dark/80 text-sm mt-1 font-bold">
                 Explore os módulos práticos com simulação gráfica e perguntas de fixação
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {modulos.map((mod) => {
               const Icon = mod.icone;
               return (
                 <Link
                   key={mod.indice}
                   to={mod.rota}
-                  className="quantum-card group rounded-2xl p-6 sm:p-7 flex flex-col justify-between hover:-translate-y-1.5 transition-all duration-300"
+                  className={`${mod.bgClass} group rounded-3xl p-6 sm:p-8 flex flex-col justify-between`}
                 >
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <span className="text-xs font-mono font-bold text-slate-400">
-                          {mod.indice}.
+                        <span className={`text-sm font-black font-mono border-2 ${mod.bgClass === 'quantum-card-dark' ? 'border-brand bg-brand text-dark' : 'border-dark bg-white text-dark'} px-2 py-0.5 rounded-sm shadow-neo-sm`}>
+                          {mod.indice}
                         </span>
-                        <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                        <span className={`text-xs font-bold uppercase tracking-wider ${mod.textClass} opacity-90`}>
                           {mod.subtitulo}
                         </span>
                       </div>
 
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold border ${mod.tagBadge} shadow-2xs`}>
+                      <span className={`px-3 py-1 ${mod.bgClass === 'quantum-card-dark' ? 'bg-dark text-white border-white' : 'bg-white text-dark border-dark'} border-2 shadow-neo-sm rounded-full text-[10px] font-black uppercase tracking-wider`}>
                         {mod.tag}
                       </span>
                     </div>
 
                     <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${mod.corIcone} text-white flex items-center justify-center shadow-md ${mod.corSombra} group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                        <Icon className="w-6 h-6" />
+                      <div className={`w-14 h-14 rounded-xl ${mod.iconClass} flex items-center justify-center group-hover:scale-105 group-hover:rotate-6 transition-all duration-300`}>
+                        <Icon className={`w-7 h-7 stroke-[2.5] ${mod.bgClass === 'quantum-card-dark' ? 'text-dark' : 'text-dark'}`} />
                       </div>
-                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                      <h3 className={`text-2xl font-black ${mod.textClass} font-display uppercase tracking-tight`}>
                         {mod.titulo}
                       </h3>
                     </div>
 
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                    <p className={`text-base ${mod.textClass} opacity-90 font-medium leading-relaxed`}>
                       {mod.descricao}
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-indigo-600">
+                  <div className={`mt-8 pt-6 border-t-2 ${mod.bgClass === 'quantum-card-dark' ? 'border-white/20' : 'border-dark/20'} flex items-center justify-between text-sm font-black ${mod.textClass} uppercase tracking-widest`}>
                     <span className="group-hover:underline">ACESSAR MÓDULO</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-200" />
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-200 stroke-[2.5]" />
                   </div>
                 </Link>
               );
@@ -277,17 +273,17 @@ export default function Dashboard() {
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
           <div className="quantum-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between hover:-translate-y-1 transition-all">
             <div className="space-y-3">
-              <span className="text-xs text-amber-600 font-extrabold uppercase tracking-wider bg-amber-50 px-2.5 py-0.5 rounded-md border border-amber-200/60 inline-block">
+              <span className="text-xs text-amber-700 font-extrabold uppercase tracking-wider bg-amber-50 px-2.5 py-0.5 rounded-md border border-amber-200/60 inline-block">
                 CONQUISTAS & PERSONALIZAÇÃO
               </span>
-              <h3 className="text-lg font-bold text-slate-900">Loja de Insígnias & Selos</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <h3 className="text-lg font-bold text-stone-900 font-serif">Loja de Insígnias & Selos</h3>
+              <p className="text-sm text-stone-600 leading-relaxed">
                 Utilize suas moedas conquistadas nas resoluções para desbloquear selos históricos de Planck, Boltzmann, Curie e equipar no seu perfil.
               </p>
             </div>
             <Link
               to="/loja"
-              className="mt-5 inline-flex items-center space-x-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800"
+              className="mt-5 inline-flex items-center space-x-1.5 text-xs font-bold text-brand hover:text-brand-hover"
             >
               <span>EXPLORAR INSÍGNIAS</span>
               <ArrowRight className="w-4 h-4" />
@@ -296,17 +292,17 @@ export default function Dashboard() {
 
           <div className="quantum-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between hover:-translate-y-1 transition-all">
             <div className="space-y-3">
-              <span className="text-xs text-indigo-600 font-extrabold uppercase tracking-wider bg-indigo-50 px-2.5 py-0.5 rounded-md border border-indigo-200/60 inline-block">
+              <span className="text-xs text-brand font-extrabold uppercase tracking-wider bg-brand-50 px-2.5 py-0.5 rounded-md border border-brand-200/60 inline-block">
                 COMUNIDADE ACADÊMICA
               </span>
-              <h3 className="text-lg font-bold text-slate-900">Ranking dos Estudantes</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <h3 className="text-lg font-bold text-stone-900 font-serif">Ranking dos Estudantes</h3>
+              <p className="text-sm text-stone-600 leading-relaxed">
                 Acompanhe em tempo real quem está no topo da tabela de classificação geral de Físico-Química com base na experiência obtida.
               </p>
             </div>
             <Link
               to="/ranking"
-              className="mt-5 inline-flex items-center space-x-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800"
+              className="mt-5 inline-flex items-center space-x-1.5 text-xs font-bold text-brand hover:text-brand-hover"
             >
               <span>VER CLASSIFICAÇÃO</span>
               <ArrowRight className="w-4 h-4" />

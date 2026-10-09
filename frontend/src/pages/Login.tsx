@@ -33,29 +33,29 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen text-slate-800 flex flex-col justify-between p-6 sm:p-12 font-sans">
+    <div className="min-h-screen text-stone-800 flex flex-col justify-between p-6 sm:p-12 font-sans">
       
       {/* Header */}
-      <header className="flex items-center justify-between border-b border-slate-200/80 pb-4 text-xs font-bold text-slate-500">
+      <header className="flex items-center justify-between border-b border-stone-200/80 pb-4 text-xs font-bold text-stone-500">
         <div className="flex items-center space-x-2.5">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-500 flex items-center justify-center text-white shadow-xs">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand via-brand-500 to-emerald-500 flex items-center justify-center text-white shadow-xs">
             <FlaskConical className="w-4 h-4" />
           </div>
-          <span className="text-slate-900 font-extrabold tracking-tight text-sm">LAB QUÂNTICO</span>
+          <span className="text-stone-900 font-extrabold tracking-tight text-sm font-serif">LAB QUÂNTICO</span>
         </div>
-        <span className="text-slate-400">UNIVERSIDADE TIRADENTES</span>
+        <span className="text-stone-400">UNIVERSIDADE TIRADENTES</span>
       </header>
 
       {/* Caixa de Acesso */}
       <main className="max-w-md w-full mx-auto my-12 quantum-card rounded-3xl p-8 sm:p-10 space-y-6 shadow-card hover:shadow-card-hover transition-all">
         <div className="space-y-2 text-center">
-          <div className="w-14 h-14 bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md shadow-indigo-500/25 hover:rotate-6 transition-transform">
+          <div className="w-14 h-14 bg-gradient-to-tr from-brand via-brand-500 to-emerald-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-md shadow-brand-500/25 hover:rotate-6 transition-transform">
             <FlaskConical className="w-7 h-7" />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight font-serif">
             Lab Quântico
           </h1>
-          <p className="text-sm text-slate-600 max-w-xs mx-auto leading-relaxed">
+          <p className="text-sm text-stone-600 max-w-xs mx-auto leading-relaxed">
             Plataforma de estudos práticos e exercícios em Físico-Química.
           </p>
         </div>
@@ -69,14 +69,14 @@ export default function Login() {
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-700 block">Email Institucional ou Pessoal</label>
+            <label className="text-xs font-bold text-stone-700 block">Email Institucional ou Pessoal</label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+              <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
               <input 
                 type="email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition shadow-xs"
+                className="w-full pl-10 pr-4 py-3 bg-stone-50 border border-stone-300 rounded-xl text-sm text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-brand focus:bg-white transition shadow-xs"
                 placeholder="seu@email.com"
                 required 
               />
@@ -84,14 +84,14 @@ export default function Login() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-700 block">Senha de Acesso</label>
+            <label className="text-xs font-bold text-stone-700 block">Senha de Acesso</label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
+              <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
               <input 
                 type="password" 
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition shadow-xs"
+                className="w-full pl-10 pr-4 py-3 bg-stone-50 border border-stone-300 rounded-xl text-sm text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-brand focus:bg-white transition shadow-xs"
                 placeholder="••••••••"
                 required 
               />
@@ -108,16 +108,16 @@ export default function Login() {
           </button>
         </form>
 
-        <div className="pt-4 border-t border-slate-100 text-center text-xs text-slate-500">
+        <div className="pt-4 border-t border-stone-100 text-center text-xs text-stone-500">
           Ainda não tem conta?{' '}
-          <Link to="/cadastro" className="text-indigo-600 hover:text-indigo-800 font-extrabold hover:underline">
+          <Link to="/cadastro" className="text-brand hover:text-brand-hover font-extrabold hover:underline">
             Cadastre-se gratuitamente
           </Link>
         </div>
       </main>
 
       {/* Rodapé */}
-      <footer className="border-t border-slate-200/80 pt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-medium">
+      <footer className="border-t border-stone-200/80 pt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 font-medium">
         <span>Projeto de Programação • Físico-Química</span>
         <span>Universidade Tiradentes</span>
       </footer>

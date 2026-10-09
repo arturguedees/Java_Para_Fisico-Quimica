@@ -158,23 +158,23 @@ export default function Maxwell() {
   };
 
   return (
-    <div className="min-h-screen text-slate-800 pb-24 font-sans">
+    <div className="min-h-screen pb-24">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 space-y-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-10 space-y-10">
         
         {/* Cabeçalho */}
-        <div className="quantum-card rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-600 text-white flex items-center justify-center shadow-md shadow-indigo-500/25">
-              <Wind className="w-6 h-6" />
+        <div className="quantum-card bg-brand p-6 sm:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-neo">
+          <div className="flex items-center space-x-6">
+            <div className="w-16 h-16 bg-white border-4 border-dark text-dark flex items-center justify-center shadow-neo-sm transform hover:-rotate-6 transition-all">
+              <Wind className="w-8 h-8 stroke-[2.5]" />
             </div>
-            <div>
-              <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 bg-indigo-50 text-indigo-700 rounded-md text-xs font-bold mb-1 border border-indigo-200/60">
-                <Activity className="w-3.5 h-3.5" />
+            <div className="space-y-2">
+              <div className="inline-flex items-center space-x-2 px-3 py-1.5 bg-dark text-white border-2 border-dark rounded-md text-xs font-black uppercase tracking-widest shadow-neo-sm">
+                <Activity className="w-4 h-4 stroke-[3]" />
                 <span>MÓDULO 02 • TERMODINÂMICA DOS GASES</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+              <h1 className="text-4xl sm:text-5xl font-black text-dark tracking-tighter uppercase font-display leading-tight">
                 Distribuição de Maxwell-Boltzmann
               </h1>
             </div>

@@ -47,61 +47,38 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
   const progressoPercent = Math.min(100, Math.max(0, ((xp - xpBase) / (xpProximo - xpBase)) * 100));
 
   return (
-    <header className="bg-white/95 backdrop-blur-md border-b border-slate-200/90 sticky top-0 z-50 shadow-sm transition-all">
-      {/* Faixa Superior com Micro-Detalhes */}
-      <div className="bg-gradient-to-r from-slate-50 via-indigo-50/40 to-slate-50 border-b border-slate-200/60 px-4 sm:px-8 py-1.5 flex items-center justify-between text-xs text-slate-500 font-medium">
-        <div className="flex items-center space-x-2">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-600"></span>
-          </span>
-          <span className="text-slate-800 font-bold tracking-wide">LAB QUÂNTICO</span>
-          <span className="text-slate-300">•</span>
-          <span className="hidden sm:inline text-slate-500">Universidade Tiradentes</span>
-        </div>
-        <div className="flex items-center space-x-4">
-          {usuario && (
-            <div className="flex items-center space-x-1.5 text-slate-600">
-              <span className="hidden sm:inline">Estudante:</span>
-              <strong className="text-slate-900 font-semibold bg-slate-100 px-2 py-0.5 rounded-md">
-                {usuario.nomeCompleto}
-              </strong>
-            </div>
-          )}
-        </div>
-      </div>
-
+    <header className="bg-white border-b-4 border-dark sticky top-0 z-50 transition-all">
       {/* Barra de Navegação Principal */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           
           {/* Logo e Nome */}
           <Link to="/dashboard" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 group-hover:shadow-indigo-500/35 transition-all duration-300">
-              <FlaskConical className="w-5 h-5 transition-transform group-hover:rotate-6" />
+            <div className="w-12 h-12 bg-brand border-4 border-dark flex items-center justify-center text-dark shadow-neo group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-none transition-all duration-200">
+              <FlaskConical className="w-6 h-6 stroke-[2.5]" />
             </div>
             <div>
-              <span className="text-xl font-extrabold tracking-tight text-slate-900 group-hover:text-indigo-600 transition-colors block leading-tight">
+              <span className="text-2xl font-black tracking-tight text-dark uppercase font-display leading-none">
                 Lab Quântico
               </span>
-              <span className="text-[10px] text-slate-400 font-medium uppercase tracking-wider block">
-                Físico-Química Interativa
+              <span className="text-[10px] text-dark font-bold uppercase tracking-widest block mt-0.5">
+                Físico-Química
               </span>
             </div>
           </Link>
 
           {/* Links Centrais de Navegação */}
-          <nav className="hidden lg:flex items-center space-x-1 text-sm font-semibold">
+          <nav className="hidden lg:flex items-center space-x-2 text-sm font-bold font-display">
             {navItems.map(item => {
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-3.5 py-2 rounded-xl transition-all duration-200 ${
+                  className={`px-4 py-2.5 border-4 transition-all duration-300 uppercase tracking-wide hover:-translate-y-1 ${
                     isActive
-                      ? 'bg-indigo-50 text-indigo-700 shadow-sm border border-indigo-200/60 font-bold'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 hover:-translate-y-0.5'
+                      ? 'bg-brand border-dark shadow-neo'
+                      : 'bg-white border-transparent text-dark hover:border-dark hover:shadow-neo-sm'
                   }`}
                 >
                   {item.label}
@@ -116,57 +93,44 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
               <>
                 {/* Saldo de Moedas/Pontos Animado */}
                 <div 
-                  className="group flex items-center space-x-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/90 rounded-xl text-xs font-bold text-amber-800 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200 cursor-default"
+                  className="group flex items-center space-x-1.5 px-3 py-1.5 bg-yellow-300 border-[3px] border-dark text-xs font-black text-dark shadow-neo-sm hover:shadow-neo hover:-translate-y-1 transition-all duration-300 cursor-default"
                   title="Moedas ganhas ao responder exercícios"
                 >
-                  <Coins className="w-4 h-4 text-amber-500 fill-amber-500 group-hover:rotate-12 transition-transform" />
-                  <span className="font-mono text-sm">{usuario.pontos}</span>
-                  <span className="text-amber-600/80 text-[10px] font-medium">pts</span>
+                  <Coins className="w-5 h-5 text-dark fill-dark group-hover:rotate-12 group-hover:scale-110 transition-transform stroke-[2]" />
+                  <span className="font-mono text-base">{usuario.pontos}</span>
+                  <span className="text-dark/80 text-[10px] uppercase tracking-widest">pts</span>
                 </div>
 
-                {/* Barra de Progresso de XP Dinâmica */}
-                <div className="hidden sm:flex flex-col items-end text-xs">
-                  <div className="flex items-center space-x-1.5 font-bold text-slate-700">
-                    <span className="text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-200/50">
-                      Nv. {nivel}
-                    </span>
-                    <span className="text-slate-300">•</span>
-                    <span className="font-mono text-slate-800">{xp} XP</span>
-                  </div>
-                  <div className="w-28 bg-slate-200/80 h-2 rounded-full overflow-hidden mt-1 relative">
-                    <div
-                      className="bg-gradient-to-r from-indigo-600 via-blue-500 to-cyan-400 h-full rounded-full transition-all duration-500 ease-out shadow-sm"
-                      style={{ width: `${progressoPercent}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* Avatar e Perfil */}
+                {/* Perfil Button */}
                 <Link
                   to="/perfil"
-                  className="flex items-center p-0.5 rounded-xl hover:ring-2 hover:ring-indigo-400 hover:scale-105 transition-all duration-200"
+                  className="group flex items-center space-x-3 px-3 py-2 bg-white border-4 border-dark hover:bg-brand hover:-translate-y-1 hover:shadow-neo transition-all duration-300"
                   title="Meu Perfil"
                 >
                   <AvatarBadge avatarId={usuario.avatarId} size="sm" />
+                  <div className="hidden sm:block text-left">
+                    <span className="block text-xs font-black text-dark uppercase tracking-widest">{usuario.nomeCompleto.split(' ')[0]}</span>
+                    <span className="block text-[10px] font-bold text-dark/70 uppercase tracking-widest">NV. {nivel} • {xp} XP</span>
+                  </div>
                 </Link>
 
                 {/* Sair */}
                 <button
                   onClick={handleLogout}
-                  className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition duration-150"
+                  className="p-3 text-dark bg-white hover:text-white hover:bg-dark border-4 border-dark hover:shadow-neo hover:-translate-y-1 transition-all duration-300"
                   title="Sair da conta"
                 >
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="w-5 h-5 stroke-[2.5]" />
                 </button>
               </>
             ) : (
-              <div className="flex items-center space-x-3 text-sm font-semibold">
-                <Link to="/login" className="text-slate-600 hover:text-slate-900 px-3 py-1.5">
+              <div className="flex items-center space-x-3 text-sm font-black font-display uppercase tracking-widest">
+                <Link to="/login" className="text-dark hover:-translate-y-1 transition-transform px-3 py-1.5">
                   Entrar
                 </Link>
                 <Link
                   to="/cadastro"
-                  className="btn-quantum-primary px-4 py-2 rounded-xl text-sm font-semibold"
+                  className="btn-quantum-primary px-6 py-3 text-sm hover:-translate-y-1 transition-transform"
                 >
                   Criar Conta
                 </Link>
@@ -178,7 +142,7 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
       </div>
 
       {/* Menu Mobile Horizontal com Scroll */}
-      <div className="lg:hidden flex items-center space-x-1.5 px-4 py-2.5 bg-slate-50/90 border-t border-slate-200/80 overflow-x-auto text-xs font-semibold">
+      <div className="lg:hidden flex items-center space-x-1.5 px-4 py-2.5 bg-stone-50/90 border-t border-stone-200/80 overflow-x-auto text-xs font-semibold">
         {navItems.map(item => {
           const isActive = location.pathname === item.path;
           return (
@@ -187,8 +151,8 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
               to={item.path}
               className={`whitespace-nowrap px-3.5 py-1.5 rounded-lg transition-all ${
                 isActive
-                  ? 'bg-indigo-600 text-white font-bold shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'
+                  ? 'bg-brand text-white font-bold shadow-sm'
+                  : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200'
               }`}
             >
               {item.label}

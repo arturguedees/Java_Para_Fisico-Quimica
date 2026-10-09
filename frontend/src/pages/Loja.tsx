@@ -98,52 +98,52 @@ export default function Loja() {
   };
 
   return (
-    <div className="min-h-screen text-slate-800 pb-24 font-sans">
+    <div className="min-h-screen pb-24">
       <Navbar usuario={usuario} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-8 space-y-6">
+      <main className="max-w-7xl mx-auto px-4 sm:px-8 pt-10 space-y-10">
         
         {/* Cabeçalho */}
-        <div className="quantum-card rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-5 shadow-sm">
-          <div>
-            <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 bg-amber-50 text-amber-700 rounded-md text-xs font-bold mb-1 border border-amber-200/60 shadow-2xs">
-              <Award className="w-3.5 h-3.5" />
-              <span>RECOMPENSAS & CONQUISTAS ACADÊMICAS</span>
+        <div className="quantum-card bg-brand rounded-3xl p-6 sm:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-neo border-4 border-dark">
+          <div className="space-y-4">
+            <div className="inline-flex items-center space-x-2 px-3 py-1.5 bg-white text-dark rounded-md text-xs font-black uppercase tracking-widest shadow-neo-sm border-2 border-dark">
+              <Award className="w-4 h-4 stroke-[3]" />
+              <span>RECOMPENSAS & CONQUISTAS</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Loja de Insígnias Científicas
+            <h1 className="text-4xl sm:text-5xl font-black text-dark tracking-tighter uppercase font-display leading-none">
+              Loja de Insígnias
             </h1>
-            <p className="text-slate-600 text-sm mt-1">
-              Colecione os selos dos grandes pioneiros da físico-química e exiba no seu perfil.
+            <p className="text-dark/80 text-lg font-bold">
+              Colecione os selos dos pioneiros e exiba no seu perfil.
             </p>
           </div>
 
-          <div className="flex items-center space-x-3 text-xs font-bold">
-            <span className="px-4 py-2 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl text-amber-800 flex items-center space-x-2 shadow-xs">
-              <Coins className="w-4 h-4 text-amber-500 fill-amber-500 animate-pulse" />
-              <span>Saldo: <strong className="font-mono text-sm">{usuario.pontos} PTS</strong></span>
-            </span>
-            <span className="btn-quantum-primary px-4 py-2 rounded-xl shadow-xs">
-              Nível {nivelUsuario}
-            </span>
+          <div className="flex flex-col sm:flex-row items-center gap-4 text-xs font-black uppercase tracking-widest">
+            <div className="px-5 py-3 bg-yellow-300 border-4 border-dark rounded-xl text-dark flex items-center space-x-3 shadow-neo hover:-translate-y-1 transition-transform">
+              <Coins className="w-6 h-6 text-dark fill-yellow-400 stroke-[2.5]" />
+              <span className="text-base">Saldo: <strong className="font-mono text-xl">{usuario.pontos}</strong></span>
+            </div>
+            <div className="px-5 py-4 bg-white border-4 border-dark rounded-xl text-dark shadow-neo">
+              NÍVEL {nivelUsuario}
+            </div>
           </div>
         </div>
 
         {mensagem && (
           <div
-            className={`p-4 rounded-2xl border text-sm font-bold flex items-center space-x-2.5 animate-slide-up ${
+            className={`p-5 rounded-2xl border-4 text-base font-black flex items-center space-x-3 animate-slide-up uppercase tracking-wide ${
               mensagem.tipo === 'sucesso'
-                ? 'border-emerald-300 bg-emerald-50 text-emerald-950 shadow-sm'
-                : 'border-rose-300 bg-rose-50 text-rose-950 shadow-sm'
+                ? 'border-dark bg-brand text-dark shadow-neo'
+                : 'border-dark bg-rose-400 text-dark shadow-neo'
             }`}
           >
-            {mensagem.tipo === 'sucesso' ? <CheckCircle2 className="w-5 h-5 text-emerald-600 animate-bounce" /> : <AlertCircle className="w-5 h-5 text-rose-600 animate-pulse" />}
+            {mensagem.tipo === 'sucesso' ? <CheckCircle2 className="w-8 h-8 text-dark stroke-[3] animate-bounce" /> : <AlertCircle className="w-8 h-8 text-dark stroke-[3] animate-pulse" />}
             <span>{mensagem.texto}</span>
           </div>
         )}
 
         {/* Grade do Catálogo */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {AVATARES_CATALOGO.map(avatar => {
             const desbloqueado = avataresDesbloqueadosSet.has(avatar.id);
             const equipado = usuario.avatarId === avatar.id;
@@ -153,70 +153,74 @@ export default function Loja() {
             return (
               <div
                 key={avatar.id}
-                className={`quantum-card rounded-3xl p-6 flex flex-col justify-between transition-all duration-300 ${
+                className={`group border-4 rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-500 ease-out ${
                   equipado
-                    ? 'border-indigo-500 ring-2 ring-indigo-200 shadow-md scale-102'
+                    ? 'border-dark bg-yellow-100 shadow-neo hover:shadow-neo-hover hover:-translate-y-2'
                     : desbloqueado
-                    ? 'hover:border-indigo-300'
-                    : 'opacity-95'
+                    ? 'border-dark bg-white shadow-neo hover:shadow-neo-hover hover:-translate-y-2'
+                    : 'border-dark/20 bg-slate-50 opacity-90'
                 }`}
               >
-                <div className="space-y-4">
-                  {/* Visualizador da Insígnia */}
-                  <div className="h-40 bg-gradient-to-br from-slate-50 via-slate-50 to-indigo-50/30 rounded-2xl border border-slate-200/80 flex items-center justify-center relative overflow-hidden group">
-                    <AvatarBadge avatarId={avatar.id} size="xl" />
-                    
-                    {equipado && (
-                      <span className="absolute top-3 right-3 text-[11px] font-extrabold text-indigo-700 bg-indigo-100/90 px-3 py-1 rounded-full border border-indigo-200 shadow-2xs">
-                        EM USO
-                      </span>
+                <div className="flex flex-col items-center text-center space-y-5">
+                  
+                  {/* Badge & Lock */}
+                  <div className="relative">
+                    <div className={`transition-transform duration-500 ${desbloqueado ? 'group-hover:scale-110 group-hover:rotate-6' : 'grayscale opacity-50'}`}>
+                      <AvatarBadge avatarId={avatar.id} size="xl" />
+                    </div>
+                    {!desbloqueado && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="bg-dark text-white p-3 rounded-full border-2 border-dark shadow-neo-sm">
+                          <Lock className="w-8 h-8 stroke-[2.5]" />
+                        </div>
+                      </div>
                     )}
                   </div>
 
-                  <div className="space-y-1.5">
-                    <div className="flex items-baseline justify-between text-xs">
-                      <span className="text-indigo-600 font-bold uppercase tracking-wider">{avatar.subtitulo}</span>
-                      <span className="text-amber-600 font-extrabold font-mono text-sm">
-                        {avatar.preco === 0 ? 'GRÁTIS' : `${avatar.preco} PTS`}
-                      </span>
-                    </div>
-
-                    <h3 className="text-xl font-extrabold text-slate-900 tracking-tight">{avatar.nome}</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-black text-dark uppercase tracking-tight font-display">
+                      {avatar.nome}
+                    </h3>
+                    <p className="text-sm font-bold text-dark/70 min-h-[40px] leading-relaxed">
                       {avatar.descricao}
                     </p>
                   </div>
+                  
+                  {/* Requisitos (Nível) */}
+                  <div className="w-full pt-4 border-t-4 border-dark/10 flex justify-between items-center text-xs font-black uppercase tracking-widest">
+                    <span className="text-dark">Requisito</span>
+                    <span className={`px-2.5 py-1 rounded-md border-2 shadow-neo-sm ${nivelSuficiente ? 'bg-brand text-dark border-dark' : 'bg-rose-400 text-dark border-dark'}`}>
+                      Nível {avatar.nivelMinimo}
+                    </span>
+                  </div>
                 </div>
 
-                {/* Ações */}
-                <div className="mt-6 pt-4 border-t border-slate-100 text-xs font-bold">
+                <div className="mt-8">
                   {equipado ? (
-                    <div className="py-3 bg-indigo-50 text-indigo-700 rounded-xl text-center font-extrabold border border-indigo-200/80">
-                      EQUIPADA NO PERFIL
-                    </div>
+                    <button disabled className="w-full py-4 bg-dark text-white rounded-xl font-black text-sm uppercase tracking-widest border-4 border-dark shadow-neo flex items-center justify-center space-x-2">
+                      <Check className="w-5 h-5 stroke-[3]" />
+                      <span>Insígnia Ativa</span>
+                    </button>
                   ) : desbloqueado ? (
                     <button
                       onClick={() => handleEquiparAvatar(avatar.id)}
                       disabled={processando}
-                      className="w-full py-3 bg-white hover:bg-slate-100 text-slate-800 rounded-xl font-extrabold border border-slate-300 hover:border-slate-400 transition shadow-2xs hover:scale-101"
+                      className="w-full py-4 bg-white hover:bg-brand text-dark rounded-xl font-black text-sm uppercase tracking-widest border-4 border-dark shadow-neo hover:shadow-neo-hover hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50"
                     >
-                      EQUIPAR INSÍGNIA
+                      <span>Equipar Agora</span>
                     </button>
                   ) : (
                     <button
                       onClick={() => handleComprarAvatar(avatar)}
                       disabled={processando || !podeComprar}
-                      className={`w-full py-3 rounded-xl transition font-extrabold uppercase tracking-wide shadow-xs ${
+                      className={`w-full py-4 rounded-xl font-black text-sm uppercase tracking-widest border-4 transition-all duration-300 flex items-center justify-center space-x-2 shadow-neo hover:-translate-y-1 ${
                         podeComprar
-                          ? 'btn-quantum-primary hover:scale-101'
-                          : 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
+                          ? 'bg-yellow-300 hover:bg-yellow-400 text-dark border-dark hover:shadow-neo-hover'
+                          : 'bg-slate-200 text-dark/50 border-dark/20 cursor-not-allowed'
                       }`}
                     >
-                      {!nivelSuficiente
-                        ? `EXIGE NÍVEL ${avatar.nivelMinimo}`
-                        : usuario.pontos < avatar.preco
-                        ? 'PONTOS INSUFICIENTES'
-                        : 'DESBLOQUEAR INSÍGNIA'}
+                      <Coins className={`w-5 h-5 stroke-[2.5] ${podeComprar ? 'fill-yellow-500 text-dark' : 'text-dark/50'}`} />
+                      <span>{!nivelSuficiente ? `NÍVEL ${avatar.nivelMinimo} EXIGIDO` : usuario.pontos < avatar.preco ? 'PONTOS INSUFICIENTES' : `Comprar por ${avatar.preco}`}</span>
                     </button>
                   )}
                 </div>
@@ -225,7 +229,6 @@ export default function Loja() {
             );
           })}
         </div>
-
       </main>
     </div>
   );
