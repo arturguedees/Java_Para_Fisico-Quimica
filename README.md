@@ -80,7 +80,7 @@ com.unit/
 ### Pré-requisitos
 - **Java 21** (JDK 21 configurado no `JAVA_HOME`)
 - **Maven** (o projeto já inclui o wrapper `./mvnw` para macOS/Linux e `mvnw.cmd` para Windows)
-- **Node.js 18+** e **Docker** (para a versão Web na branch `dev`)
+- **Node.js 18+** e **Docker** (para a execução da versão Web)
 
 ---
 
@@ -108,7 +108,7 @@ Ou via terminal:
 
 ---
 
-### 3. Execução da Plataforma Web Full-Stack (Branch `dev`)
+### 3. Execução da Plataforma Web Full-Stack (Versão Oficial na `main`)
 
 #### A. Backend (Spring Boot 3 - Porta 8080):
 ```bash
@@ -140,5 +140,5 @@ Para rodar a suíte completa de testes no JUnit 5:
 
 ## 🌿 Estrutura das Branches
 
-* **`main`:** Núcleo acadêmico em Java 21 puro, seguindo estritamente os pilares de POO, com interfaces interativas em JavaFX, biblioteca XChart e suíte de testes unitários automatizados.
-* **`dev`:** Evolução Full-Stack Web com arquitetura cliente-servidor (Spring Boot REST API + React/TypeScript), design Neo-Brutalista, sistema de gamificação com XP, títulos, insígnias históricas e ranking da turma.
+* **`main` (Produção / Versão Oficial):** Branch principal e estável do repositório. Contém a solução completa consolidada, incluindo o núcleo científico em Java 21, as interfaces desktop JavaFX, os testes automatizados e a **Plataforma Web Full-Stack** (Spring Boot 3 + React 18).
+* **`dev` (Desenvolvimento / Staging):** Branch destinada exclusivamente a experimentações, desenvolvimento de novas hipóteses e futuras atualizações incertas antes de serem homologadas e promovidas para a `main`.
