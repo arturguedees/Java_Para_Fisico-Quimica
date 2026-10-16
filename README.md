@@ -77,39 +77,68 @@ com.unit/
 
 ## 🛠️ Como Executar
 
+### Pré-requisitos
+- **Java 21** (JDK 21 configurado no `JAVA_HOME`)
+- **Maven** (o projeto já inclui o wrapper `./mvnw` para macOS/Linux e `mvnw.cmd` para Windows)
+- **Node.js 18+** e **Docker** (para a versão Web na branch `dev`)
+
+---
+
 ### 1. Execução no Console / Menu Geral
 Abra o projeto na sua IDE (IntelliJ IDEA, Eclipse ou VS Code) e execute a classe:
 ```bash
 com.unit.Main
 ```
+Ou diretamente pelo terminal:
+```bash
+./mvnw compile exec:java -Dexec.mainClass="com.unit.Main"
+```
 
-### 2. Execução da Interface Gráfica JavaFX
-Execute a classe:
+---
+
+### 2. Execução da Interface Gráfica Desktop (JavaFX + XChart)
+Execute a classe principal da interface gráfica:
 ```bash
 com.unit.ui.PlataformaFisicoQuimicaApp
 ```
-
-### 3. Abertura da Plataforma Web Gamificada
-Basta dar dois cliques no arquivo:
+Ou via terminal:
 ```bash
-web/index.html
+./mvnw javafx:run
 ```
-*(Uma cópia também foi salva na sua pasta `Downloads` para acesso imediato).*
 
 ---
 
-## 🧪 Testes Unitários
+### 3. Execução da Plataforma Web Full-Stack (Branch `dev`)
+
+#### A. Backend (Spring Boot 3 - Porta 8080):
+```bash
+# Iniciar o banco de dados PostgreSQL via Docker (porta 5434)
+docker compose up -d
+
+# Iniciar o backend Spring Boot
+./mvnw spring-boot:run
+```
+
+#### B. Frontend (React + TypeScript + Vite - Porta 5173):
+Em outro terminal:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Acesse no navegador: `http://localhost:5173`
+
+---
+
+### 4. 🧪 Testes Unitários Automatizados
 Para rodar a suíte completa de testes no JUnit 5:
 ```bash
-mvn test
+./mvnw test
 ```
 
 ---
 
-## 📂 Documentos Acadêmicos Disponíveis na Pasta `docs/`
-* 📄 [`RELATORIO_TECNICO_ABNT.md`](docs/RELATORIO_TECNICO_ABNT.md) — Relatório acadêmico completo em normas ABNT.
-* 📋 [`FICHA_LEITURA_ARTIGO.md`](docs/FICHA_LEITURA_ARTIGO.md) — Ficha de leitura científica do artigo.
-* 🗺️ [`MAPA_FUNCIONAL_PYTHON.md`](docs/MAPA_FUNCIONAL_PYTHON.md) — Mapeamento do código Python original.
-* 📝 [`PSEUDOCODIGO_MODULOS.md`](docs/PSEUDOCODIGO_MODULOS.md) — Algoritmos e pseudocódigos estruturados.
-* 📊 [`VALIDACAO_PYTHON_JAVA.md`](docs/VALIDACAO_PYTHON_JAVA.md) — Tabela comparativa com cálculo do erro relativo ($\varepsilon_r$).
-* 🎤 [`PROMPT_SLIDES_APRESENTACAO.md`](docs/PROMPT_SLIDES_APRESENTACAO.md) — Prompt estruturado para geração dos slides da apresentação.
+## 🌿 Estrutura das Branches
+
+* **`main`:** Núcleo acadêmico em Java 21 puro, seguindo estritamente os pilares de POO, com interfaces interativas em JavaFX, biblioteca XChart e suíte de testes unitários automatizados.
+* **`dev`:** Evolução Full-Stack Web com arquitetura cliente-servidor (Spring Boot REST API + React/TypeScript), design Neo-Brutalista, sistema de gamificação com XP, títulos, insígnias históricas e ranking da turma.
