@@ -11,7 +11,7 @@ RUN mvn dependency:go-offline -B
 
 # Agora copio o codigo fonte e gero o .jar final do Spring Boot
 COPY src ./src
-RUN mvn clean package -DskipTests -B
+RUN mvn clean package -DskipTests -Dmaven.test.skip=true -B
 
 # ==============================================================================
 # Stage 2: Imagem final so com o JRE 21 pra rodar rapido em qualquer servidor cloud

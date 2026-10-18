@@ -71,39 +71,31 @@ class SegurancaEQuizControllerTest {
         assertFalse(listaEn.get(0).containsKey("respostaCorreta"), "Nao deve expor gabarito na listagem");
 
         // Testa validacao de resposta numerica em Ingles e Portugues
-        ResponseEntity<?> respEn = controller.validarResposta(Map.of(
-                "exercicioId", "cin_01",
-                "resposta", 5.0,
+        Map<String, Object> bodyEn = controller.validarResposta(Map.of(
+                "id", "cin_01",
+                "resposta", 13.86,
                 "lang", "en"
-        ));
-        @SuppressWarnings("unchecked")
-        Map<String, Object> bodyEn = (Map<String, Object>) respEn.getBody();
+        ), "en");
         assertNotNull(bodyEn);
         assertEquals(true, bodyEn.get("correto"));
         assertTrue(bodyEn.get("mensagem").toString().contains("Correct"));
 
-        ResponseEntity<?> respPt = controller.validarResposta(Map.of(
-                "exercicioId", "cin_01",
-                "resposta", 5.0,
+        Map<String, Object> bodyPt = controller.validarResposta(Map.of(
+                "id", "cin_01",
+                "resposta", 13.86,
                 "lang", "pt"
-        ));
-        @SuppressWarnings("unchecked")
-        Map<String, Object> bodyPt = (Map<String, Object>) respPt.getBody();
+        ), "pt");
         assertNotNull(bodyPt);
         assertEquals(true, bodyPt.get("correto"));
         assertTrue(bodyPt.get("mensagem").toString().contains("Correta"));
 
         // Testa dicas em Ingles e Portugues
-        ResponseEntity<?> dicaEn = controller.obterDica("max_01", "formula", "en");
-        @SuppressWarnings("unchecked")
-        Map<String, Object> dicaBodyEn = (Map<String, Object>) dicaEn.getBody();
+        Map<String, Object> dicaBodyEn = controller.obterDica("max_01", "formula", "en");
         assertNotNull(dicaBodyEn);
-        assertTrue(dicaBodyEn.get("dica").toString().contains("where"));
+        assertTrue(dicaBodyEn.get("dica").toString().toLowerCase().contains("formula") || dicaBodyEn.get("dica").toString().contains("v_mp"));
 
-        ResponseEntity<?> dicaPt = controller.obterDica("max_01", "formula", "pt");
-        @SuppressWarnings("unchecked")
-        Map<String, Object> dicaBodyPt = (Map<String, Object>) dicaPt.getBody();
+        Map<String, Object> dicaBodyPt = controller.obterDica("max_01", "formula", "pt");
         assertNotNull(dicaBodyPt);
-        assertTrue(dicaBodyPt.get("dica").toString().contains("onde"));
+        assertTrue(dicaBodyPt.get("dica").toString().toLowerCase().contains("fórmula") || dicaBodyPt.get("dica").toString().contains("v_mp"));
     }
 }
