@@ -153,11 +153,11 @@ export default function Dashboard() {
               <p className="text-dark/90 text-base sm:text-lg leading-relaxed max-w-2xl font-medium">
                 {isEn ? (
                   <>
-                    Welcome to <strong>Quantum Lab</strong>. Here you explore thermodynamic and kinetic phenomena through real-time interactive simulations and train with our gamified question bank.
+                    Welcome to <strong>LabQuântico</strong>. Here you explore thermodynamic and kinetic phenomena through real-time interactive simulations and train with our gamified question bank.
                   </>
                 ) : (
                   <>
-                    Bem-vindo ao <strong>Lab Quântico</strong>. Aqui você explora fenômenos termodinâmicos e cinéticos através de simulações em tempo real e treina com nosso banco de questões gamificado.
+                    Bem-vindo ao <strong>LabQuântico</strong>. Aqui você explora fenômenos termodinâmicos e cinéticos através de simulações em tempo real e treina com nosso banco de questões gamificado.
                   </>
                 )}
               </p>

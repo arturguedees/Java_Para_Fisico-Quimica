@@ -272,8 +272,8 @@ export default function Perfil() {
               </h2>
               <p className="text-xs text-slate-400">
                 {isEn
-                  ? 'Update your personal info, institution details, or change your password.'
-                  : 'Atualize seus dados pessoais, instituição acadêmica ou altere sua senha de acesso.'}
+                  ? 'Update your name, school/college, or change your password.'
+                  : 'Atualize seu nome, escola/faculdade ou altere sua senha de acesso.'}
               </p>
             </div>
           </div>
@@ -285,14 +285,14 @@ export default function Perfil() {
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-1.5">
                   <User className="w-4 h-4 text-cyan-400" />
-                  <span>{isEn ? 'Full Name' : 'Nome Completo'}</span>
+                  <span>{isEn ? 'Name' : 'Nome'}</span>
                 </label>
                 <input
                   type="text"
                   value={nomeCompleto}
                   onChange={e => setNomeCompleto(e.target.value)}
                   required
-                  placeholder={isEn ? 'Your full name' : 'Seu nome completo'}
+                  placeholder={isEn ? 'Your name' : 'Seu nome'}
                   className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 text-sm transition-all"
                 />
               </div>
@@ -301,14 +301,14 @@ export default function Perfil() {
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-1.5">
                   <Mail className="w-4 h-4 text-cyan-400" />
-                  <span>{isEn ? 'Email Address' : 'Endereço de E-mail'}</span>
+                  <span>{isEn ? 'Email' : 'E-mail'}</span>
                 </label>
                 <input
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   required
-                  placeholder="aluno@universidade.edu"
+                  placeholder="estudante@exemplo.com"
                   className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 text-sm transition-all"
                 />
               </div>
@@ -317,28 +317,28 @@ export default function Perfil() {
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-1.5">
                   <Building2 className="w-4 h-4 text-lime-400" />
-                  <span>{isEn ? 'University / Institution' : 'Universidade / Instituição'}</span>
+                  <span>{isEn ? 'School / College (Optional)' : 'Escola / Faculdade (Opcional)'}</span>
                 </label>
                 <input
                   type="text"
                   value={instituicao}
                   onChange={e => setInstituicao(e.target.value)}
-                  placeholder={isEn ? 'e.g. Unit / UFPE / Sorbonne' : 'Ex: UNIT / UFPE / USP'}
+                  placeholder={isEn ? 'e.g. High School / College' : 'Ex: Ensino Médio / Faculdade'}
                   className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-lime-400 focus:ring-1 focus:ring-lime-400 text-sm transition-all"
                 />
               </div>
 
-              {/* Bio / Linha de Pesquisa */}
+              {/* Bio / Sobre Voce */}
               <div className="space-y-2">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-1.5">
                   <FileText className="w-4 h-4 text-lime-400" />
-                  <span>{isEn ? 'Academic Bio / Research Area' : 'Bio / Linha de Pesquisa'}</span>
+                  <span>{isEn ? 'Bio / About You' : 'Bio / Sobre Você'}</span>
                 </label>
                 <input
                   type="text"
                   value={bio}
                   onChange={e => setBio(e.target.value)}
-                  placeholder={isEn ? 'e.g. Physical Chemistry & Kinetics Enthusiast' : 'Ex: Entusiasta de Físico-Química e Termodinâmica'}
+                  placeholder={isEn ? 'e.g. Studying for chemistry exams' : 'Ex: Estudando para as provas de físico-química'}
                   className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-lime-400 focus:ring-1 focus:ring-lime-400 text-sm transition-all"
                 />
               </div>
@@ -408,7 +408,7 @@ export default function Perfil() {
           <div className="flex items-center justify-between border-b border-slate-800 pb-4">
             <h2 className="text-xl font-extrabold text-white flex items-center space-x-3">
               <Award className="w-6 h-6 text-cyan-400" />
-              <span>{isEn ? 'Unlocked Academic Titles' : 'Títulos Acadêmicos Desbloqueados'}</span>
+              <span>{isEn ? 'Unlocked Titles' : 'Títulos Desbloqueados'}</span>
             </h2>
             <span className="text-xs font-bold bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 px-3 py-1.5 rounded-lg">
               {titulosDesbloqueados.length} {isEn ? 'earned' : 'conquistados'}

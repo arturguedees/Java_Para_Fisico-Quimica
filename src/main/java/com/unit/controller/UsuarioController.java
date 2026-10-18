@@ -100,11 +100,20 @@ public class UsuarioController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<?> cadastrar(@RequestBody Usuario novoUsuario) {
-        // Validacao basica pra nao deixar salvar campo nulo ou vazio
+        // Validacao basica: apenas email e senha sao estritamente necessarios no cadastro
         if (novoUsuario.getEmail() == null || novoUsuario.getEmail().trim().isEmpty() ||
-            novoUsuario.getSenha() == null || novoUsuario.getSenha().trim().isEmpty() ||
-            novoUsuario.getNomeCompleto() == null || novoUsuario.getNomeCompleto().trim().isEmpty()) {
-            return ResponseEntity.badRequest().body("All fields (name, email, and password) are required! / Todos os campos são obrigatórios!");
+            novoUsuario.getSenha() == null || novoUsuario.getSenha().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("E-mail and password are required! / E-mail e senha são obrigatórios!");
+        }
+
+        // Se o nome nao foi enviado, deriva automaticamente a partir do email
+        if (novoUsuario.getNomeCompleto() == null || novoUsuario.getNomeCompleto().trim().isEmpty()) {
+            String prefixo = novoUsuario.getEmail().trim().split("@")[0];
+            if (!prefixo.isEmpty()) {
+                novoUsuario.setNomeCompleto(Character.toUpperCase(prefixo.charAt(0)) + prefixo.substring(1));
+            } else {
+                novoUsuario.setNomeCompleto("Estudante");
+            }
         }
 
         if (novoUsuario.getSenha().trim().length() < 6) {

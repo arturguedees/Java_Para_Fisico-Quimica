@@ -1,13 +1,13 @@
-# ⚛️ Quantum Lab (Lab Quântico) — Physical Chemistry Computational Platform
+# ⚛️ LabQuântico — Plataforma de Físico-Química para Estudantes
 
-> **Object-Oriented Reimplementation & Gamified Full-Stack Web Platform for Interactive Physical Chemistry**  
-> *Based on the article by Ardith D. Bravenec & Karen D. Ward (Journal of Chemical Education, 2023)*
+> **Interactive Computational Platform for Physical Chemistry Students**  
+> *Based on the physical chemistry principles by Ardith D. Bravenec & Karen D. Ward (Journal of Chemical Education, 2023)*
 
 ---
 
-## 🌟 Project Overview / Visão Geral do Projeto
+## 🌟 Visão Geral do Projeto / Project Overview
 
-**Quantum Lab (Lab Quântico)** is a bilingual (**English default** 🇺🇸 / **Portuguese** 🇧🇷) computational simulation and gamified learning platform developed for the **Computational Physical Chemistry / Object-Oriented Programming** course.
+**LabQuântico** é uma plataforma computacional bilíngue (**Inglês padrão** 🇺🇸 / **Português** 🇧🇷) de simulações interativas e aprendizado prático desenvolvida para ajudar estudantes de Físico-Química.
 
 The project rebuilds the scientific models of chemical kinetics, kinetic theory of gases (Maxwell-Boltzmann), and Differential Scanning Calorimetry (DSC) in **Java 21**, providing:
 1. **Full-Stack Gamified Web Application (Official `main` branch):** **Spring Boot 3.3.4 REST API** + **React 18 + TypeScript + Vite + TailwindCSS + Chart.js**, featuring a Hybrid Scientific Engine (Java REST API with automatic zero-latency browser mathematical fallback).

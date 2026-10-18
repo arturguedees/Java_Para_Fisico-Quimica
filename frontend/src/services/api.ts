@@ -19,7 +19,7 @@ import { obterIdiomaAtual, type Language } from '../i18n/i18n';
  * 3) Suporte bilingue (Ingles e Portugues) para as questoes, dicas e validacoes.
  */
 
-export const DEFAULT_PROD_API_URL = 'https://lab-quantico-fisico-quimica-api.onrender.com';
+export const DEFAULT_PROD_API_URL = 'https://java-para-fisico-quimica.onrender.com';
 
 // Funcao que decide qual URL da API usar: se estiver rodando fora de localhost (ex: na Netlify),
 // nunca deixa cair em localhost por engano, apontando direto pra URL de producao!
@@ -1276,25 +1276,40 @@ export async function obterDicaExercicioApi(
 // ============================================================================
 
 export async function cadastrarUsuarioApi(nomeCompleto: string, email: string, senha: string) {
+  const emailNorm = email.trim().toLowerCase();
+  const nomeFinal =
+    (nomeCompleto || '').trim() ||
+    (emailNorm.split('@')[0]
+      ? emailNorm.split('@')[0].charAt(0).toUpperCase() + emailNorm.split('@')[0].slice(1)
+      : 'Estudante');
+
+  // Verifica primeiro se o email já existe localmente
+  const db = obterBancoUsuariosLocal();
+  if (db.some(u => u.email === emailNorm)) {
+    const customErr: any = new Error('EMAIL_JA_CADASTRADO');
+    customErr.response = { status: 400, data: 'EMAIL_JA_CADASTRADO' };
+    throw customErr;
+  }
+
   try {
-    const res = await apiClient.post('/api/usuarios/cadastrar', { nomeCompleto, email, senha });
+    const res = await apiClient.post(
+      '/api/usuarios/cadastrar',
+      { nomeCompleto: nomeFinal, email: emailNorm, senha },
+      { timeout: 2000 }
+    );
     definirStatusMotor('api');
     const seguro = sanitizarUsuarioSemSenha(res.data);
     sincronizarUsuarioNoBancoLocal({ ...seguro, senha: gerarHashSenhaLocal(senha) });
     return seguro;
   } catch (err: any) {
-    if (err.response?.status === 400) throw err;
-    definirStatusMotor('local');
-    const db = obterBancoUsuariosLocal();
-    const emailNorm = email.trim().toLowerCase();
-    if (db.some(u => u.email === emailNorm)) {
-      const customErr: any = new Error('EMAIL_JA_CADASTRADO');
-      customErr.response = { status: 400, data: 'EMAIL_JA_CADASTRADO' };
-      throw customErr;
+    if (err.response?.data === 'EMAIL_JA_CADASTRADO') {
+      throw err;
     }
+    // Fallback local instantaneo para nao deixar o estudante travado
+    definirStatusMotor('local');
     const novoComHash = {
       id: Date.now(),
-      nomeCompleto: nomeCompleto.trim(),
+      nomeCompleto: nomeFinal,
       email: emailNorm,
       senha: gerarHashSenhaLocal(senha),
       experiencia: 0,
@@ -1312,37 +1327,41 @@ export async function cadastrarUsuarioApi(nomeCompleto: string, email: string, s
 }
 
 export async function loginUsuarioApi(email: string, senha: string) {
+  const emailNorm = email.trim().toLowerCase();
+  const hashDigitado = gerarHashSenhaLocal(senha);
+
+  // Otimizacao de Performance: Se o usuario ja existe no banco local e a senha bate, loga instantaneamente!
+  const db = obterBancoUsuariosLocal();
+  const usuarioLocal = db.find(u => u.email === emailNorm);
+  if (usuarioLocal && (usuarioLocal.senha === hashDigitado || usuarioLocal.senha === senha)) {
+    return sanitizarUsuarioSemSenha(usuarioLocal);
+  }
+
   try {
-    const res = await apiClient.post('/api/usuarios/login', { email, senha });
+    const res = await apiClient.post('/api/usuarios/login', { email: emailNorm, senha }, { timeout: 2200 });
     definirStatusMotor('api');
     const seguro = sanitizarUsuarioSemSenha(res.data);
-    sincronizarUsuarioNoBancoLocal({ ...seguro, senha: gerarHashSenhaLocal(senha) });
+    sincronizarUsuarioNoBancoLocal({ ...seguro, senha: hashDigitado });
     return seguro;
   } catch (err: any) {
+    if (usuarioLocal) {
+      const e401: any = new Error('SENHA_INCORRETA');
+      e401.response = { status: 401, data: 'SENHA_INCORRETA' };
+      throw e401;
+    }
     if (
       err.response?.data === 'EMAIL_NAO_CADASTRADO' ||
       err.response?.data === 'SENHA_INCORRETA' ||
-      err.response?.status === 401
+      err.response?.status === 401 ||
+      err.response?.status === 404
     ) {
       definirStatusMotor('api');
       throw err;
     }
     definirStatusMotor('local');
-    const db = obterBancoUsuariosLocal();
-    const emailNorm = email.trim().toLowerCase();
-    const encontrado = db.find(u => u.email === emailNorm);
-    if (!encontrado) {
-      const e404: any = new Error('EMAIL_NAO_CADASTRADO');
-      e404.response = { status: 404, data: 'EMAIL_NAO_CADASTRADO' };
-      throw e404;
-    }
-    const hashDigitado = gerarHashSenhaLocal(senha);
-    if (encontrado.senha !== hashDigitado && encontrado.senha !== senha) {
-      const e401: any = new Error('SENHA_INCORRETA');
-      e401.response = { status: 401, data: 'SENHA_INCORRETA' };
-      throw e401;
-    }
-    return sanitizarUsuarioSemSenha(encontrado);
+    const e404: any = new Error('EMAIL_NAO_CADASTRADO');
+    e404.response = { status: 404, data: 'EMAIL_NAO_CADASTRADO' };
+    throw e404;
   }
 }
 

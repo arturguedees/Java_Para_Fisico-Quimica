@@ -63,16 +63,16 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
             <div className="w-11 h-11 bg-white border-3 border-dark rounded-xl flex items-center justify-center p-1 shadow-neo-sm group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-hover:shadow-none transition-all duration-200">
               <img
                 src="/logo.png"
-                alt={isEn ? 'Quantum Lab' : 'Lab Quântico'}
+                alt="LabQuântico"
                 className="w-full h-full object-contain"
               />
             </div>
             <div className="hidden sm:block">
               <span className="text-xl font-black tracking-tight text-dark uppercase font-display leading-none block">
-                {isEn ? 'Quantum Lab' : 'Lab Quântico'}
+                LabQuântico
               </span>
               <span className="text-[10px] text-dark/70 font-black uppercase tracking-widest block mt-0.5">
-                {isEn ? 'Physical Chemistry' : 'Físico-Química'}
+                {isEn ? 'Physical Chemistry for Students' : 'Físico-Química para Estudantes'}
               </span>
             </div>
           </Link>

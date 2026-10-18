@@ -234,7 +234,7 @@ export default function Ranking() {
                 </span>
               </div>
               <h1 className="text-4xl sm:text-5xl font-black text-dark tracking-tighter uppercase font-display leading-tight">
-                {isEn ? 'Scientific Leaderboard' : 'Ranking Acadêmico'}
+                {isEn ? 'Student Leaderboard' : 'Ranking dos Estudantes'}
               </h1>
             </div>
           </div>

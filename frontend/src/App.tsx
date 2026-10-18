@@ -15,6 +15,11 @@ import Loja from './pages/Loja';
 import Ranking from './pages/Ranking';
 import Perfil from './pages/Perfil';
 
+function RotaRaiz() {
+  const usuarioSalvo = typeof window !== 'undefined' ? localStorage.getItem('usuario') : null;
+  return usuarioSalvo ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />;
+}
+
 // Separei as rotas nesse componente pra conseguir usar o hook useLocation() e animar a troca de tela
 function AnimatedRoutes() {
   const location = useLocation();
@@ -22,7 +27,7 @@ function AnimatedRoutes() {
   return (
     <div key={location.pathname} className="page-transition relative z-10">
       <Routes location={location}>
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<RotaRaiz />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/dashboard" element={<Dashboard />} />
