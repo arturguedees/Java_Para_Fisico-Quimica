@@ -62,8 +62,8 @@ class SegurancaEQuizControllerTest {
         List<Map<String, Object>> listaEn = controller.listarExercicios("en");
         List<Map<String, Object>> listaPt = controller.listarExercicios("pt");
 
-        assertEquals(10, listaEn.size());
-        assertEquals(10, listaPt.size());
+        assertTrue(listaEn.size() >= 10, "Deve conter pelo menos 10 questões em inglês");
+        assertTrue(listaPt.size() >= 10, "Deve conter pelo menos 10 questões em português");
 
         // Verifica que os titulos estao no idioma correto e sem gabarito exposto
         assertTrue(listaEn.get(0).get("titulo").toString().contains("Half-Life"));

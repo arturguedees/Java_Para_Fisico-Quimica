@@ -487,14 +487,15 @@ export default function Dsc({ embedded = false, onUsuarioAtualizado }: DscProps)
               </span>
             </div>
 
-            <div className="h-80 sm:h-96 w-full">
+            <div className="relative w-full h-80 sm:h-96 min-h-[320px]">
               {dadosGrafico ? (
                 <Line
                   data={dadosGrafico}
                   options={{
                     responsive: true,
                     maintainAspectRatio: false,
-                    animation: { duration: 180 },
+                    resizeDelay: 100,
+                    animation: { duration: 0 },
                     scales: {
                       x: {
                         type: 'linear',

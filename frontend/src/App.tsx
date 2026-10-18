@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { I18nProvider } from './i18n/i18n';
+import { NotificacaoProvider } from './components/NotificacaoToast';
+import PlanoDeFundoAnimado from './components/PlanoDeFundoAnimado';
 import ProtecaoInspecao from './components/ProtecaoInspecao';
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
@@ -18,7 +20,7 @@ function AnimatedRoutes() {
   const location = useLocation();
 
   return (
-    <div key={location.pathname} className="page-transition">
+    <div key={location.pathname} className="page-transition relative z-10">
       <Routes location={location}>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
@@ -37,17 +39,19 @@ function AnimatedRoutes() {
   );
 }
 
-// Componente raiz do React: envolvi tudo com o I18nProvider (ingles por padrao)
-// e coloquei o ProtecaoInspecao pra bloquear o clique direito ("Inspecionar") e os atalhos do DevTools!
+// Componente raiz do React: envolvi com I18nProvider, NotificacaoProvider e PlanoDeFundoAnimado
 function App() {
   return (
     <I18nProvider>
-      <Router>
-        <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-brand selection:text-dark">
-          <ProtecaoInspecao />
-          <AnimatedRoutes />
-        </div>
-      </Router>
+      <NotificacaoProvider>
+        <Router>
+          <div className="min-h-screen bg-[#FBFBFA] text-dark selection:bg-brand selection:text-dark relative overflow-x-hidden">
+            <PlanoDeFundoAnimado />
+            <ProtecaoInspecao />
+            <AnimatedRoutes />
+          </div>
+        </Router>
+      </NotificacaoProvider>
     </I18nProvider>
   );
 }

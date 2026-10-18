@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LogOut, Coins, Cpu } from 'lucide-react';
+import { LogOut, Coins } from 'lucide-react';
 import AvatarBadge from './AvatarBadge';
 import { LanguageSelector, useI18n } from '../i18n/i18n';
-import {
-  obterStatusMotor,
-  inscreverStatusMotor,
-  verificarSaudeBackend,
-  type StatusMotor,
-} from '../services/api';
 
 interface NavbarProps {
   usuario: any;
@@ -24,14 +18,6 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const { isEn } = useI18n();
-  const [statusMotor, setStatusMotor] = useState<StatusMotor>(obterStatusMotor());
-
-  useEffect(() => {
-    // Se inscreve pra saber quando o backend Java fica online ou quando cai pro motor local
-    const cancelar = inscreverStatusMotor(novo => setStatusMotor(novo));
-    verificarSaudeBackend();
-    return cancelar;
-  }, []);
 
   const handleLogout = () => {
     if (onLogout) {
@@ -111,53 +97,55 @@ export default function Navbar({ usuario, onLogout }: NavbarProps) {
             })}
           </nav>
 
-          {/* Seletor de Idioma (EUA / Brasil), Status do Motor, Moedas e Perfil */}
+          {/* Seletor de Idioma (EUA / Brasil), Moedas com Tooltip e Perfil */}
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 pl-3 border-l-2 border-dark/15">
             {/* Seletor de Idiomas com Bandeiras SVG dos EUA (English) e Brasil (Portugues) */}
             <LanguageSelector compact />
 
-            {/* Indicador de Status do Motor Cientifico */}
-            <div
-              className={`hidden md:flex items-center space-x-1.5 px-2.5 py-1.5 border-2 border-dark rounded-xl text-[10px] font-black uppercase tracking-wider shadow-neo-sm cursor-default ${
-                statusMotor === 'api' ? 'bg-brand text-dark' : 'bg-white text-dark'
-              }`}
-              title={
-                statusMotor === 'api'
-                  ? isEn
-                    ? 'Connected to Java Spring Boot REST API'
-                    : 'Conectado à API REST Spring Boot Java'
-                  : isEn
-                  ? 'Running on Isomorphic Local Scientific Engine (< 1ms)'
-                  : 'Operando com Motor Científico Isomórfico Local (< 1ms)'
-              }
-            >
-              <span
-                className={`w-2 h-2 rounded-full border border-dark ${
-                  statusMotor === 'api' ? 'bg-emerald-500 animate-pulse' : 'bg-amber-400'
-                }`}
-              />
-              <Cpu className="w-3.5 h-3.5 text-dark stroke-[2.5]" />
-              <span>
-                {statusMotor === 'api'
-                  ? isEn
-                    ? 'JAVA API ONLINE'
-                    : 'API JAVA ONLINE'
-                  : isEn
-                  ? 'LOCAL ENGINE'
-                  : 'MOTOR LOCAL ATIVO'}
-              </span>
-            </div>
-
             {usuario ? (
               <>
-                {/* Saldo de Moedas/Pontos */}
-                <div 
-                  className="flex items-center space-x-1.5 px-3 py-1.5 bg-yellow-300 border-2 border-dark rounded-xl text-xs font-black text-dark shadow-neo-sm hover:shadow-neo hover:-translate-y-0.5 transition-all duration-200 cursor-default"
-                  title={isEn ? 'Coins earned by solving exercises' : 'Moedas ganhas ao responder exercícios'}
-                >
-                  <Coins className="w-4 h-4 text-dark fill-dark stroke-[2]" />
-                  <span className="font-mono text-sm">{usuario.pontos}</span>
-                  <span className="text-dark/70 text-[10px] uppercase font-bold tracking-wider">pts</span>
+                {/* Saldo de Moedas/Pontos com Tooltip Interativo Explicando Como Ganhar e Gastar */}
+                <div className="relative group">
+                  <div 
+                    className="flex items-center space-x-1.5 px-3 py-1.5 bg-yellow-300 border-2 border-dark rounded-xl text-xs font-black text-dark shadow-neo-sm hover:shadow-neo hover:-translate-y-0.5 transition-all duration-200 cursor-help"
+                  >
+                    <Coins className="w-4 h-4 text-dark fill-dark stroke-[2]" />
+                    <span className="font-mono text-sm">{usuario.pontos}</span>
+                    <span className="text-dark/70 text-[10px] uppercase font-bold tracking-wider">pts</span>
+                  </div>
+
+                  {/* Tooltip Educativo com Informacoes de Como Ganhar e Gastar Pontos */}
+                  <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 bg-white border-3 border-dark rounded-2xl p-4 shadow-[6px_6px_0px_0px_#191A23] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100] pointer-events-none text-left">
+                    <div className="flex items-center space-x-2 border-b-2 border-dark/10 pb-2 mb-2.5">
+                      <Coins className="w-4 h-4 text-amber-500 fill-amber-400 stroke-[2.5]" />
+                      <span className="text-xs font-black uppercase tracking-wider text-dark font-display">
+                        {isEn ? 'Points & Economy Guide' : 'Guia de Moedas & Pontos'}
+                      </span>
+                    </div>
+
+                    <div className="space-y-3 text-xs">
+                      <div>
+                        <span className="font-black text-[11px] uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-300 block mb-1">
+                          {isEn ? '⚡ HOW TO EARN POINTS' : '⚡ COMO GANHAR MOEDAS'}
+                        </span>
+                        <ul className="text-dark/80 space-y-1 font-medium text-[11px] list-disc list-inside">
+                          <li>{isEn ? 'Solve exercises in Question Hub (+50 to +110 PTS)' : 'Acertar exercícios na Central de Questões (+50 a +110 PTS)'}</li>
+                          <li>{isEn ? 'Complete laboratory simulations (+25 to +60 PTS)' : 'Concluir desafios em Cinética, Maxwell e DSC (+25 a +60 PTS)'}</li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <span className="font-black text-[11px] uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-300 block mb-1">
+                          {isEn ? '🛍️ WHERE TO SPEND POINTS' : '🛍️ ONDE GASTAR SEUS PONTOS'}
+                        </span>
+                        <ul className="text-dark/80 space-y-1 font-medium text-[11px] list-disc list-inside">
+                          <li>{isEn ? 'Unlock theoretical formula hints (-20 PTS)' : 'Revelar fórmula teórica da questão (-20 PTS)'}</li>
+                          <li>{isEn ? 'Unlock step-by-step resolution (-30 PTS)' : 'Desbloquear passo a passo armado (-30 PTS)'}</li>
+                          <li>{isEn ? 'Buy historical badges in the Shop (-100 to -400 PTS)' : 'Adquirir insígnias históricas na Loja (-100 a -400 PTS)'}</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Botao de Perfil */}

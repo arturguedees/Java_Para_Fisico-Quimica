@@ -17,16 +17,17 @@ import {
 import confetti from 'canvas-confetti';
 import Navbar from '../components/Navbar';
 import {
-  obterMaxwell,
-  obterComparacaoMaxwell,
   ganharXpUsuarioApi,
   sanitizarUsuarioSemSenha,
 } from '../services/api';
 import {
   exportarDadosCsv,
   calcularDensidadeVelocidadeMB,
+  calcularMaxwellLocal,
+  compararGasesLocal,
   type ResultadoMaxwell,
 } from '../services/motorCientifico';
+import { useNotificacao } from '../components/NotificacaoToast';
 import { traduzirGas, useI18n } from '../i18n/i18n';
 import {
   Chart as ChartJS,
@@ -129,22 +130,23 @@ export default function Maxwell({
     calcularMaxwell();
   }, [gasSelecionado, temperatura, tipoGrafico, energiaAtivacaoKJ, v1, v2, massaCustomG, gamaCustom, lang]);
 
-  const calcularMaxwell = async () => {
-    const { dados } = await obterMaxwell({
-      gasNome: gasSelecionado,
-      temperaturaKelvin: temperatura,
-      energiaAtivacaoJPorMol: energiaAtivacaoKJ * 1000.0,
+  const calcularMaxwell = () => {
+    // Calculo instantaneo local a 60fps sem fila de rede ou travamento de slider!
+    const dados = calcularMaxwellLocal(
+      gasSelecionado,
+      temperatura,
+      energiaAtivacaoKJ * 1000.0,
       v1,
       v2,
-      massaCustomKgPorMol: gasSelecionado === 'CUSTOM' ? massaCustomG / 1000.0 : undefined,
-      gamaCustom: gasSelecionado === 'CUSTOM' ? gamaCustom : undefined,
-    });
+      gasSelecionado === 'CUSTOM' ? massaCustomG / 1000.0 : undefined,
+      gasSelecionado === 'CUSTOM' ? gamaCustom : undefined
+    );
 
     setInfoFisica(dados);
     const nomeGasTraduzido = traduzirGas(dados.gas, lang);
 
     if (tipoGrafico === 'comparar') {
-      const { dados: comp } = await obterComparacaoMaxwell(temperatura);
+      const comp = compararGasesLocal(temperatura);
       const cores = ['#4f46e5', '#06b6d4', '#f59e0b', '#10b981', '#e11d48'];
       setDadosGrafico({
         datasets: comp.series.map((serie, idx) => ({
@@ -826,14 +828,15 @@ export default function Maxwell({
               </div>
             </div>
 
-            <div className="h-80 sm:h-96 w-full">
+            <div className="relative w-full h-80 sm:h-96 min-h-[320px]">
               {dadosGrafico ? (
                 <Line
                   data={dadosGrafico}
                   options={{
                     responsive: true,
                     maintainAspectRatio: false,
-                    animation: { duration: 180 },
+                    resizeDelay: 100,
+                    animation: { duration: 0 },
                     scales: {
                       x: {
                         type: 'linear',

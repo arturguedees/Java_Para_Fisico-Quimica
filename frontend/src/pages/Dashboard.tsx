@@ -95,9 +95,9 @@ export default function Dashboard() {
       rota: '/formulas?bloco=maxwell',
       tag: isEn ? 'Formula Blocks 02 & 03' : 'Blocos de Fórmulas 02 & 03',
       icone: Wind,
-      bgClass: 'quantum-card-lime',
+      bgClass: 'quantum-card',
       textClass: 'text-dark',
-      iconClass: 'bg-white text-dark border-4 border-dark shadow-neo-sm',
+      iconClass: 'bg-cyan-200 text-dark border-4 border-dark shadow-neo-sm',
     },
     {
       indice: '03',

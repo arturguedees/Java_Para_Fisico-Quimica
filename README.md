@@ -34,9 +34,12 @@ All physical chemistry calculators are organized into **5 interactive blocks** w
 * **DevTools & Context Menu Blocking (`ProtecaoInspecao.tsx`):** Blocks right-click context menu (`contextmenu` / *"Inspect"*) and keyboard shortcuts (`F12`, `Ctrl+Shift+I/J/C/K`, `Ctrl+U`, `Cmd+Option+I/J/C/K/U`) for external users.
 * **Production Hardening:** Public H2 console disabled by default (`H2_CONSOLE_ENABLED=false`) and HTTP security headers (`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`) configured in `netlify.toml`.
 
-### 4. 🎮 Gamification & Scientific Quiz
-* **XP & Researcher Titles:** Earn XP by running simulations and solving exercises, progressing from *Lab Apprentice* to *Nobel Laureate*.
-* **Badge Store & Global Leaderboard:** Unlockable scientific badges and dynamic researcher ranking.
+### 4. 🎮 Gamification, GymRats Squads & Scientific Exercises
+* **Specialized Exercise Modules (`/exercicios`):** 18 bilingual questions distributed across 4 core modules (Kinetics, Maxwell-Boltzmann, DSC Calorimetry, Advanced Numerical Methods & Thermodynamics), with modular entry cards, ergonomic back navigation, expandable problem statements (`TextoExpansivel`), and progressive hint economy (-20 PTS formula, -40 PTS step-by-step).
+* **GymRats-Style Class Squads (`/ranking`):** Students can create and join custom classroom squads using invite codes (e.g. `UNIT-FQ1`), view daily streak flames (🔥), class podiums, and track cumulative squad scores alongside the global leaderboard.
+* **Custom Profile & Security Customization (`/perfil`):** High-contrast Dark Laboratory workspace for managing credentials, research bio/institution, password changes, unlockable academic titles, and pioneer avatar badges.
+* **Modern Toast Notifications (`NotificacaoToast`):** Custom animated alerts replacing native browser prompts for feedback, rewards, and error handling.
+* **Ambient Laboratory Particles & Smooth Transitions:** Particle canvas background and fluid screen cross-fade navigation.
 * **CSV Data Export:** 1-click `.csv` export on all simulation modules.
 
 ---

@@ -42,9 +42,10 @@
   box-shadow: 1px 1px 0px 0px #191A23;
 }
 
-/* Solid Lime Accent Cards */
+/* Solid Lime Accent Cards - suavizado para leitura confortável sem cansar a vista */
 .quantum-card-lime {
-  background: #BFFF00;
+  background: #f7fee7;
+  color: #191A23;
   border: 3px solid #191A23;
   border-radius: 16px;
   box-shadow: 4px 4px 0px 0px #191A23;

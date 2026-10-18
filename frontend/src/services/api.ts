@@ -358,6 +358,187 @@ const CATALOGO_EXERCICIOS_EN: ExercicioCatalogo[] = [
     recompensaXp: 110,
     recompensaPontos: 110,
   },
+  {
+    id: 'cin_04',
+    titulo: 'Activation Energy via Arrhenius Equation',
+    modulo: 'CINETICA',
+    nivel: 'Advanced',
+    enunciado:
+      'A reaction doubles its rate constant (k₂ = 2·k₁) when temperature increases from 300 K to 310 K. Calculate the activation energy Ea in kJ/mol. Use R = 8.314 J/(mol·K).',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: 53.6,
+    toleranciaPercentual: 0.05,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'Using the integrated Arrhenius equation: ln(k₂/k₁) = (Ea/R) · (1/T₁ - 1/T₂). Hence, Ea = R · ln(2) · T₁ · T₂ / (T₂ - T₁) = 8.314 · 0.69315 · 300 · 310 / 10 ≈ 53580 J/mol = 53.6 kJ/mol.',
+    dicaFormula: 'Use the integrated Arrhenius law: ln(k₂/k₁) = (Ea/R) · (1/T₁ - 1/T₂). Remember to convert to kJ/mol.',
+    dicaResolucao: 'Solve for Ea: Ea = R · ln(2) / (1/300 - 1/310) = 8.314 · 0.69315 / 0.0001075 ≈ 53580 J/mol = 53.6 kJ/mol.',
+    recompensaXp: 95,
+    recompensaPontos: 95,
+  },
+  {
+    id: 'cin_05',
+    titulo: 'Second-Order Kinetics and Half-Life',
+    modulo: 'CINETICA',
+    nivel: 'Intermediate',
+    enunciado:
+      'For a second-order reaction of the type 2A -> Products, if the initial reactant concentration [A]₀ is doubled, what happens to the half-life t½?',
+    tipo: 'MULTIPLA_ESCOLHA',
+    opcoes: [
+      'The half-life will be cut in half (t½ is inversely proportional to [A]₀).',
+      'The half-life will double in value.',
+      'The half-life will remain exactly the same.',
+      'The half-life will quadruple.',
+    ],
+    respostaCorretaNumerica: 0,
+    toleranciaPercentual: 0,
+    respostaCorretaOpcaoIndex: 0,
+    explicacao:
+      'For 2nd-order reactions, the integrated rate law yields t½ = 1 / (k · [A]₀). Thus, doubling the initial concentration halves the half-life.',
+    dicaFormula: 'Consider the second-order half-life formula: t½ = 1 / (k · [A]₀). Observe the exponent of [A]₀ in the denominator.',
+    dicaResolucao: 'Since [A]₀ is in the denominator with power 1, doubling [A]₀ cuts time in half: t½\' = t½ / 2.',
+    recompensaXp: 80,
+    recompensaPontos: 80,
+  },
+  {
+    id: 'max_04',
+    titulo: 'Acceleration Factor with Quadrupled Temperature',
+    modulo: 'MAXWELL',
+    nivel: 'Beginner',
+    enunciado:
+      'If the temperature of an ideal gas is quadrupled from 300 K to 1200 K, by what numerical factor will the average molecular speed multiply?',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: 2.0,
+    toleranciaPercentual: 0.02,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'Average speed is proportional to the square root of temperature: v ∝ √T. Therefore, v(1200 K) / v(300 K) = √(1200 / 300) = √4 = 2.0.',
+    dicaFormula: 'By Maxwell\'s kinetic theory: v ∝ √(T). Calculate the square root of the temperature ratio: √(T₂ / T₁).',
+    dicaResolucao: 'Compute √(1200 / 300) = √4 = 2.0. Molecules double their speed when temperature is quadrupled.',
+    recompensaXp: 65,
+    recompensaPontos: 65,
+  },
+  {
+    id: 'max_05',
+    titulo: 'Root-Mean-Square Speed of Nitrogen (300 K)',
+    modulo: 'MAXWELL',
+    nivel: 'Intermediate',
+    enunciado:
+      'Calculate the root-mean-square speed (v_rms in m/s) of N₂ molecules (M = 0.02801 kg/mol) in air at 300 K. Use R = 8.314 J/(mol·K).',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: 516.9,
+    toleranciaPercentual: 0.05,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'v_rms = √(3 · R · T / M) = √(3 · 8.31446 · 300 / 0.02801) = √(7483.0 / 0.02801) = √267155 ≈ 516.9 m/s.',
+    dicaFormula: 'The formula for root-mean-square speed is v_rms = √(3 · R · T / M).',
+    dicaResolucao: 'Multiply: 3 · 8.314 · 300 = 7482.6; Divide by 0.02801 = 267140; Square root: √267140 ≈ 516.9 m/s.',
+    recompensaXp: 80,
+    recompensaPontos: 80,
+  },
+  {
+    id: 'dsc_04',
+    titulo: 'Thermal Peak Full Width at Half Maximum (ΔT½)',
+    modulo: 'DSC',
+    nivel: 'Intermediate',
+    enunciado:
+      'In the Lysozyme thermogram, heat capacity reaches half its peak value (ΔCp = 5.40 kJ/mol·K) at T₁ = 61.0 °C and T₂ = 69.0 °C. What is the full width at half maximum ΔT½ (in °C)?',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: 8.0,
+    toleranciaPercentual: 0.02,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'The full width at half maximum is the direct difference between the half-height temperatures: ΔT½ = T₂ - T₁ = 69.0 - 61.0 = 8.0 °C.',
+    dicaFormula: 'Subtract the lower temperature from the upper temperature where ΔCp reaches half the peak value.',
+    dicaResolucao: 'Calculate 69.0 - 61.0 = 8.0 °C. The narrower the peak, the higher the cooperativity of the conformational transition.',
+    recompensaXp: 70,
+    recompensaPontos: 70,
+  },
+  {
+    id: 'dsc_05',
+    titulo: 'Approximate Enthalpy via Peak Triangulation',
+    modulo: 'DSC',
+    nivel: 'Advanced',
+    enunciado:
+      'Approximating the Lysozyme denaturation peak as a triangle with base ΔT = 20.0 °C (from 55 to 75 °C) and peak height ΔCp = 10.80 kJ/(mol·K), estimate the denaturation enthalpy ΔH (in kJ/mol).',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: 108.0,
+    toleranciaPercentual: 0.05,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'The area of a triangle is (base · height) / 2. Therefore, ΔH ≈ (20.0 · 10.80) / 2 = 108.0 kJ/mol.',
+    dicaFormula: 'Enthalpy is the integral under the curve. For a triangle: Area = ½ · base · height.',
+    dicaResolucao: 'Calculate: 0.5 · 20.0 · 10.80 = 108.0 kJ/mol.',
+    recompensaXp: 85,
+    recompensaPontos: 85,
+  },
+  {
+    id: 'termo_01',
+    titulo: 'Standard Gibbs Free Energy (ΔG°)',
+    modulo: 'AVANCADO',
+    nivel: 'Advanced',
+    enunciado:
+      'For a chemical reaction with equilibrium constant K = 100 at 298.15 K, calculate the standard Gibbs free energy change ΔG° (in kJ/mol). Use R = 8.314 J/(mol·K).',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: -11.41,
+    toleranciaPercentual: 0.05,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'ΔG° = -R · T · ln(K) = -8.314 · 298.15 · ln(100) / 1000 = -8.314 · 298.15 · 4.60517 / 1000 = -11.41 kJ/mol.',
+    dicaFormula: 'Apply the fundamental thermodynamic relation: ΔG° = -R · T · ln(K). Remember to convert J to kJ by dividing by 1000.',
+    dicaResolucao: 'Compute: ln(100) ≈ 4.605; -8.314 · 298.15 · 4.605 = -11415 J/mol = -11.41 kJ/mol. The negative value indicates spontaneity under standard conditions.',
+    recompensaXp: 95,
+    recompensaPontos: 95,
+  },
+  {
+    id: 'termo_02',
+    titulo: 'Work in Reversible Isothermal Expansion',
+    modulo: 'AVANCADO',
+    nivel: 'Intermediate',
+    enunciado:
+      'Which mathematical expression derived from the 1st Law represents the work W performed by 1 mole of an ideal gas during a reversible isothermal expansion from volume V₁ to V₂?',
+    tipo: 'MULTIPLA_ESCOLHA',
+    opcoes: [
+      'W = n · R · T · ln(V₂ / V₁)',
+      'W = -P · ΔV (at constant external pressure)',
+      'W = n · Cv · ΔT',
+      'W = 0 (no work is performed during isothermal processes)',
+    ],
+    respostaCorretaNumerica: 0,
+    toleranciaPercentual: 0,
+    respostaCorretaOpcaoIndex: 0,
+    explicacao:
+      'W = ∫ P dV = ∫ (nRT/V) dV = n · R · T · ln(V₂ / V₁). Since T is constant, nRT factors out leaving ∫ dV/V = ln(V₂/V₁).',
+    dicaFormula: 'Remember that in a reversible process with an ideal gas, P = nRT/V along the entire path.',
+    dicaResolucao: 'Integrating dV/V from V₁ to V₂ yields the natural logarithm ln(V₂/V₁), multiplied by nRT.',
+    recompensaXp: 85,
+    recompensaPontos: 85,
+  },
+  {
+    id: 'termo_03',
+    titulo: 'Thermal Denaturation Entropy (ΔS)',
+    modulo: 'AVANCADO',
+    nivel: 'Advanced',
+    enunciado:
+      'If Lysozyme protein denaturation occurs reversibly at Tm = 65.0 °C (338.15 K) with enthalpy ΔH = 432.8 kJ/mol, calculate the conformational entropy change ΔS in kJ/(mol·K).',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: 1.28,
+    toleranciaPercentual: 0.05,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'At thermal equilibrium of the transition (Tm), ΔG = 0 => ΔH - Tm·ΔS = 0 => ΔS = ΔH / Tm = 432.8 / 338.15 ≈ 1.28 kJ/(mol·K).',
+    dicaFormula: 'At phase equilibrium (transition temperature Tm): ΔG = 0, so ΔS = ΔH / Tm. Convert Tm to Kelvin!',
+    dicaResolucao: 'Calculate: Tm = 65.0 + 273.15 = 338.15 K. Then divide: 432.8 / 338.15 = 1.28 kJ/(mol·K).',
+    recompensaXp: 90,
+    recompensaPontos: 90,
+  },
 ];
 
 const CATALOGO_EXERCICIOS_PT: ExercicioCatalogo[] = [
@@ -558,6 +739,187 @@ const CATALOGO_EXERCICIOS_PT: ExercicioCatalogo[] = [
       "O 'h' é único e colocado em evidência justamente porque presume que todos os intervalos x_{i+1} - x_i são idênticos.",
     recompensaXp: 110,
     recompensaPontos: 110,
+  },
+  {
+    id: 'cin_04',
+    titulo: 'Energia de Ativação via Equação de Arrhenius',
+    modulo: 'CINETICA',
+    nivel: 'Avançado',
+    enunciado:
+      'Uma reação tem sua constante de velocidade duplicada (k₂ = 2·k₁) quando a temperatura sobe de 300 K para 310 K. Calcule a energia de ativação Ea em kJ/mol. Use R = 8.314 J/(mol·K).',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: 53.6,
+    toleranciaPercentual: 0.05,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'Pela forma integrada de Arrhenius: ln(k₂/k₁) = (Ea/R) · (1/T₁ - 1/T₂). Logo, Ea = R · ln(2) · T₁ · T₂ / (T₂ - T₁) = 8.314 · 0.69315 · 300 · 310 / 10 ≈ 53580 J/mol = 53.6 kJ/mol.',
+    dicaFormula: 'Use a equação integrada de Arrhenius: ln(k₂/k₁) = (Ea/R) · (1/T₁ - 1/T₂). Lembre de converter para kJ/mol.',
+    dicaResolucao: 'Isole Ea: Ea = R · ln(2) / (1/300 - 1/310) = 8.314 · 0.69315 / 0.0001075 ≈ 53580 J/mol = 53.6 kJ/mol.',
+    recompensaXp: 95,
+    recompensaPontos: 95,
+  },
+  {
+    id: 'cin_05',
+    titulo: 'Cinética de Segunda Ordem e Meia-Vida',
+    modulo: 'CINETICA',
+    nivel: 'Intermediário',
+    enunciado:
+      'Para uma reação de 2ª ordem do tipo 2A -> Produtos, se a concentração inicial de reagente [A]₀ for duplicada, o que acontecerá com o tempo de meia-vida t½?',
+    tipo: 'MULTIPLA_ESCOLHA',
+    opcoes: [
+      'O tempo de meia-vida cairá pela metade (t½ é inversamente proporcional a [A]₀).',
+      'O tempo de meia-vida dobrará de valor.',
+      'O tempo de meia-vida permanecerá exatamente o mesmo.',
+      'O tempo de meia-vida quadruplicará.',
+    ],
+    respostaCorretaNumerica: 0,
+    toleranciaPercentual: 0,
+    respostaCorretaOpcaoIndex: 0,
+    explicacao:
+      'Para reações de 2ª ordem, a lei integrada fornece t½ = 1 / (k · [A]₀). Portanto, dobrar a concentração inicial faz o tempo de meia-vida cair pela metade.',
+    dicaFormula: 'Considere a fórmula da meia-vida de 2ª ordem: t½ = 1 / (k · [A]₀). Observe o expoente de [A]₀ no denominador.',
+    dicaResolucao: 'Como [A]₀ está no denominador elevado a 1, dobrar [A]₀ divide o tempo pela metade: t½\' = t½ / 2.',
+    recompensaXp: 80,
+    recompensaPontos: 80,
+  },
+  {
+    id: 'max_04',
+    titulo: 'Fator de Aceleração com Temperatura Quadruplicada',
+    modulo: 'MAXWELL',
+    nivel: 'Iniciante',
+    enunciado:
+      'Se a temperatura de um gás nobre ideal for quadruplicada de 300 K para 1200 K, por qual fator numérico a velocidade média molecular se multiplicará?',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: 2.0,
+    toleranciaPercentual: 0.02,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'A velocidade média é proporcional à raiz quadrada da temperatura: v ∝ √T. Logo, v(1200 K) / v(300 K) = √(1200 / 300) = √4 = 2.0.',
+    dicaFormula: 'Pela teoria cinética de Maxwell: v ∝ √(T). Calcule a raiz da razão entre as temperaturas: √(T₂ / T₁).',
+    dicaResolucao: 'Faça √(1200 / 300) = √4 = 2.0. As moléculas dobram de velocidade ao quadruplicar a temperatura.',
+    recompensaXp: 65,
+    recompensaPontos: 65,
+  },
+  {
+    id: 'max_05',
+    titulo: 'Velocidade Quadrática Média do Nitrogênio (300 K)',
+    modulo: 'MAXWELL',
+    nivel: 'Intermediário',
+    enunciado:
+      'Calcule a velocidade quadrática média (v_rms em m/s) das moléculas de N₂ (M = 0.02801 kg/mol) no ar a 300 K. Use R = 8.314 J/(mol·K).',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: 516.9,
+    toleranciaPercentual: 0.05,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'v_rms = √(3 · R · T / M) = √(3 · 8.31446 · 300 / 0.02801) = √(7483.0 / 0.02801) = √267155 ≈ 516.9 m/s.',
+    dicaFormula: 'A fórmula para a velocidade quadrática média é v_rms = √(3 · R · T / M).',
+    dicaResolucao: 'Multiplique: 3 · 8.314 · 300 = 7482.6; Divida por 0.02801 = 267140; Raiz quadrada: √267140 ≈ 516.9 m/s.',
+    recompensaXp: 80,
+    recompensaPontos: 80,
+  },
+  {
+    id: 'dsc_04',
+    titulo: 'Largura à Meia-Altura do Pico Térmico (ΔT½)',
+    modulo: 'DSC',
+    nivel: 'Intermediário',
+    enunciado:
+      'No termograma da Lisozima, a capacidade calorífica atinge metade do pico máximo (ΔCp = 5.40 kJ/mol·K) em T₁ = 61.0 °C e T₂ = 69.0 °C. Qual é a largura à meia-altura ΔT½ (em °C)?',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: 8.0,
+    toleranciaPercentual: 0.02,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'A largura à meia-altura é a diferença direta entre as temperaturas de meia altura: ΔT½ = T₂ - T₁ = 69.0 - 61.0 = 8.0 °C.',
+    dicaFormula: 'Subtraia a temperatura inicial da final nos pontos onde ΔCp atinge metade do valor de pico.',
+    dicaResolucao: 'Calcule 69.0 - 61.0 = 8.0 °C. Quanto mais estreito o pico, maior a cooperatividade da transição conformacional.',
+    recompensaXp: 70,
+    recompensaPontos: 70,
+  },
+  {
+    id: 'dsc_05',
+    titulo: 'Entalpia Aproximada por Triangulação de Pico',
+    modulo: 'DSC',
+    nivel: 'Avançado',
+    enunciado:
+      'Aproximando o pico térmico da Lisozima por um triângulo de base ΔT = 20.0 °C (de 55 a 75 °C) e altura máxima ΔCp = 10.80 kJ/(mol·K), estime a entalpia de desnaturação ΔH (em kJ/mol).',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: 108.0,
+    toleranciaPercentual: 0.05,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'A área de um triângulo é (base · altura) / 2. Logo, ΔH ≈ (20.0 · 10.80) / 2 = 108.0 kJ/mol.',
+    dicaFormula: 'A entalpia é a integral sob a curva. Para um triângulo: Área = ½ · base · altura.',
+    dicaResolucao: 'Calcule: 0.5 · 20.0 · 10.80 = 108.0 kJ/mol.',
+    recompensaXp: 85,
+    recompensaPontos: 85,
+  },
+  {
+    id: 'termo_01',
+    titulo: 'Energia Livre de Gibbs Padrão (ΔG°)',
+    modulo: 'AVANCADO',
+    nivel: 'Avançado',
+    enunciado:
+      'Para uma reação química com constante de equilíbrio K = 100 à temperatura de 298.15 K, calcule a variação de energia livre de Gibbs padrão ΔG° (em kJ/mol). Use R = 8.314 J/(mol·K).',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: -11.41,
+    toleranciaPercentual: 0.05,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'ΔG° = -R · T · ln(K) = -8.314 · 298.15 · ln(100) / 1000 = -8.314 · 298.15 · 4.60517 / 1000 = -11.41 kJ/mol.',
+    dicaFormula: 'Aplique a relação termodinâmica fundamental: ΔG° = -R · T · ln(K). Lembre de converter J para kJ dividindo por 1000.',
+    dicaResolucao: 'Calcule: ln(100) ≈ 4.605; -8.314 · 298.15 · 4.605 = -11415 J/mol = -11.41 kJ/mol. O valor negativo indica espontaneidade no estado padrão.',
+    recompensaXp: 95,
+    recompensaPontos: 95,
+  },
+  {
+    id: 'termo_02',
+    titulo: 'Trabalho em Expansão Isotérmica Reversível',
+    modulo: 'AVANCADO',
+    nivel: 'Intermediário',
+    enunciado:
+      'Qual expressão matemática deduzida da 1ª Lei representa o trabalho W realizado por 1 mol de gás ideal em uma expansão isotérmica reversível de volume V₁ até V₂?',
+    tipo: 'MULTIPLA_ESCOLHA',
+    opcoes: [
+      'W = n · R · T · ln(V₂ / V₁)',
+      'W = -P · ΔV (com pressão constante)',
+      'W = n · Cv · ΔT',
+      'W = 0 (nenhum trabalho é realizado em processos isotérmicos)',
+    ],
+    respostaCorretaNumerica: 0,
+    toleranciaPercentual: 0,
+    respostaCorretaOpcaoIndex: 0,
+    explicacao:
+      'W = ∫ P dV = ∫ (nRT/V) dV = n · R · T · ln(V₂ / V₁). Como T é constante, nRT sai da integral e sobra ∫ dV/V = ln(V₂/V₁).',
+    dicaFormula: 'Lembre que em um processo reversível com gás ideal, P = nRT/V ao longo de toda a trajetória de integração.',
+    dicaResolucao: 'Integrando dV/V de V₁ a V₂ obtém-se o logaritmo natural ln(V₂/V₁), multiplicando por nRT.',
+    recompensaXp: 85,
+    recompensaPontos: 85,
+  },
+  {
+    id: 'termo_03',
+    titulo: 'Entropia de Desnaturação Térmica (ΔS)',
+    modulo: 'AVANCADO',
+    nivel: 'Avançado',
+    enunciado:
+      'Se a desnaturação da proteína Lisozima ocorre reversivelmente a Tm = 65.0 °C (338.15 K) com entalpia ΔH = 432.8 kJ/mol, calcule a variação de entropia conformacional ΔS em kJ/(mol·K).',
+    tipo: 'NUMERICO',
+    opcoes: [],
+    respostaCorretaNumerica: 1.28,
+    toleranciaPercentual: 0.05,
+    respostaCorretaOpcaoIndex: -1,
+    explicacao:
+      'No equilíbrio térmico da transição (Tm), ΔG = 0 => ΔH - Tm·ΔS = 0 => ΔS = ΔH / Tm = 432.8 / 338.15 ≈ 1.28 kJ/(mol·K).',
+    dicaFormula: 'Em equilíbrio de fase (temperatura de transição Tm): ΔG = 0, logo ΔS = ΔH / Tm. Converta Tm para Kelvin!',
+    dicaResolucao: 'Calcule: Tm = 65.0 + 273.15 = 338.15 K. Depois divida: 432.8 / 338.15 = 1.28 kJ/(mol·K).',
+    recompensaXp: 90,
+    recompensaPontos: 90,
   },
 ];
 
@@ -1155,3 +1517,43 @@ export async function obterRankingUsuariosApi() {
     pontos: u.pontos || 0,
   }));
 }
+
+export interface AtualizarPerfilPayload {
+  nomeCompleto?: string;
+  email?: string;
+  senha?: string;
+  titulo?: string;
+  avatarId?: string;
+  bio?: string;
+  instituicao?: string;
+}
+
+export async function atualizarPerfilUsuarioApi(id: number, payload: AtualizarPerfilPayload) {
+  try {
+    const res = await apiClient.post(`/api/usuarios/${id}/atualizar`, payload);
+    definirStatusMotor('api');
+    const seguro = sanitizarUsuarioSemSenha(res.data);
+    sincronizarUsuarioNoBancoLocal(seguro);
+    localStorage.setItem('usuario', JSON.stringify(seguro));
+    return seguro;
+  } catch {
+    definirStatusMotor('local');
+    const raw = localStorage.getItem('usuario');
+    if (!raw) throw new Error('Unauthenticated user');
+    const u = JSON.parse(raw);
+    if (payload.nomeCompleto) u.nomeCompleto = payload.nomeCompleto.trim();
+    if (payload.email) u.email = payload.email.trim();
+    if (payload.titulo) u.titulo = payload.titulo.trim();
+    if (payload.avatarId) u.avatarId = payload.avatarId;
+    if (payload.bio !== undefined) u.bio = payload.bio;
+    if (payload.instituicao !== undefined) u.instituicao = payload.instituicao;
+    if (payload.senha && payload.senha.trim().length >= 6) {
+      u.senha = gerarHashSenhaLocal(payload.senha);
+    }
+    sincronizarUsuarioNoBancoLocal(u);
+    const seguro = sanitizarUsuarioSemSenha(u);
+    localStorage.setItem('usuario', JSON.stringify(seguro));
+    return seguro;
+  }
+}
+

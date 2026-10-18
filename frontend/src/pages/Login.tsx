@@ -236,12 +236,9 @@ export default function Login() {
             </form>
           </div>
 
-          <div className="pt-8 border-t-3 border-dark/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-bold text-dark/80">
-            <span>{isEn ? "Don't have an account yet?" : 'Ainda não possui uma conta?'}</span>
-            <Link to="/cadastro" className="text-dark font-black uppercase hover:underline underline-offset-4 flex items-center space-x-1">
-              <span>{isEn ? 'Sign up for free' : 'Cadastre-se gratuitamente'}</span>
-              <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-            </Link>
+          <div className="pt-6 border-t-3 border-dark/10 flex items-center justify-between text-xs font-bold text-dark/60">
+            <span>{isEn ? 'Need help accessing?' : 'Dúvidas no acesso acadêmico?'}</span>
+            <span className="font-mono text-[11px] text-dark/70 font-black uppercase">Quantum Lab v2.0</span>
           </div>
         </div>
 

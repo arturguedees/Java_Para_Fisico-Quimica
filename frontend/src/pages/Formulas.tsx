@@ -94,9 +94,9 @@ export const BLOCOS_FORMULAS: BlocoFormulaDef[] = [
       'Simulate probability density f(v), characteristic speeds (v_mp, v_m, v_rms), speed of sound (c), interval integral [v₁, v₂], and 5-gas comparison.',
     equacoes: ['v_mp = √(2RT/M)', 'v_m = √(8RT/πM)', 'v_rms = √(3RT/M)', 'c = √(γRT/M)'],
     icone: Wind,
-    cardClass: 'quantum-card-lime',
+    cardClass: 'quantum-card',
     textClass: 'text-dark',
-    badgeClass: 'bg-white text-dark border-dark',
+    badgeClass: 'bg-cyan-200 text-dark border-dark',
   },
   {
     id: 'energia',
@@ -796,13 +796,14 @@ export default function Formulas() {
                       </span>
                     </div>
 
-                    <div className="h-80 sm:h-96 w-full">
+                    <div className="relative w-full h-80 sm:h-96 min-h-[320px]">
                       <Line
                         data={dadosGraficoTermo}
                         options={{
                           responsive: true,
                           maintainAspectRatio: false,
-                          animation: { duration: 180 },
+                          resizeDelay: 100,
+                          animation: { duration: 0 },
                           scales: {
                             x: {
                               type: 'linear',

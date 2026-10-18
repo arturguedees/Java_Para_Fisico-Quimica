@@ -312,6 +312,56 @@ public class UsuarioController {
         return ResponseEntity.ok(u);
     }
 
+    /**
+     * Endpoint para atualizar os dados cadastrais do estudante (Nome, E-mail, Senha com hash SHA-256, etc).
+     */
+    @PostMapping("/{id}/atualizar")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> atualizarPerfil(@PathVariable Long id, @RequestBody Map<String, Object> payload) {
+        Optional<Usuario> usuarioOpt = repository.findById(id);
+        if (usuarioOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Usuario u = usuarioOpt.get();
+
+        if (payload.containsKey("nomeCompleto") && payload.get("nomeCompleto") != null) {
+            String nome = payload.get("nomeCompleto").toString().trim();
+            if (!nome.isEmpty()) {
+                u.setNomeCompleto(nome);
+            }
+        }
+
+        if (payload.containsKey("email") && payload.get("email") != null) {
+            String novoEmail = payload.get("email").toString().trim().toLowerCase();
+            if (!novoEmail.isEmpty()) {
+                Optional<Usuario> existente = repository.findByEmail(novoEmail);
+                if (existente.isPresent() && !existente.get().getId().equals(u.getId())) {
+                    return ResponseEntity.badRequest().body("E-mail já utilizado por outro usuário!");
+                }
+                u.setEmail(novoEmail);
+            }
+        }
+
+        if (payload.containsKey("novaSenha") && payload.get("novaSenha") != null) {
+            String novaSenha = payload.get("novaSenha").toString().trim();
+            if (novaSenha.length() >= 6) {
+                u.setSenha(gerarHashSenha(novaSenha));
+            }
+        }
+
+        if (payload.containsKey("titulo") && payload.get("titulo") != null) {
+            u.setTitulo(payload.get("titulo").toString());
+        }
+
+        if (payload.containsKey("avatarId") && payload.get("avatarId") != null) {
+            u.setAvatarId(payload.get("avatarId").toString());
+        }
+
+        repository.save(u);
+        return ResponseEntity.ok(u);
+    }
+
     // Regra de progressao: conforme o XP sobe, vou liberando os titulos cientificos na conta do aluno
     private void verificarEAtualizarTitulosPorXp(Usuario u) {
         String titulosStr = u.getTitulosDesbloqueados() != null ? u.getTitulosDesbloqueados() : "Iniciante da Termodinâmica";
