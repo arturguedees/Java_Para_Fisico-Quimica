@@ -3,10 +3,9 @@ package com.unit.modelo;
 import com.unit.util.ValidadorNumerico;
 
 /**
- * Cinética de Primeira Ordem: A -> B
- * Taxa de reação: -d[A]/dt = k * [A]
- * Equação integrada: [A](t) = [A]0 * exp(-k * t)
- * [B](t) = [A]0 * (1 - exp(-k * t))
+ * Classe que implementa a Cinetica de Primeira Ordem (A -> B).
+ * Aqui a taxa depende de quanto reagente ainda resta (-d[A]/dt = k * [A]),
+ * gerando aquele decaimento exponencial classico: [A](t) = [A]0 * e^(-k * t).
  */
 public final class ReacaoPrimeiraOrdem implements ModeloCinetico {
     private final double concentracaoInicial; // [A]0 em mol/L
@@ -29,18 +28,18 @@ public final class ReacaoPrimeiraOrdem implements ModeloCinetico {
         return concentracaoInicial * (1.0 - Math.exp(-constanteVelocidade * tempo));
     }
 
-    // Tempo de Meia-Vida: t_1/2 = ln(2) / k (tempo para [A] cair para 50%)
+    // Na 1a ordem a meia-vida nao depende de [A]0! Vale sempre ln(2) / k (~0.693 / k)
     @Override
     public double primeiraMeiaVida() {
         return Math.log(2.0) / constanteVelocidade;
     }
 
-    // Tempo de vida químico / e-folding (tau): tau = 1 / k (tempo para [A] cair para 1/e ~ 36.8%)
+    // Tempo de vida quimico (e-folding time tau do artigo da ACS): tempo pra cair pra 1/e (~36.8%)
     public double tempoVidaQuimico() {
         return 1.0 / constanteVelocidade;
     }
 
-    // n-ésimo e-fold: tempo para [A] atingir exp(-n)
+    // Calcula o tempo para atingir n decaimentos exponenciais (e^-n)
     public double tempoEFold(int n) {
         if (n <= 0) {
             throw new IllegalArgumentException("O multiplicador n do e-fold deve ser maior que zero");

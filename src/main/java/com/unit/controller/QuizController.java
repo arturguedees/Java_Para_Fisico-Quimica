@@ -5,13 +5,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 /**
- * Controlador REST para a Central de Exercícios, Quizzes e Desafios Gamificados.
+ * Controller REST para o Banco de Questoes e Desafios Gamificados.
+ * Deixei suporte tanto pra Portugues quanto pra Ingles (parametro lang=en ou lang=pt)
+ * pq o professor pediu que o sistema rodasse em ingles por padrao!
  */
 @RestController
 @RequestMapping("/api/exercicios")
 @CrossOrigin(origins = "*")
 public class QuizController {
 
+    // DTO (Data Transfer Object) pra guardar os dados de cada questao em memoria
     public static class ExercicioDTO {
         private String id;
         private String titulo;
@@ -51,7 +54,6 @@ public class QuizController {
             this.recompensaPontos = recompensaPontos;
         }
 
-        // Getters
         public String getId() { return id; }
         public String getTitulo() { return titulo; }
         public String getModulo() { return modulo; }
@@ -69,11 +71,18 @@ public class QuizController {
         public int getRecompensaPontos() { return recompensaPontos; }
     }
 
-    private final List<ExercicioDTO> catalogo = new ArrayList<>();
+    private final List<ExercicioDTO> catalogoPt = new ArrayList<>();
+    private final List<ExercicioDTO> catalogoEn = new ArrayList<>();
 
     public QuizController() {
-        // 1. Cinética - Meia Vida 1ª Ordem
-        catalogo.add(new ExercicioDTO(
+        // Monta os dois catalogos (PT e EN) quando o controller e inicializado pelo Spring
+        popularCatalogoPt();
+        popularCatalogoEn();
+    }
+
+    private void popularCatalogoPt() {
+        // 1. Cinetica - Meia Vida 1a Ordem
+        catalogoPt.add(new ExercicioDTO(
                 "cin_01",
                 "Meia-Vida em Cinética de 1ª Ordem",
                 "CINETICA",
@@ -91,8 +100,8 @@ public class QuizController {
                 60
         ));
 
-        // 2. Cinética - Consumo Ordem Zero
-        catalogo.add(new ExercicioDTO(
+        // 2. Cinetica - Consumo Ordem Zero
+        catalogoPt.add(new ExercicioDTO(
                 "cin_02",
                 "Consumo Total em Ordem Zero",
                 "CINETICA",
@@ -110,8 +119,8 @@ public class QuizController {
                 50
         ));
 
-        // 3. Cinética - Tempo de Vida Químico (e-folding time tau) - Extraído do Paper J. Chem. Educ.
-        catalogo.add(new ExercicioDTO(
+        // 3. Cinetica - Tempo de Vida Quimico (e-folding time tau)
+        catalogoPt.add(new ExercicioDTO(
                 "cin_03",
                 "Tempo de Vida de Poluente Atmosférico (e-folding time τ)",
                 "CINETICA",
@@ -129,8 +138,8 @@ public class QuizController {
                 70
         ));
 
-        // 4. Maxwell - Velocidade Mais Provável do Argônio
-        catalogo.add(new ExercicioDTO(
+        // 4. Maxwell - Velocidade Mais Provavel do Argonio
+        catalogoPt.add(new ExercicioDTO(
                 "max_01",
                 "Velocidade Mais Provável do Argônio (300 K)",
                 "MAXWELL",
@@ -148,8 +157,8 @@ public class QuizController {
                 75
         ));
 
-        // 5. Maxwell - Relação de Massas Molares
-        catalogo.add(new ExercicioDTO(
+        // 5. Maxwell - Relacao de Massas Molares
+        catalogoPt.add(new ExercicioDTO(
                 "max_02",
                 "Comparação de Gases à Mesma Temperatura",
                 "MAXWELL",
@@ -172,8 +181,8 @@ public class QuizController {
                 70
         ));
 
-        // 6. Maxwell - Velocidade do Som (Lab 4 Módulo 5 do Paper ACS)
-        catalogo.add(new ExercicioDTO(
+        // 6. Maxwell - Velocidade do Som
+        catalogoPt.add(new ExercicioDTO(
                 "max_03",
                 "Velocidade do Som no Gás Hélio (300 K)",
                 "MAXWELL",
@@ -191,8 +200,8 @@ public class QuizController {
                 90
         ));
 
-        // 7. DSC - Temperatura de Desnaturação da Lisozima
-        catalogo.add(new ExercicioDTO(
+        // 7. DSC - Temperatura de Desnaturacao da Lisozima
+        catalogoPt.add(new ExercicioDTO(
                 "dsc_01",
                 "Pico de Transição Térmica (Tm) da Lisozima",
                 "DSC",
@@ -210,8 +219,8 @@ public class QuizController {
                 80
         ));
 
-        // 8. DSC - Significado Físico da Área sob a Curva
-        catalogo.add(new ExercicioDTO(
+        // 8. DSC - Significado Fisico da Area sob a Curva
+        catalogoPt.add(new ExercicioDTO(
                 "dsc_02",
                 "Entalpia Calorimétrica de Desnaturação",
                 "DSC",
@@ -234,8 +243,8 @@ public class QuizController {
                 85
         ));
 
-        // 9. Avançado - Integração Numérica com Splines
-        catalogo.add(new ExercicioDTO(
+        // 9. Avancado - Integracao Numerica com Splines
+        catalogoPt.add(new ExercicioDTO(
                 "dsc_03",
                 "Precisão Numérica: Simpson 1/3 vs Trapézio",
                 "AVANCADO",
@@ -259,10 +268,206 @@ public class QuizController {
         ));
     }
 
+    private void popularCatalogoEn() {
+        // 1. Kinetics - First-Order Half-Life
+        catalogoEn.add(new ExercicioDTO(
+                "cin_01",
+                "First-Order Kinetics Half-Life",
+                "CINETICA",
+                "Beginner",
+                "For an elementary first-order reaction (A -> B) with rate constant k = 0.05 s⁻¹ and initial concentration [A]₀ = 2.0 M, calculate the half-life t½ (in seconds).",
+                "NUMERICO",
+                Collections.emptyList(),
+                13.86,
+                0.05,
+                -1,
+                "For first-order reactions, the half-life is independent of initial concentration and equals t½ = ln(2)/k = 0.69315 / 0.05 = 13.86 seconds.",
+                "For 1st order: t½ = ln(2) / k = 0.69315 / k. It does not depend on [A]₀.",
+                "Substitute k = 0.05 s⁻¹ into the equation: t½ = 0.69315 / 0.05 = 13.86 seconds.",
+                60,
+                60
+        ));
+
+        // 2. Kinetics - Zero-Order Total Depletion
+        catalogoEn.add(new ExercicioDTO(
+                "cin_02",
+                "Zero-Order Complete Depletion Time",
+                "CINETICA",
+                "Beginner",
+                "In a Zero-Order chemical reaction with [A]₀ = 4.0 M and rate constant k = 0.2 M/s, in how many seconds will reactant A be completely consumed ([A] = 0)?",
+                "NUMERICO",
+                Collections.emptyList(),
+                20.0,
+                0.05,
+                -1,
+                "In zero-order kinetics, [A] = [A]₀ - k*t. Thus, the time for complete exhaustion is t = [A]₀ / k = 4.0 / 0.2 = 20.0 seconds.",
+                "The integrated zero-order rate law is [A](t) = [A]₀ - k·t. Set [A]=0 and solve for t.",
+                "Set 0 = 4.0 - 0.2·t => 0.2·t = 4.0 => t = 4.0 / 0.2 = 20.0 seconds.",
+                50,
+                50
+        ));
+
+        // 3. Kinetics - Atmospheric Pollutant Lifetime (e-folding time tau)
+        catalogoEn.add(new ExercicioDTO(
+                "cin_03",
+                "Atmospheric Pollutant Chemical Lifetime (e-folding time τ)",
+                "CINETICA",
+                "Intermediate",
+                "In atmospheric chemistry (ACS Report Lab 3), the chemical lifetime τ (e-folding time) of a pollutant degraded by a 1st-order reaction is the time for concentration to drop to 1/e (~36.8%) of its initial value. If k = 0.04 s⁻¹, calculate τ in seconds.",
+                "NUMERICO",
+                Collections.emptyList(),
+                25.0,
+                0.05,
+                -1,
+                "The e-folding lifetime is given by τ = 1/k. For k = 0.04 s⁻¹, τ = 1 / 0.04 = 25.0 seconds.",
+                "The fundamental relationship between rate constant and exponential decay lifetime is τ = 1 / k.",
+                "Simply invert the rate constant: τ = 1 / 0.04 = 25.0 s. Note that t½ = τ · ln(2) ≈ 0.693 · τ.",
+                70,
+                70
+        ));
+
+        // 4. Maxwell - Most Probable Speed of Argon
+        catalogoEn.add(new ExercicioDTO(
+                "max_01",
+                "Most Probable Speed of Argon (300 K)",
+                "MAXWELL",
+                "Intermediate",
+                "Calculate the most probable speed (v_mp in m/s) of Argon gas molecules (M = 0.03995 kg/mol) at room temperature (300 K). Use R = 8.314 J/(mol·K).",
+                "NUMERICO",
+                Collections.emptyList(),
+                353.5,
+                0.05,
+                -1,
+                "v_mp = sqrt((2 * 8.31446 * 300) / 0.03995) = sqrt(4988.68 / 0.03995) = sqrt(124873) ≈ 353.4 m/s.",
+                "The formula for the most probable speed at the peak of the curve is v_mp = √(2 · R · T / M). Remember to use M in kg/mol!",
+                "Calculate: 2 · 8.314 · 300 = 4988.4; Divide by 0.03995 = 124866; Take the square root: √124866 ≈ 353.4 m/s.",
+                75,
+                75
+        ));
+
+        // 5. Maxwell - Molar Mass Comparison
+        catalogoEn.add(new ExercicioDTO(
+                "max_02",
+                "Gas Comparison at Constant Temperature",
+                "MAXWELL",
+                "Intermediate",
+                "At the same temperature of 400 K, which gas exhibits a higher average molecular speed between Helium (He, M = 4 g/mol) and Oxygen (O₂, M = 32 g/mol)?",
+                "MULTIPLA_ESCOLHA",
+                Arrays.asList(
+                        "Helium, because molecular speed is inversely proportional to the square root of molar mass.",
+                        "Oxygen, because diatomic molecules always have higher translational kinetic energy.",
+                        "Both gases have the exact same average speed because they are at the same temperature.",
+                        "Oxygen, because its larger mass generates greater linear momentum."
+                ),
+                0,
+                0,
+                0,
+                "According to the kinetic theory of gases, v_avg is proportional to 1/sqrt(M). Since Helium has a molar mass 8 times smaller than O₂, its atoms move significantly faster.",
+                "Recall Graham's law and the Maxwell speed distribution: v ∝ √(T/M). The smaller the mass M, the higher the speed.",
+                "Compare molar masses: M(He) = 4 g/mol vs M(O₂) = 32 g/mol. Helium is 8x lighter, so it moves √8 ≈ 2.83x faster.",
+                70,
+                70
+        ));
+
+        // 6. Maxwell - Speed of Sound in Helium
+        catalogoEn.add(new ExercicioDTO(
+                "max_03",
+                "Speed of Sound in Helium Gas (300 K)",
+                "MAXWELL",
+                "Advanced",
+                "In Module 5 of the ACS paper, the speed of sound in an ideal gas is studied: c = √(γ·R·T / M). For Helium (a monatomic noble gas with γ = 1.667 and M = 0.004 kg/mol) at 300 K, what is the speed of sound (in m/s)?",
+                "NUMERICO",
+                Collections.emptyList(),
+                1019.5,
+                0.05,
+                -1,
+                "c = sqrt(1.667 * 8.314 * 300 / 0.004) = sqrt(4157.8 / 0.004) = sqrt(1039460) ≈ 1019.5 m/s. Almost three times faster than in air!",
+                "Use the thermodynamic adiabatic speed of sound equation: c = √(γ · R · T / M).",
+                "Substitute: γ = 1.667, R = 8.314 J/mol·K, T = 300 K, M = 0.004 kg/mol. Multiply numerator (4157.8), divide by 0.004 (= 1039458) and take the square root: ≈ 1019.5 m/s.",
+                90,
+                90
+        ));
+
+        // 7. DSC - Lysozyme Melting Temperature (Tm)
+        catalogoEn.add(new ExercicioDTO(
+                "dsc_01",
+                "Lysozyme Thermal Transition Peak (Tm)",
+                "DSC",
+                "Intermediate",
+                "Analyzing the experimental Differential Scanning Calorimetry (DSC) curve of Hen Egg-White Lysozyme (HEWL), what is the thermal transition temperature (Tm in °C) where excess heat capacity reaches its peak of 10.80 kJ/(mol·K)?",
+                "NUMERICO",
+                Collections.emptyList(),
+                65.0,
+                0.02,
+                -1,
+                "The maximum thermodynamic conformational denaturation peak of Lysozyme occurs at exactly 65.0 °C in the HEWL dataset.",
+                "Look visually at the chart or data table for the maximum point of excess heat capacity ΔCp.",
+                "The maximum value of 10.80 kJ/(mol·K) in the Lysozyme dataset is located right at T = 65.0 °C.",
+                80,
+                80
+        ));
+
+        // 8. DSC - Physical Meaning of Area Under the Curve
+        catalogoEn.add(new ExercicioDTO(
+                "dsc_02",
+                "Calorimetric Denaturation Enthalpy",
+                "DSC",
+                "Advanced",
+                "In biopolymer thermodynamics via DSC, what does the definite integral of excess heat capacity (Cp_excess) with respect to temperature geometrically represent?",
+                "MULTIPLA_ESCOLHA",
+                Arrays.asList(
+                        "The calorimetric denaturation enthalpy change (ΔH_cal) of the phase transition.",
+                        "The first-order enzymatic reaction rate.",
+                        "The dielectric constant of the aqueous solution.",
+                        "The Maxwell speed probability density."
+                ),
+                0,
+                0,
+                0,
+                "The definite integral ∫ Cp dT between the initial and final baseline directly yields the total enthalpy change of the conformational transition (ΔH_cal).",
+                "By the 1st Law of Thermodynamics at constant pressure: dH = Cp dT. Therefore, integrating Cp dT gives ΔH.",
+                "The area under the excess specific heat curve equals the total protein denaturation enthalpy (ΔH_cal).",
+                85,
+                85
+        ));
+
+        // 9. Advanced - Numerical Integration with Splines
+        catalogoEn.add(new ExercicioDTO(
+                "dsc_03",
+                "Numerical Precision: Simpson's 1/3 vs Trapezoidal Rule",
+                "AVANCADO",
+                "Advanced",
+                "Why can't the classical Simpson's 1/3 Rule be applied directly to raw experimental data with non-uniform temperature spacing without first performing Cubic Spline interpolation?",
+                "MULTIPLA_ESCOLHA",
+                Arrays.asList(
+                        "Because classical Simpson's rule assumes a constant step size h between points.",
+                        "Because Simpson's method only works with prime numbers.",
+                        "Because thermal data always violates the law of conservation of energy.",
+                        "Because the trapezoidal rule is always more accurate than Simpson's rule in every situation."
+                ),
+                0,
+                0,
+                0,
+                "The derivation of Simpson's 1/3 rule relies on analytically integrating parabolas over pairs of subintervals with uniform step size h = (b-a)/(2n). With unequal spacing, continuous Cubic Spline interpolation is required first.",
+                "Think about Simpson's formula: h/3 · (f0 + 4f1 + 2f2 + ...). Where does 'h' appear in the formula?",
+                "The step 'h' is factored out as a single constant precisely because it assumes all intervals x_{i+1} - x_i are identical.",
+                110,
+                110
+        ));
+    }
+
+    private List<ExercicioDTO> escolherCatalogo(String lang) {
+        if ("pt".equalsIgnoreCase(lang) || "pt-BR".equalsIgnoreCase(lang)) {
+            return catalogoPt;
+        }
+        return catalogoEn;
+    }
+
     @GetMapping
-    public List<Map<String, Object>> listarExercicios() {
+    public List<Map<String, Object>> listarExercicios(@RequestParam(defaultValue = "en") String lang) {
+        List<ExercicioDTO> fonte = escolherCatalogo(lang);
         List<Map<String, Object>> lista = new ArrayList<>();
-        for (ExercicioDTO ex : catalogo) {
+        for (ExercicioDTO ex : fonte) {
             Map<String, Object> map = new HashMap<>();
             map.put("id", ex.getId());
             map.put("titulo", ex.getTitulo());
@@ -279,25 +484,31 @@ public class QuizController {
     }
 
     @PostMapping("/validar")
-    public Map<String, Object> validarResposta(@RequestBody Map<String, Object> payload) {
+    public Map<String, Object> validarResposta(
+            @RequestBody Map<String, Object> payload,
+            @RequestParam(defaultValue = "en") String lang) {
         String id = (String) payload.get("id");
         Object respostaObj = payload.get("resposta");
+        String idioma = payload.get("lang") != null ? payload.get("lang").toString() : lang;
+        boolean isPt = "pt".equalsIgnoreCase(idioma) || "pt-BR".equalsIgnoreCase(idioma);
 
+        List<ExercicioDTO> fonte = escolherCatalogo(idioma);
         Map<String, Object> resultado = new HashMap<>();
 
-        ExercicioDTO ex = catalogo.stream()
+        ExercicioDTO ex = fonte.stream()
                 .filter(e -> e.getId().equals(id))
                 .findFirst()
                 .orElse(null);
 
         if (ex == null) {
             resultado.put("correto", false);
-            resultado.put("mensagem", "Exercício não encontrado.");
+            resultado.put("mensagem", isPt ? "Exercício não encontrado." : "Exercise not found.");
             return resultado;
         }
 
         boolean correto = false;
 
+        // Se for numerico, calcula o erro relativo pra aceitar pequenos arredondamentos do aluno
         if ("NUMERICO".equals(ex.getTipo())) {
             try {
                 double valorEnviado = Double.parseDouble(respostaObj.toString());
@@ -320,32 +531,42 @@ public class QuizController {
         resultado.put("explicacao", ex.getExplicacao());
         resultado.put("xpGanho", correto ? ex.getRecompensaXp() : 0);
         resultado.put("pontosGanhos", correto ? ex.getRecompensaPontos() : 0);
-        resultado.put("mensagem", correto ? "Parabéns! Resposta correta!" : "Resposta incorreta. Leia a explicação e tente novamente.");
+        if (isPt) {
+            resultado.put("mensagem", correto ? "Parabéns! Resposta correta!" : "Resposta incorreta. Leia a explicação e tente novamente.");
+        } else {
+            resultado.put("mensagem", correto ? "Congratulations! Correct answer!" : "Incorrect answer. Read the explanation below and try again.");
+        }
 
         return resultado;
     }
 
     @GetMapping("/{id}/dica")
-    public Map<String, Object> obterDica(@PathVariable String id, @RequestParam String tipo) {
+    public Map<String, Object> obterDica(
+            @PathVariable String id,
+            @RequestParam String tipo,
+            @RequestParam(defaultValue = "en") String lang) {
+        boolean isPt = "pt".equalsIgnoreCase(lang) || "pt-BR".equalsIgnoreCase(lang);
+        List<ExercicioDTO> fonte = escolherCatalogo(lang);
         Map<String, Object> resposta = new HashMap<>();
-        ExercicioDTO ex = catalogo.stream()
+
+        ExercicioDTO ex = fonte.stream()
                 .filter(e -> e.getId().equals(id))
                 .findFirst()
                 .orElse(null);
 
         if (ex == null) {
-            resposta.put("erro", "Exercício não encontrado.");
+            resposta.put("erro", isPt ? "Exercício não encontrado." : "Exercise not found.");
             return resposta;
         }
 
         if ("formula".equalsIgnoreCase(tipo)) {
             resposta.put("dica", ex.getDicaFormula());
-            resposta.put("tipo", "FÓRMULA TEÓRICA");
+            resposta.put("tipo", isPt ? "FÓRMULA TEÓRICA" : "THEORETICAL FORMULA");
         } else if ("resolucao".equalsIgnoreCase(tipo)) {
             resposta.put("dica", ex.getDicaResolucao());
-            resposta.put("tipo", "PASSO-A-PASSO");
+            resposta.put("tipo", isPt ? "PASSO-A-PASSO" : "STEP-BY-STEP");
         } else {
-            resposta.put("dica", "Tipo de dica inválido.");
+            resposta.put("dica", isPt ? "Tipo de dica inválido." : "Invalid hint type.");
         }
 
         return resposta;

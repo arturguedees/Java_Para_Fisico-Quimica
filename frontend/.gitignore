@@ -1,4 +1,4 @@
-# Logs
+# Logs de erro caso o npm de algum problema
 logs
 *.log
 npm-debug.log*
@@ -7,12 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencias pesadas do Node e pasta de build gerada pelo Vite
 node_modules
 dist
 dist-ssr
-*.local
+.vite
 
-# Editor directories and files
+# Arquivos de variaveis de ambiente locais (nao podem subir pro Git!)
+.env
+.env.local
+.env.*.local
+*.local
+!.env.example
+
+# Pastas de editores de codigo e arquivos temporarios do Mac/Windows
 .vscode/*
 !.vscode/extensions.json
 .idea

@@ -1,21 +1,20 @@
 package com.unit.numerico;
 
-import java.util.List;
 import java.util.function.DoubleUnaryOperator;
 
 import com.unit.modelo.DistribuicaoMaxwellBoltzmann;
 import com.unit.util.ValidadorNumerico;
 
 /**
- * Serviço unificado e reutilizável de Integração Numérica.
- * Implementa métodos do Trapézio e de Simpson para dados discretos e funções contínuas.
+ * Classe utilitaria que concentra os metodos de Integracao Numerica (Trapezio e Simpson 1/3).
+ * Fiz os metodos estaticos pra poder reutilizar tanto no modulo de Gases (Maxwell) quanto no de Calorimetria (DSC)!
  */
 public final class ServicoIntegracaoNumerica {
 
     private ServicoIntegracaoNumerica() {}
 
     /**
-     * Integração pela Regra do Trapézio para arrays de pontos (suporta passos não-uniformes).
+     * Regra do Trapezio para vetores de pontos (funciona mesmo quando o espacamento em X nao e uniforme).
      */
     public static double integrarTrapezio(double[] x, double[] y) {
         if (x == null || y == null || x.length != y.length || x.length < 2) {
@@ -30,16 +29,15 @@ public final class ServicoIntegracaoNumerica {
     }
 
     /**
-     * Integração pela Regra de Simpson 1/3 Composta para arrays de pontos com passo uniforme h.
-     * Requer quantidade ímpar de pontos (número par de subintervalos).
+     * Regra de Simpson 1/3 Composta para vetores discretos com passo h constante.
+     * Como o Simpson precisa de um numero par de subintervalos, se vier impar eu integro o ultimo pedaco por trapezio!
      */
     public static double integrarSimpson(double[] x, double[] y) {
         if (x == null || y == null || x.length != y.length || x.length < 3) {
             throw new IllegalArgumentException("Simpson requer pelo menos 3 pontos");
         }
-        int n = x.length - 1; // número de intervalos
+        int n = x.length - 1; // quantidade de subintervalos
         if (n % 2 != 0) {
-            // Se número de intervalos for ímpar, integra n-1 com Simpson e o último com trapézio
             double[] xSub = new double[x.length - 1];
             double[] ySub = new double[y.length - 1];
             System.arraycopy(x, 0, xSub, 0, xSub.length);
@@ -65,7 +63,7 @@ public final class ServicoIntegracaoNumerica {
     }
 
     /**
-     * Integração de função contínua f(x) pela Regra do Trapézio em [a, b] com N subintervalos.
+     * Integra qualquer funcao continua f(x) recebida via lambda (DoubleUnaryOperator) usando Trapezios.
      */
     public static double integrarFuncaoTrapezio(DoubleUnaryOperator funcao, double a, double b, int nSubintervalos) {
         ValidadorNumerico.validarIntervalo(a, b, "Limite inferior a", "Limite superior b");
@@ -81,10 +79,11 @@ public final class ServicoIntegracaoNumerica {
     }
 
     /**
-     * Integração de função contínua f(x) pela Regra de Simpson Composta em [a, b] com N subintervalos (N par).
+     * Integra uma funcao continua f(x) usando Simpson 1/3 Composto (aproxima a curva por parabolas!).
      */
     public static double integrarFuncaoSimpson(DoubleUnaryOperator funcao, double a, double b, int nSubintervalos) {
         ValidadorNumerico.validarIntervalo(a, b, "Limite inferior a", "Limite superior b");
+        // Se mandarem N impar, somo +1 pra garantir que seja par e nao quebrar a formula de Simpson
         int n = (nSubintervalos % 2 == 0) ? nSubintervalos : nSubintervalos + 1;
         double h = (b - a) / n;
         double somaImpares = 0.0;
@@ -103,19 +102,20 @@ public final class ServicoIntegracaoNumerica {
     }
 
     /**
-     * Módulo 3 de Maxwell-Boltzmann: Normalização e probabilidade no intervalo [v1, v2].
+     * Calcula a probabilidade da velocidade molecular estar entre v1 e v2 integrando f(v).
      */
     public static double calcularProbabilidadeIntervaloVelocidades(DistribuicaoMaxwellBoltzmann dist, double v1, double v2, int nPassos) {
         return integrarFuncaoSimpson(dist::densidadeProbabilidadeVelocidade, v1, v2, nPassos);
     }
 
     /**
-     * Módulo 4 de Maxwell-Boltzmann: Fração de moléculas com Energia Cinética >= Ea.
+     * Calcula a fracao de moleculas com energia maior ou igual a Energia de Ativacao (Ea).
      */
     public static double calcularFracaoMoleculasAcimaEa(DistribuicaoMaxwellBoltzmann dist, double eaJPorMol, int nPassos) {
         ValidadorNumerico.validarNaoNegativo(eaJPorMol, "Energia de ativação Ea");
-        // Limite superior suficiente onde f(E) decai para valores desprezíveis (ex: Ea + 15 * R * T)
-        double limiteSuperior = Math.max(eaJPorMol + 100_000.0, eaJPorMol * 5.0);
+        double rt = com.unit.util.ConstantesFisicas.R * dist.getTemperaturaKelvin();
+        // Como nao da pra integrar ate o infinito no computador, integro ate Ea + 25*RT onde a cauda ja zerou (< 1e-10)
+        double limiteSuperior = eaJPorMol + Math.max(100_000.0, 25.0 * rt);
         return integrarFuncaoSimpson(dist::densidadeProbabilidadeEnergia, eaJPorMol, limiteSuperior, nPassos);
     }
 }

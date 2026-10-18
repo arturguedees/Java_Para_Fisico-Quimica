@@ -1,8 +1,32 @@
+# Pastas geradas pelo Maven quando compila o projeto Java
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
+
+# Arquivos de ambiente locais (muito importante ignorar pra nao vazar senha no GitHub!)
+# Deixei o .env.example liberado com "!" pra servir de modelo pra quem clonar o repo
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+!frontend/.env.example
+
+# Banco de dados local H2 (salva os dados em arquivo quando roda sem Docker)
+data/
+*.mv.db
+*.trace.db
+
+# Logs do sistema e do npm
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
@@ -42,3 +66,6 @@ build/
 frontend/node_modules/
 frontend/dist/
 frontend/.vite/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local

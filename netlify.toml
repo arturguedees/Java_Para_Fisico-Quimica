@@ -1,0 +1,26 @@
+# Configuracao da Netlify pra ela saber onde fica o frontend e como compilar o React
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Regra super importante pra SPA (Single Page Application):
+# Se o professor der F5 na rota /formulas ou /exercicios, a Netlify manda pro index.html
+# em vez de dar erro 404 de pagina nao encontrada!
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Cabecalhos HTTP de seguranca (boas praticas OWASP que aprendi pra proteger o front)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-XSS-Protection = "1; mode=block"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"

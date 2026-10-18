@@ -4,15 +4,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Ponto de entrada do backend Spring Boot.
- * O Spring Boot é um framework que facilita a criação de aplicações web em Java.
- * Ele inicia um servidor Tomcat embutido e configura o acesso ao banco de dados.
+ * Classe principal que sobe o servidor Spring Boot da nossa API de Fisico-Quimica.
+ * Ela ja inicia o Tomcat embutido na porta 8080 e conecta no banco automaticamente!
  */
 @SpringBootApplication
 public class FisicoQuimicaApplication {
 
     public static void main(String[] args) {
-        // Inicia a aplicação web na porta 8080
+        // Roda a aplicacao Spring Boot passando os argumentos do terminal
         SpringApplication.run(FisicoQuimicaApplication.class, args);
     }
 }

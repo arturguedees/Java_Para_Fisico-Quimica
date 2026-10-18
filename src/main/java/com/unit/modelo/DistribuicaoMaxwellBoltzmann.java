@@ -4,11 +4,9 @@ import com.unit.util.ConstantesFisicas;
 import com.unit.util.ValidadorNumerico;
 
 /**
- * Modelo completo da Distribuição de Maxwell-Boltzmann de Velocidades e Energias.
- * 
- * Equações fundamentais:
- * f(v) = 4π * v² * (M / (2π * R * T))^(3/2) * exp(-M * v² / (2 * R * T))
- * f(E) = 2 * sqrt(E / π) * (1 / (R * T))^(3/2) * exp(-E / (R * T))
+ * Classe principal da Distribuicao de Maxwell-Boltzmann para velocidade f(v) e energia f(E).
+ * Dica que aprendi fazendo os testes: calculei a normalizacao de f(v) usando logaritmo (Math.log)
+ * antes de tirar a exponencial (Math.exp) pra evitar dar overflow/underflow no double do Java!
  */
 public final class DistribuicaoMaxwellBoltzmann {
     private final ClasseGas gas;
@@ -31,6 +29,7 @@ public final class DistribuicaoMaxwellBoltzmann {
         this.gas = gas;
         this.temperaturaKelvin = ValidadorNumerico.validarPositivo(temperaturaKelvin, "Temperatura em Kelvin");
 
+        // Pre-calculo essas constantes no construtor pra nao ter que recalcular toda vez no loop do grafico
         double m = gas.getMassaMolarKgPorMol();
         double denominador = 2.0 * Math.PI * ConstantesFisicas.R * this.temperaturaKelvin;
         this.logNormalizacaoVelocidade = Math.log(4.0 * Math.PI)
@@ -39,8 +38,7 @@ public final class DistribuicaoMaxwellBoltzmann {
     }
 
     /**
-     * Calcula a densidade de probabilidade de velocidade f(v) em (s/m).
-     * Usa escala logarítmica para evitar overflow/underflow numérico.
+     * Calcula a densidade de probabilidade f(v) em (s/m) para uma dada velocidade em m/s.
      */
     public double densidadeProbabilidadeVelocidade(double velocidadeMPorS) {
         ValidadorNumerico.validarNaoNegativo(velocidadeMPorS, "Velocidade");
@@ -65,8 +63,8 @@ public final class DistribuicaoMaxwellBoltzmann {
     }
 
     /**
-     * Calcula a densidade de probabilidade de energia cinética translacional f(E) em (J/mol)^-1.
-     * f(E) = 2 * sqrt(E / π) * (1 / (RT))^(3/2) * exp(-E / RT)
+     * Calcula a distribuicao de energia cinetica translacional f(E) em (J/mol)^-1.
+     * Curiosidade da fisica: pelo teorema da equiparticao, f(E) so depende de T (nao depende da massa molar M!).
      */
     public double densidadeProbabilidadeEnergia(double energiaJPorMol) {
         ValidadorNumerico.validarNaoNegativo(energiaJPorMol, "Energia cinética");
@@ -82,22 +80,22 @@ public final class DistribuicaoMaxwellBoltzmann {
         return termo1 * termo2 * Math.exp(expoente);
     }
 
-    // Velocidade mais provável: v_mp = sqrt(2 * R * T / M)
+    // Velocidade no topo da curva (pico): v_mp = sqrt(2 * R * T / M)
     public double velocidadeMaisProvavel() {
         return Math.sqrt((2.0 * ConstantesFisicas.R * temperaturaKelvin) / gas.getMassaMolarKgPorMol());
     }
 
-    // Velocidade média: v_m = sqrt(8 * R * T / (π * M))
+    // Velocidade media aritmetica: v_m = sqrt(8 * R * T / (pi * M))
     public double velocidadeMedia() {
         return Math.sqrt((8.0 * ConstantesFisicas.R * temperaturaKelvin) / (Math.PI * gas.getMassaMolarKgPorMol()));
     }
 
-    // Velocidade quadrática média: v_rms = sqrt(3 * R * T / M)
+    // Velocidade quadratica media: v_rms = sqrt(3 * R * T / M)
     public double velocidadeQuadraticaMedia() {
         return Math.sqrt((3.0 * ConstantesFisicas.R * temperaturaKelvin) / gas.getMassaMolarKgPorMol());
     }
 
-    // Velocidade do som no gás: c = sqrt(γ * R * T / M)
+    // Velocidade de propagacao do som no gas ideal: c = sqrt(gama * R * T / M)
     public double velocidadeDoSom() {
         return Math.sqrt((gas.getCoeficienteAdiabatico() * ConstantesFisicas.R * temperaturaKelvin) / gas.getMassaMolarKgPorMol());
     }

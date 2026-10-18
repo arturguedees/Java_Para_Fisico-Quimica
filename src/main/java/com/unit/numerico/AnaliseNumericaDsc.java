@@ -8,11 +8,14 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 import com.unit.modelo.ConjuntoDadosDsc;
 import com.unit.modelo.PontoDsc;
 
+/**
+ * Classe que faz os calculos de integracao da curva de DSC da proteina Lisozima.
+ */
 public final class AnaliseNumericaDsc {
     private AnaliseNumericaDsc() {}
 
     /**
-     * Integração direta dos dados discretos pela regra do trapézio (suporta espaçamento não-uniforme).
+     * Integra os pontos experimentais direto pela Regra do Trapezio.
      */
     public static double integrarPorTrapezio(ConjuntoDadosDsc dataset) {
         List<PontoDsc> pontos = dataset.getPontos();
@@ -26,9 +29,9 @@ public final class AnaliseNumericaDsc {
     }
 
     /**
-     * Como os dados experimentais de DSC podem ter espaçamento variável (não-uniforme),
-     * a forma cientificamente precisa de aplicar Simpson 1/3 é interpolar a curva por Spline Cúbico
-     * e integrar a função com malha uniforme de alta resolução.
+     * Detalhe importante: como os 23 pontos experimentais da Lisozima tem passos diferentes
+     * (2.5 graus nas pontas e 1.0 grau perto do pico), nao podemos jogar Simpson 1/3 direto nos pontos brutos!
+     * Primeiro eu crio um Spline Cubico pra ter uma curva continua e depois integro com 1000 passos iguais.
      */
     public static double integrarPorSimpson(ConjuntoDadosDsc dataset) {
         PolynomialSplineFunction spline = interpolarSplineCubico(dataset);
@@ -38,6 +41,7 @@ public final class AnaliseNumericaDsc {
         return ServicoIntegracaoNumerica.integrarFuncaoSimpson(spline::value, minX, maxX, 1000);
     }
 
+    // Usa o SplineInterpolator da biblioteca Apache Commons Math3 pra ligar os pontos suavemente
     public static PolynomialSplineFunction interpolarSplineCubico(ConjuntoDadosDsc dataset) {
         List<PontoDsc> pontos = dataset.getPontos();
         double[] x = new double[pontos.size()];

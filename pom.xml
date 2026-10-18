@@ -43,6 +43,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- H2 Database (Fallback em memória / arquivo para deploy gratuito no Render ou execução sem Docker) -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- XChart: Biblioteca para geração e visualização de gráficos 2D -->
         <dependency>
             <groupId>org.knowm.xchart</groupId>
@@ -84,6 +91,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.unit.FisicoQuimicaApplication</mainClass>
+                </configuration>
             </plugin>
             
             <plugin>

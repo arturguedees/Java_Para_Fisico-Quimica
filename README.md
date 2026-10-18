@@ -1,144 +1,157 @@
-# 🧪 Plataforma Computacional de Físico-Química (Java 21)
+# ⚛️ Quantum Lab (Lab Quântico) — Physical Chemistry Computational Platform
 
-> **Reimplementação Orientada a Objetos dos Cadernos Interativos de Físico-Química**  
-> *Baseado no artigo de Ardith D. Bravenec & Karen D. Ward (Journal of Chemical Education, 2023)*
-
----
-
-## 🌟 Visão Geral do Projeto
-Esta plataforma foi desenvolvida como parte da disciplina de **Físico-Química Computacional / Programação Orientada a Objetos**. O projeto reconstruiu os modelos científicos de cinéticas de reações e teoria cinética dos gases em **Java 21**, com suporte a **JavaFX**, **XChart**, **Apache Commons Math**, **JUnit 5** e uma **versão Web Gamificada**.
+> **Object-Oriented Reimplementation & Gamified Full-Stack Web Platform for Interactive Physical Chemistry**  
+> *Based on the article by Ardith D. Bravenec & Karen D. Ward (Journal of Chemical Education, 2023)*
 
 ---
 
-## 🚀 Funcionalidades Implementadas
+## 🌟 Project Overview / Visão Geral do Projeto
 
-### 1. ⏱️ Cinética Química (Ordem Zero e Primeira Ordem)
-* **Ordem Zero ($A \rightarrow B$):** $[A](t) = \max(0, [A]_0 - kt)$, com cálculo analítico de $1ª, 2ª, 3ª$ meias-vidas e tempo de consumo total.
-* **Primeira Ordem ($A \rightarrow B$):** $[A](t) = [A]_0 e^{-kt}$, com cálculo de meia-vida ($t_{1/2} = \ln(2)/k$) e tempo de vida químico / decaimento $e$-folding ($\tau = 1/k$).
-* **Interface Gráfica com Sliders:** Controle em tempo real de $[A]_0$, $k$ e tempo de simulação.
+**Quantum Lab (Lab Quântico)** is a bilingual (**English default** 🇺🇸 / **Portuguese** 🇧🇷) computational simulation and gamified learning platform developed for the **Computational Physical Chemistry / Object-Oriented Programming** course.
 
-### 2. 💨 Teoria Cinética dos Gases e Maxwell-Boltzmann
-* **Curva de Densidade $f(v)$:** Normalizada e calculada em domínio logarítmico contra *overflow*.
-* **Velocidades Notáveis:** Mais provável ($v_{mp}$), média ($v_m$), quadrática média ($v_{rms}$) e velocidade do som ($c$).
-* **Energia de Ativação ($E_a$):** Distribuição $f(E)$ e integração da fração de moléculas com $E \ge E_a$.
-* **Gás Personalizado e Comparação Simultânea:** Comparação de múltiplos gases ($\text{Ar}, \text{O}_2, \text{He}, \text{H}_2, \text{N}_2$) e cadastro customizado de massa molar e $\gamma$.
-
-### 3. 🔬 Integração Numérica e Calorimetria DSC
-* **Serviço Reutilizável:** Métodos da **Regra do Trapézio** e **Regra de Simpson 1/3 Composta**.
-* **Proteína Lisozima:** 23 pontos experimentais de capacidade calorífica ($C_p$), ajuste por **Spline Cúbico Natural** e cálculo de entalpia de desnaturação ($\Delta H$).
-
-### 4. 🎮 Plataforma Web Gamificada
-* Dashboard interativo em HTML5/Tailwind com sistema de **XP**, **Níveis de Pesquisador**, **Badges Desbloqueáveis** e **Quiz Científico**.
-
-### 5. 📥 Exportação de Dados em CSV
-* Botão em todas as telas para download direto dos dados numéricos simulados em `.csv`.
+The project rebuilds the scientific models of chemical kinetics, kinetic theory of gases (Maxwell-Boltzmann), and Differential Scanning Calorimetry (DSC) in **Java 21**, providing:
+1. **Full-Stack Gamified Web Application (Official `main` branch):** **Spring Boot 3.3.4 REST API** + **React 18 + TypeScript + Vite + TailwindCSS + Chart.js**, featuring a Hybrid Scientific Engine (Java REST API with automatic zero-latency browser mathematical fallback).
+2. **Desktop GUI & CLI:** Native **JavaFX + XChart** interactive desktop application and console runner.
 
 ---
 
-## 🏛️ Arquitetura do Software (Pilares de POO)
+## 🚀 Key Features / Funcionalidades Implementadas
 
-O projeto está estruturado em pacotes limpos e com nomes 100% em português:
+### 1. 🧮 Unified Formulas & Calculators Hub (`/formulas`)
+All physical chemistry calculators are organized into **5 interactive blocks** within a single unified tab (`/formulas`):
+* **Block 01 — Zero-Order Kinetics ($A \rightarrow B$):** $[A](t) = \max(0, [A]_0 - kt)$, analytical $1^{\text{st}}, 2^{\text{nd}}, 3^{\text{rd}}$ half-lives ($t_{1/2}^{(n)} = \frac{[A]_0}{2^n k}$), and total depletion time ($t_{\text{final}} = [A]_0 / k$).
+* **Block 02 — First-Order Kinetics ($A \rightarrow B$):** $[A](t) = [A]_0 e^{-kt}$, constant half-life ($t_{1/2} = \ln(2)/k$), and $e$-folding chemical lifetime ($\tau = 1/k$).
+* **Block 03 — Maxwell-Boltzmann Speed Distribution $f(v)$:** Log-domain normalized probability density, noble/diatomic gas comparison ($\text{He}, \text{H}_2, \text{N}_2, \text{O}_2, \text{Ar}$ + custom gas molar mass and $\gamma$), and characteristic speeds ($v_{mp}$, $v_{avg}$, $v_{rms}$, speed of sound $c = \sqrt{\gamma R T / M}$).
+* **Block 04 — Kinetic Energy Distribution $f(E)$ & Activation Energy ($E_a$):** Molecular energy distribution in $\text{kJ/mol}$ and numerical integration of the reactive fraction $E \ge E_a$.
+* **Block 05 — DSC Calorimetry & Numerical Integration ($\Delta H$):** Lysozyme protein thermal denaturation dataset (23 experimental $C_p$ points), Natural Cubic Spline interpolation, and baseline-corrected enthalpy integration via **Composite Trapezoidal Rule** and **Composite Simpson's 1/3 Rule**.
+
+### 2. 🌐 Bilingual Interface (🇺🇸 English Default + 🇧🇷 Portuguese)
+* **English (`en`)** is the default language across the entire application, with instant 1-click switching to **Portuguese (`pt`)** in the Navbar and Authentication screens.
+* Features custom inline **SVG Country Flags** (USA and Brazil) and translates 100% of the UI, formulas, chart axes, ACS article presets, badges, and the 10-question scientific exercise bank (`?lang=en` / `?lang=pt`).
+
+### 3. 🛡️ Security Hardening & Anti-Inspection Protection
+* **Password Protection (`WRITE_ONLY` & SHA-256 + Salt):** `Usuario.senha` uses `@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)` so password hashes are never serialized in API responses. Passwords are hashed with salted `SHA-256` on both backend and offline fallback, and stripped before saving user sessions to `localStorage`.
+* **DevTools & Context Menu Blocking (`ProtecaoInspecao.tsx`):** Blocks right-click context menu (`contextmenu` / *"Inspect"*) and keyboard shortcuts (`F12`, `Ctrl+Shift+I/J/C/K`, `Ctrl+U`, `Cmd+Option+I/J/C/K/U`) for external users.
+* **Production Hardening:** Public H2 console disabled by default (`H2_CONSOLE_ENABLED=false`) and HTTP security headers (`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`) configured in `netlify.toml`.
+
+### 4. 🎮 Gamification & Scientific Quiz
+* **XP & Researcher Titles:** Earn XP by running simulations and solving exercises, progressing from *Lab Apprentice* to *Nobel Laureate*.
+* **Badge Store & Global Leaderboard:** Unlockable scientific badges and dynamic researcher ranking.
+* **CSV Data Export:** 1-click `.csv` export on all simulation modules.
+
+---
+
+## 🏛️ Software Architecture / Arquitetura do Projeto
 
 ```text
-com.unit/
- ├── Main.java                         <-- Ponto de entrada com menu no console
+Java_Para_Fisico-Quimica/
+ ├── src/main/java/com/unit/
+ │    ├── AplicacaoWeb.java                <-- Spring Boot 3 Entry Point (Web API)
+ │    ├── Main.java                        <-- Console Menu Entry Point
+ │    ├── config/                          <-- CORS & Web Configuration
+ │    ├── controller/                      <-- REST Controllers (Cinetica, Maxwell, Dsc, Quiz, Usuario, Health)
+ │    ├── repositorio/                     <-- Spring Data JPA Repository (UsuarioRepositorio)
+ │    ├── modelo/                          <-- Domain Entities & Polymorphic Models (ModeloCinetico, etc.)
+ │    ├── numerico/                        <-- Numerical Integration (Simpson 1/3, Trapezoidal, Cubic Spline)
+ │    ├── ui/                              <-- Desktop GUI (JavaFX + XChart)
+ │    └── util/                            <-- Physical Constants, Numeric Validator & CSV Exporter
  │
- ├── modelo/                           <-- Entidades e conceitos físico-químicos
- │    ├── ModeloCinetico.java          (Interface polimórfica)
- │    ├── ReacaoOrdemZero.java         (Cinética de ordem 0)
- │    ├── ReacaoPrimeiraOrdem.java     (Cinética de ordem 1)
- │    ├── ClasseGas.java               (Entidade do gás com massa em kg/mol e γ)
- │    ├── Gas.java                     (Enum com gases padrão)
- │    ├── DistribuicaoMaxwellBoltzmann.java (Distribuição f(v) e f(E))
- │    ├── ConjuntoDadosDsc.java        (Dados de calorimetria)
- │    └── DadosDscLisozima.java        (Dataset da Lisozima)
+ ├── frontend/                             <-- React 18 + TypeScript + Vite SPA
+ │    ├── src/
+ │    │    ├── components/                 <-- Navbar, AvatarBadge, ProtecaoInspecao (Anti-DevTools)
+ │    │    ├── i18n/                       <-- Bilingual Context (EN/PT) & SVG Flags (FlagUS, FlagBR)
+ │    │    ├── pages/                      <-- Formulas (5-Block Hub), Cinetica, Maxwell, Dsc, Exercicios, Loja, Ranking, Perfil
+ │    │    └── services/                   <-- Hybrid API Client (api.ts) & Local Scientific Engine (motorCientifico.ts)
+ │    ├── .env.example                     <-- Frontend environment variables template
+ │    └── package.json
  │
- ├── numerico/                         <-- Algoritmos de cálculo e integração
- │    ├── ServicoIntegracaoNumerica.java (Trapézio e Simpson 1/3)
- │    ├── CalculadoraMaxwell.java      (Velocidades e energias)
- │    ├── GeradorDadosCinetica.java    (Séries temporais de concentração)
- │    ├── GeradorDadosMaxwell.java     (Séries de velocidade e energia)
- │    └── AnaliseNumericaDsc.java      (Integração térmica e splines)
- │
- ├── ui/                               <-- Interfaces gráficas (JavaFX + XChart)
- │    ├── PlataformaFisicoQuimicaApp.java (App Unificado com Abas e Sliders)
- │    ├── GraficoCinetica.java
- │    ├── GraficoMaxwellBoltzmann.java
- │    ├── GraficoEnergiaCinetica.java
- │    └── GraficoDsc.java
- │
- └── util/                             <-- Utilitários
-      ├── ConstantesFisicas.java
-      ├── ValidadorNumerico.java       (Proteção contra NaN e infinitos)
-      └── ExportadorCsv.java           (Exportação para planilhas)
+ ├── Dockerfile                            <-- Cloud-agnostic multi-stage Docker build (Java 21 Alpine)
+ ├── docker-compose.yml                    <-- Local PostgreSQL container setup
+ ├── netlify.toml                          <-- Netlify SPA build rules & HTTP Security Headers
+ ├── .env.example                          <-- Backend environment variables template
+ └── GUIA_DEPLOY_E_ARQUITETURA.md          <-- Detailed Architecture & Cloud Deployment Guide
 ```
 
 ---
 
-## 🛠️ Como Executar
+## ⚙️ Environment Variables (`.env`) / Variáveis de Ambiente
 
-### Pré-requisitos
-- **Java 21** (JDK 21 configurado no `JAVA_HOME`)
-- **Maven** (o projeto já inclui o wrapper `./mvnw` para macOS/Linux e `mvnw.cmd` para Windows)
-- **Node.js 18+** e **Docker** (para a execução da versão Web)
+The project includes pre-configured `.env`, `.env.local`, and `.env.example` files for seamless local development (ignored by Git via `.gitignore`, except `.env.example`).
 
----
-
-### 1. Execução no Console / Menu Geral
-Abra o projeto na sua IDE (IntelliJ IDEA, Eclipse ou VS Code) e execute a classe:
-```bash
-com.unit.Main
+### Backend (`.env` in root)
+```env
+SPRING_PROFILES_ACTIVE=h2
+PORT=8080
+H2_CONSOLE_ENABLED=false
 ```
-Ou diretamente pelo terminal:
-```bash
-./mvnw compile exec:java -Dexec.mainClass="com.unit.Main"
+
+### Frontend (`frontend/.env`)
+```env
+# Leave empty for automatic environment detection (localhost:8080 in dev, Render URL in prod)
+VITE_API_URL=
 ```
 
 ---
 
-### 2. Execução da Interface Gráfica Desktop (JavaFX + XChart)
-Execute a classe principal da interface gráfica:
-```bash
-com.unit.ui.PlataformaFisicoQuimicaApp
-```
-Ou via terminal:
-```bash
-./mvnw javafx:run
-```
+## 🛠️ How to Run Locally / Como Executar Localmente
 
----
+### Prerequisites
+- **Java 21** (JDK 21 configured in `JAVA_HOME`)
+- **Node.js 18+** and **npm**
+- **Maven** (included via `./mvnw` wrapper)
 
-### 3. Execução da Plataforma Web Full-Stack (Versão Oficial na `main`)
+### 1. Run Full-Stack Web Platform (Official `main` branch)
 
-#### A. Backend (Spring Boot 3 - Porta 8080):
+#### A. Start Backend (Spring Boot 3 — Port `8080`):
 ```bash
-# Iniciar o banco de dados PostgreSQL via Docker (porta 5434)
+# Run with embedded H2 database (zero external setup required):
+./mvnw spring-boot:run -Dspring-boot.run.profiles=h2
+
+# OR with Docker PostgreSQL (port 5434):
 docker compose up -d
-
-# Iniciar o backend Spring Boot
 ./mvnw spring-boot:run
 ```
 
-#### B. Frontend (React + TypeScript + Vite - Porta 5173):
-Em outro terminal:
+#### B. Start Frontend (React + Vite — Port `5173`):
+In a second terminal:
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-Acesse no navegador: `http://localhost:5173`
+Open in your browser: `http://localhost:5173`
+
+> **💡 Hybrid Mode Note:** Even if the Java backend is not running locally, the React frontend automatically activates its built-in TypeScript scientific engine (`motorCientifico.ts`), allowing all simulations, charts, and quizzes to run at 100% capacity!
 
 ---
 
-### 4. 🧪 Testes Unitários Automatizados
-Para rodar a suíte completa de testes no JUnit 5:
+### 2. Run Desktop GUI (JavaFX + XChart) or Console Mode
 ```bash
+# Desktop JavaFX Interface:
+./mvnw javafx:run
+
+# Console Interactive Menu:
+./mvnw compile exec:java -Dexec.mainClass="com.unit.Main"
+```
+
+### 3. Run Automated Unit Tests (JUnit 5 + Frontend Build)
+```bash
+# Backend JUnit 5 Suite:
 ./mvnw test
+
+# Frontend TypeScript & Vite Production Build:
+cd frontend && npm run build
 ```
 
 ---
 
-## 🌿 Estrutura das Branches
+## ☁️ Cloud Deployment (Render / Railway + Netlify)
 
-* **`main` (Produção / Versão Oficial):** Branch principal e estável do repositório. Contém a solução completa consolidada, incluindo o núcleo científico em Java 21, as interfaces desktop JavaFX, os testes automatizados e a **Plataforma Web Full-Stack** (Spring Boot 3 + React 18).
-* **`dev` (Desenvolvimento / Staging):** Branch destinada exclusivamente a experimentações, desenvolvimento de novas hipóteses e futuras atualizações incertas antes de serem homologadas e promovidas para a `main`.
+This repository is **cloud-agnostic** (no vendor lock-in files required):
+1. **Backend (Render, Railway, Fly.io, Cloud Run):** Connect the GitHub repository using the root `Dockerfile` and set environment variables:
+   - `SPRING_PROFILES_ACTIVE=h2`
+   - `PORT=8080`
+   - `H2_CONSOLE_ENABLED=false`
+2. **Frontend (Netlify):** Import the repository on Netlify (`netlify.toml` automatically sets `base = "frontend"`, `command = "npm run build"`, `publish = "dist"`). Optionally set `VITE_API_URL` to your backend URL (do **not** mark *"Contains secret values"*).
+
+See [`GUIA_DEPLOY_E_ARQUITETURA.md`](file:///Users/artur/Documents/Projeto%20de%20Programa%C3%A7%C3%A3o/Java_Para_Fisico-Quimica/GUIA_DEPLOY_E_ARQUITETURA.md) for the complete step-by-step guide.

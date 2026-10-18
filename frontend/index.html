@@ -1,17 +1,21 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lab Quântico — Plataforma de Estudos em Físico-Química</title>
+    <!-- Deixei o titulo em ingles por padrao como o professor pediu (o React tambem atualiza quando troca de idioma!) -->
+    <title>Quantum Lab — Computational Physical Chemistry Platform</title>
     
-    <!-- Tipografia Neo-Brutalista: Space Grotesk e Inter -->
+    <!-- Fontes que escolhi no Google Fonts: Space Grotesk pros titulos, Inter pro texto e JetBrains Mono pras formulas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-white text-black antialiased selection:bg-brand selection:text-black">
+  <body
+    oncontextmenu="return false;"
+    class="bg-white text-black antialiased selection:bg-brand selection:text-black"
+  >
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
