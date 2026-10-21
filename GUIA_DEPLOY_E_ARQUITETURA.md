@@ -1,6 +1,6 @@
 # Guia Completo: Arquitetura, Internacionalização (EN/PT), Segurança e Deploy Agnóstico de Nuvem
 
-**Projeto:** Quantum Lab (Lab Quântico) — Plataforma Web de Simulação Numérica e Gamificação em Físico-Química  
+**Projeto:** LabQuântico — Plataforma Web de Simulação Numérica e Gamificação em Físico-Química  
 **Stack:** Java 21 + Spring Boot 3.3.4 (Backend REST API) | React 18 + TypeScript + Vite + TailwindCSS + Chart.js (Frontend SPA)
 
 ---
@@ -71,5 +71,5 @@
    - **Publish directory:** `frontend/dist`
 3. Em **Site configuration -> Environment variables**, adicione:
    - **Key:** `VITE_API_URL`
-   - **Value:** `https://lab-quantico-fisico-quimica-api.onrender.com` *(ou a URL do seu backend em qualquer outro provedor; não marque "Contains secret values")*
+   - **Value:** `https://java-para-fisico-quimica.onrender.com` *(ou a URL do seu backend em qualquer outro provedor; não marque "Contains secret values")*
 4. Clique em **Deploy site**. Mesmo se você não configurar `VITE_API_URL`, o método `resolverUrlBaseApi()` em [`api.ts`](file:///Users/artur/Documents/Projeto%20de%20Programa%C3%A7%C3%A3o/Java_Para_Fisico-Quimica/frontend/src/services/api.ts) já usa o endereço de produção como fallback automático e aciona o motor local caso o container esteja hibernando!
